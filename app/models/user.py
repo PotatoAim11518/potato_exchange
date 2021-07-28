@@ -1,3 +1,4 @@
+from sqlalchemy.orm import relationship
 from .db import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -17,6 +18,8 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.now(), onupdate=db.func.now())
+
+    meeting = relationship('Meeting', secondary='queues', back_populates='host', uselist=False)
 
     @property
     def password(self):
