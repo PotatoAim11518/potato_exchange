@@ -40,6 +40,19 @@
 
 * `meeting_id` references `meetings` table
 
+## `queues`
+
+| column name   | data type | details               |
+|---------------|-----------|-----------------------|
+| id            | integer   | not null, primary key |
+| user_id       | integer   | not null              |
+| meeting_id    | integer   | not null              |
+| created_at    | datetime  | not null              |
+| updated_at    | datetime  | not null              |
+
+* `user_id` references `users` table
+* `meeting_id` references `meetings` table
+
 ## `messages`
 
 | column name   | data type | details               |
