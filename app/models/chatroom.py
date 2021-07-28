@@ -12,7 +12,7 @@ class Chatroom(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.now(), onupdate=db.func.now())
 
-    meeting = relationship('Meeting', backref='chatroom', uselist=False)
+    meeting = relationship('Meeting', back_populates='chatroom', uselist=False)
     messages = relationship('Message', lazy='joined',
                             back_populates='chatroom',
                             cascade='all, delete-orphan')
