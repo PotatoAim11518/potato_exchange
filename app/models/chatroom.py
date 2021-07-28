@@ -18,9 +18,11 @@ class Chatroom(db.Model):
                             cascade='all, delete-orphan')
 
     def to_dict(self):
-        'id' = self.id,
-        'meeting_id' = self.meeting_id,
-        'created_at' = self.created_at,
-        'updated_at' = self.updated_at,
-        'meeting' = self.meeting.to_dict(),
-        'messages' = self.messages.to_dict()
+        return {
+            'id': self.id,
+            'meeting_id': self.meeting_id,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'meeting': self.meeting.to_dict(),
+            'messages': self.messages.to_dict()
+        }

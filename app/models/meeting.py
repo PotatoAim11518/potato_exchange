@@ -30,11 +30,13 @@ class Meeting(db.Model):
     )
 
     def to_dict(self):
-        'id' = self.id,
-        'host_id' = self.host_id,
-        'name' = self.name,
-        'description' = self.description,
-        'queue_limit' = self.queue_limit,
-        'created_at' = self.created_at,
-        'updated_at' = self.updated_at,
-        'host' = self.host.to_dict()
+        return {
+            'id': self.id,
+            'host_id': self.host_id,
+            'name': self.name,
+            'description': self.description,
+            'queue_limit': self.queue_limit,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'host': self.host.to_dict()
+        }

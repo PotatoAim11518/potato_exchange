@@ -18,11 +18,13 @@ class Message(db.Model):
     chatroom = relationship('Chatroom', back_populates='messages')
 
     def to_dict(self):
-        'id' = self.id,
-        'user_id' = self.user_id,
-        'chatroom_id' = self.chatroom_id,
-        'message' = self.message,
-        'created_at' = self.created_at,
-        'updated_at' = self.updated_at,
-        'user' = self.user.to_dict(),
-        'chatroom' = self.chatroom.to_dict()
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'chatroom_id': self.chatroom_id,
+            'message': self.message,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'user': self.user.to_dict(),
+            'chatroom': self.chatroom.to_dict()
+        }
