@@ -1,7 +1,7 @@
 from sqlalchemy.orm import relationship
 from .db import db
 
-queues = db.Table('queues', db.Base.metadata,
+queues = db.Table('queues', db.Model.metadata,
                   db.Column('user_id', db.Integer, db.ForeignKey(
                       'users.id'), primary_key=True),
                   db.Column('meeting_id', db.Integer, db.ForeignKey(
