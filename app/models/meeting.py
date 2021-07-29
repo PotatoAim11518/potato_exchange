@@ -25,9 +25,6 @@ class Meeting(db.Model):
                         back_populates='meeting', uselist=False)
     chatroom = relationship(
         'Chatroom', back_populates='meeting', cascade='all, delete-orphan')
-    # queues = relationship(
-    #     ''
-    # )
 
     def to_dict(self):
         return {
