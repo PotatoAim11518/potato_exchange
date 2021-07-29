@@ -1,48 +1,73 @@
-import React, { useState } from 'react';
-import { Modal } from '../../context/Modal';
-import SignUpForm from './SignUpForm';
-import LoginForm from './LoginForm';
-import Button from '../button';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Modal } from "../../context/Modal";
+import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
+import LogoutButton from "./LogoutButton";
+import Button from "../button";
+import styles from "./ModalForms.module.css";
 
+function LoginSignup() {
+  const [showModal, setShowModal] = useState(false);
+  const [signup, setSignup] = useState(false);
 
-const LoginSignup = () => {
-  const [showModal, setShowModal] = useState(false)
-  const []
+  const user = useSelector((state) => state.session.user);
 
-  const signup = () => {
-    setShowModal(true)
-  }
+  const goSignup = () => {
+    setShowModal(true);
+    setSignup(true);
+  };
+
+  const goLogin = () => {
+    setShowModal(true);
+    setSignup(false);
+  };
 
   return (
     <>
-      <Button action={signup}
-      // paddingY={}
-      // paddingX={}
-      // width={}
-      // height={}
-      // borderRadius={}
-      // btnColor={}
-      text={"Register"}
-      // fontColor={}
-      // fontSize={}
-      />
-      <Button action={login}
-      // paddingY={}
-      // paddingX={}
-      // width={}
-      // height={}
-      // borderRadius={}
-      // btnColor={}
-      text={"Login"}
-      // fontColor={}
-      // fontSize={}
-      />
-      {showModal && (
-        <Modal onClose={setShowModal(false)}>
-          <SignUpForm />
-        </Modal>
-        )
+      {!user && (
+        <div className={styles.authButtons}>
+          <Button
+            action={goLogin}
+            // paddingY={}
+            // paddingX={}
+            width={100}
+            // height={40}
+            borderRadius={10}
+            btnColor={"salmon"}
+            text={"Login"}
+            // fontColor={}
+            fontSize={16}
+          />
+          <Button
+            action={goSignup}
+            // paddingY={10}
+            // paddingX={10}
+            width={100}
+            // height={10}
+            borderRadius={10}
+            btnColor={"teal"}
+            text={"Register"}
+            // fontColor={}
+            fontSize={16}
+          />
+          {showModal && signup && (
+            <Modal onClose={() => setShowModal(false)}>
+              <SignUpForm />
+            </Modal>
+          )}
+          {showModal && !signup && (
+            <Modal onClose={() => setShowModal(false)}>
+              <LoginForm />
+            </Modal>
+          )}
+        </div>
+      )}
+      {user &&
+        <LogoutButton onClick={() => setShowModal(false)}/>
       }
     </>
-  )
+  );
 }
+
+export default LoginSignup;

@@ -1,24 +1,24 @@
-.modal,
-.modalBackground {
-  width: 100vw;
-  height: 100vh;
-}
-
-.modal {
+#modal {
   position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-
-.modalBackground {
-  position: absolute;
+#modal-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-
-.modalContent {
+#modal-content {
   position: absolute;
   background-color: transparent;
 }
