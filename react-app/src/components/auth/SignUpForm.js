@@ -9,6 +9,8 @@ import styles from "./ModalForms.module.css";
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -35,6 +37,14 @@ const SignUpForm = () => {
 
   const updateUsername = (e) => {
     setUsername(e.target.value);
+  };
+
+  const updateFirstName = (e) => {
+    setFirstName(e.target.value);
+  };
+
+  const updateLastName = (e) => {
+    setLastName(e.target.value);
   };
 
   const updateEmail = (e) => {
@@ -66,6 +76,26 @@ const SignUpForm = () => {
                 name="username"
                 onChange={updateUsername}
                 value={username}
+              ></input>
+            </div>
+            <div>
+              <input
+                className={styles.inputField}
+                placeholder="First Name"
+                type="text"
+                name="firstName"
+                onChange={updateFirstName}
+                value={firstName}
+              ></input>
+            </div>
+            <div>
+              <input
+                className={styles.inputField}
+                placeholder="Last Name"
+                type="text"
+                name="lastName"
+                onChange={updateLastName}
+                value={lastName}
               ></input>
             </div>
             <div>
