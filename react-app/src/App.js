@@ -8,6 +8,7 @@ import User from './components/User';
 import NavBar from './components/NavBar/NavBar';
 import Homepage from './components/Homepage';
 import Meetings from './components/Meetings';
+import MeetingPage from './components/MeetingPage'
 
 import { authenticate } from './store/session';
 
@@ -39,6 +40,9 @@ function App() {
         </Route>
         <Route path='/join' exact={true}>
           <Meetings/>
+        </Route>
+        <Route path='/meetings/:id' exact={true}>
+          <MeetingPage />
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList/>

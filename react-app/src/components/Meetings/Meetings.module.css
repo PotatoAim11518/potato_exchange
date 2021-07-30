@@ -1,3 +1,13 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  padding-top: 150px;
+}
+
+
 .meetingContainer {
   display: flex;
   flex-direction: row;

@@ -15,10 +15,12 @@ export default function Meetings() {
   },[dispatch])
 
   return (
-    <div className={styles.meetingContainer}>
-      {meetings.map((meeting) =>
-        <Card key={meeting?.id} meeting={meeting}/>
-      )}
+    <div className={styles.pageContainer}>
+      <div className={styles.meetingContainer}>
+        {meetings.map((meeting) =>
+          <Card key={meeting?.id} meeting={meeting}/>
+        )}
+      </div>
     </div>
   )
 }
