@@ -11,11 +11,18 @@ def meeting_exists(form, field):
         raise ValidationError('A meeting by this name already exists')
 
 
+def already_hosting(form, field):
+    host_id = field.data
+    host = Meeting.query.filter(Meeting.host_id == host_id).first()
+    if host:
+        raise ValidationError('You can only host one meeting at a time')
+
+
 class MeetingForm(FlaskForm):
-    name = StringField('Name', validators=[meeting_exists, DataRequired(), Length(
+    host_id = IntegerField('Host ID', validators=[
+                           DataRequired(), already_hosting])
+    name = StringField('Name', validators=[DataRequired(), meeting_exists, Length(
         min=2, max=64, message="Please enter a name up to 64 characters long")])
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired(), Length(
         min=1, max=1000, message="Please enter a description up to 1000 characters long")])
     queue_limit = IntegerField('Queue Size', validators=[DataRequired(), NumberRange(
