@@ -1,0 +1,36 @@
+.tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  background-color: rgb(40, 40, 40);
+  width: 350px;
+  height: 200px;
+  padding: 10px;
+  box-shadow: 0 0 18px rgb(30, 30, 30);
+  transform: rotate(3deg);
+  transition: transform 0.1s;
+}
+
+.tile:hover {
+  cursor: pointer;
+  transform: rotate(1deg);
+  transform: scale(1.05);
+  transition: transform 0.1s;
+}
+
+
+.tileLabel {
+  font-family: 'Podkova', serif;
+  font-size: 60px;
+  font-weight: 200;
+}
+
+.tileText {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 200;
+  text-align: center;
+}

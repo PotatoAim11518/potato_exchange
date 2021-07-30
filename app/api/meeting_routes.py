@@ -18,7 +18,7 @@ def validation_errors_to_error_messages(validation_errors):
     return errorMessages
 
 
-@meeting_routes.route('/')
+@meeting_routes.route('')
 def meetings():
     meetings = Meeting.query.all()
     return {'meetings': [meeting.to_dict() for meeting in meetings]}

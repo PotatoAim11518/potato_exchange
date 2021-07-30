@@ -13,6 +13,8 @@ export default function Button({
   fontColor,
   fontSize
 }) {
+
+  const paddingStr = paddingY + "px " + paddingX + "px;"
   return (
     <div className={styles.buttonContainer}>
       <div
@@ -20,7 +22,7 @@ export default function Button({
         onClick={action}
         style={{
           backgroundColor: btnColor,
-          "padding": paddingX + " " + paddingY,
+          "padding": paddingStr,
           "width": width,
           "height": height,
           borderRadius,

@@ -6,7 +6,11 @@
 #root {
   min-height: 100vh;
   min-width: 100vw;
+  background-image: url(./assets/corkboard-background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+
 
 html, body, div,
 h1, h2, h3, h4,

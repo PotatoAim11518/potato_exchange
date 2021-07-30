@@ -1,0 +1,40 @@
+.navContainer {
+  z-index: 100;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nothing {
+  width: 270px;
+}
+
+.potato {
+  position: relative;
+  max-width: 40px;
+  min-width: 40px;
+  height: 100px;
+  margin: 0 30px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(../../assets/potato.png);
+  transition: transform 0.2s;
+}
+
+.potato:hover {
+  cursor: pointer;
+  transform: scale(1.07);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* .potato:active {
+  text-shadow: 0 0 20px 10px black;
+} */
+
+.userAuth {
+  padding-right: 30px;
+  width: fit-content;
+}
