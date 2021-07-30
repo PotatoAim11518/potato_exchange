@@ -21,8 +21,9 @@ class Meeting(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.now(), onupdate=db.func.now())
 
-    host = relationship('User', secondary='queues',
-                        back_populates='meeting', uselist=False)
+    host = relationship('User',
+                        back_populates='meeting', lazy='joined', innerjoin=True)
+    queue = relationship('User', secondary='queues', back_populates='meeting')
     chatroom = relationship(
         'Chatroom', back_populates='meeting', cascade='all, delete-orphan')
 
@@ -35,5 +36,5 @@ class Meeting(db.Model):
             'queue_limit': self.queue_limit,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'host': self.host.to_dict()
+            'host': self.host and self.host.to_dict()
         }

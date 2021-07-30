@@ -9,8 +9,8 @@ import styles from "./ModalForms.module.css";
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -22,7 +22,7 @@ const SignUpForm = () => {
   const onSignUp = async (e) => {
     e.preventDefault();
     if (password === repeatPassword) {
-      const data = await dispatch(signUp(username, email, password));
+      const data = await dispatch(signUp(username, first_name, last_name, email, password));
       if (data) {
         setErrors(data);
       }
@@ -85,7 +85,7 @@ const SignUpForm = () => {
                 type="text"
                 name="firstName"
                 onChange={updateFirstName}
-                value={firstName}
+                value={first_name}
               ></input>
             </div>
             <div>
@@ -95,7 +95,7 @@ const SignUpForm = () => {
                 type="text"
                 name="lastName"
                 onChange={updateLastName}
-                value={lastName}
+                value={last_name}
               ></input>
             </div>
             <div>

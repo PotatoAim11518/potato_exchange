@@ -19,18 +19,18 @@ export default function Button({
         className={styles.button}
         onClick={action}
         style={{
-          "background-color": btnColor,
+          backgroundColor: btnColor,
           "padding": paddingX + " " + paddingY,
           "width": width,
           "height": height,
-          "border-radius": borderRadius,
+          borderRadius,
         }}
         ></div>
       <div
         className={styles.buttonText}
         style={{
           "color": fontColor,
-          "font-size": fontSize
+          fontSize: fontSize
         }}
         >{text}</div>
     </div>

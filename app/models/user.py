@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
                            default=db.func.now(), onupdate=db.func.now())
 
     meeting = relationship('Meeting', secondary='queues',
-                           back_populates='host', uselist=False)
+                           back_populates='host')
 
     @property
     def password(self):
