@@ -26,7 +26,7 @@ def meetings():
 
 @meeting_routes.route('/<int:id>')
 def meeting(id):
-    meeting = Meeting.query.get(id)
+    meeting = Meeting.query.get_or_404(id)
     return meeting.to_dict()
 
 
