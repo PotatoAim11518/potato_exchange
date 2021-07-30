@@ -13,7 +13,7 @@ class Meeting(db.Model):
     __tablename__ = 'meetings'
 
     id = db.Column(db.Integer, primary_key=True)
-    host_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    host_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)
     name = db.Column(db.String(64), nullable=False, unique=True)
     description = db.Column(db.String(1000), nullable=False)
     queue_limit = db.Column(db.Integer, nullable=False)

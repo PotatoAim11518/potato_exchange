@@ -1,9 +1,8 @@
-from flask import Blueprint
-from flask.globals import request
+from flask import Blueprint, request
 from app.models import Meeting
 from app.models import db
-from app.forms import MeetingForm
-from flask_login import current_user
+from app.forms import MeetingForm, MeetingEditForm
+from flask_login import current_user, login_required
 
 meeting_routes = Blueprint('meetings', __name__)
 
@@ -32,7 +31,8 @@ def meeting(id):
 
 
 @meeting_routes.route('/host', methods=["POST"])
-def addMeeting():
+@login_required
+def host_meeting():
     form = MeetingForm(request.form)
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -48,6 +48,32 @@ def addMeeting():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-# @meeting_routes.route('/', methods=["PATCH"])
+@meeting_routes.route('/<int:id>/update', methods=["PATCH"])
+@login_required
+def edit_meeting(id):
+    form = MeetingEditForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = {
+            'name': form['name'].data,
+            'description': form['description'].data,
+            'queue_limit': form['queue_limit'].data,
+        }
+        meeting = Meeting.query.filter(Meeting.id == id).update(data)
+        db.session.commit()
+        updated_meeting = Meeting.query.filter(Meeting.id == id).first()
+        return updated_meeting.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
-# @meeting_routes.route('/<int:id>', methods=["DELETE"])
+
+@meeting_routes.route('/<int:id>/end', methods=["DELETE"])
+@login_required
+def end_meeting(id):
+    meeting = Meeting.query.filter(Meeting.id == id, Meeting.host_id == current_user.id).first()
+    deleted_meeting = meeting.to_dict()
+    if meeting:
+        Meeting.query.filter(Meeting.id == id).delete(synchronize_session=False)
+        db.session.commit()
+        return deleted_meeting
+    else:
+        return {'errors': ['No meeting found.']}
