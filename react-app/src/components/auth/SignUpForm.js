@@ -136,24 +136,24 @@ const SignUpForm = () => {
                 </div>
               ))}
             </div>
-            <Button
-              action={onSignUp}
-              width={200}
-              borderRadius={10}
-              btnColor={"gold"}
-              text={"Submit"}
-              fontColor={"black"}
-            />
             <button type="submit">
               <Button
-                action={goLogIn}
+                action={onSignUp}
                 width={200}
                 borderRadius={10}
-                btnColor={"blue"}
-                text={"Already a user"}
-                fontColor={"white"}
+                btnColor={"gold"}
+                text={"Submit"}
+                fontColor={"black"}
               />
             </button>
+            <Button
+              action={goLogIn}
+              width={200}
+              borderRadius={10}
+              btnColor={"blue"}
+              text={"Already a user"}
+              fontColor={"white"}
+            />
           </form>
         </div>
       )}

@@ -20,18 +20,12 @@ export default function HostingForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      host_id,
-      name,
-      description,
-      queue_limit
-    }
-    const response = await dispatch(hostMeeting(payload))
-    if (response) {
+    const response = await dispatch(hostMeeting(host_id, name, description, queue_limit))
+    if (response.ok) {
       setErrors(response)
       history.push(`/meetings/${response['id']}`)
     } else {
-      errors.push("Meeting could not be created.")
+      setErrors(["Meeting could not be created."])
     }
   }
 
@@ -89,12 +83,12 @@ export default function HostingForm() {
         </div>
         <button type="submit">
           <Button
-          action={handleSubmit}
-          borderRadius={10}
-          btnColor={"gold"}
-          text={"Host"}
-          fontColor={"black"}
-          fontSize={16}
+            action={handleSubmit}
+            borderRadius={10}
+            btnColor={"gold"}
+            text={"Host"}
+            fontColor={"black"}
+            fontSize={16}
           />
         </button>
         <div className={styles.errorsContainer}>

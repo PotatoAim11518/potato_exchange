@@ -59,7 +59,7 @@ def edit_meeting(id):
             'description': form['description'].data,
             'queue_limit': form['queue_limit'].data,
         }
-        meeting = Meeting.query.filter(Meeting.id == id).update(data)
+        Meeting.query.filter(Meeting.id == id).update(data)
         db.session.commit()
         updated_meeting = Meeting.query.filter(Meeting.id == id).first()
         return updated_meeting.to_dict()
@@ -69,7 +69,8 @@ def edit_meeting(id):
 @meeting_routes.route('/<int:id>/end', methods=["DELETE"])
 @login_required
 def end_meeting(id):
-    meeting = Meeting.query.filter(Meeting.id == id, Meeting.host_id == current_user.id).first()
+    meeting = Meeting.query.filter(Meeting.id == id,
+                                   Meeting.host_id == current_user.id).first()
     deleted_meeting = meeting.to_dict()
     if meeting:
         Meeting.query.filter(Meeting.id == id).delete(synchronize_session=False)
