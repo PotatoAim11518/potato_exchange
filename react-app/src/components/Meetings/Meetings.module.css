@@ -1,16 +1,21 @@
 .pageContainer {
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 70%;
+  width: 100vw;
   padding-top: 150px;
+  /* gap: 20px; */
 }
 
 
 .meetingContainer {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 30px;
+  width: 70%;
+  gap: 50px;
 }

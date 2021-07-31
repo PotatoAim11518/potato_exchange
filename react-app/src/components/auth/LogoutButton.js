@@ -19,6 +19,7 @@ const LogoutButton = ({ onClick }) => {
       btnColor={"black"}
       text={"Logout"}
       fontColor={"white"}
+      fontSize={16}
     />
   );
 };

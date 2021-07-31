@@ -64,8 +64,9 @@ function LoginSignup() {
         </div>
       )}
       {user &&
+      <div className={styles.authButtons}>
         <LogoutButton onClick={() => setShowModal(false)}/>
-      }
+      </div>}
     </>
   );
 }

@@ -36,5 +36,5 @@
 
 .userAuth {
   padding-right: 30px;
-  width: fit-content;
+  min-width: 270px;
 }

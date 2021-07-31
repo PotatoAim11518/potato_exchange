@@ -1,0 +1,26 @@
+.chatroom {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: 'Open Sans', sans-serif;
+  border-radius: 10px;
+  gap: 50px;
+  background-color: rgb(40, 40, 40);
+  width: 500px;
+  height: 800px;
+  padding: 20px;
+  box-shadow: 0 0 18px rgb(30, 30, 30);
+}
+
+.chatMessages {
+
+}
+
+.form {
+
+}
+
+.inputField {
+
+}
