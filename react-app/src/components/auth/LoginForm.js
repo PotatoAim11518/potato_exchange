@@ -6,7 +6,7 @@ import Button from "../button";
 import SignUpForm from "./SignUpForm";
 import styles from "./ModalForms.module.css";
 
-const LoginForm = () => {
+const LoginForm = ({ setShowModal }) => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +21,7 @@ const LoginForm = () => {
     if (data) {
       setErrors(data);
     }
+    setShowModal(false)
   };
 
   const goSignUp = () => {

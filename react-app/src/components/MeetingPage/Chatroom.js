@@ -11,7 +11,6 @@ export default function Chatroom({ meeting }) {
 
   return (
     <div className={styles.chatroom}>
-      Chatroom
       <div className={styles.chatMessages}>
         <ul>
           <li>
@@ -38,16 +37,16 @@ export default function Chatroom({ meeting }) {
         </ul>
       </div>
       <form className={styles.form} onSubmit={"hi"}>
-        <div>
-          <input
-            className={styles.inputField}
-            name="chatbox"
-            type="text"
-            placeholder="Enter a message for the FBI"
-            value={message}
-            onChange={updateMessage}
-          />
-        </div>
+
+        <input
+          className={styles.inputField}
+          name="chatbox"
+          type="text"
+          placeholder="Enter a message for the FBI"
+          value={message}
+          onChange={updateMessage}
+        />
+
         <button type="submit">
           <Button
             // action={}
@@ -56,6 +55,8 @@ export default function Chatroom({ meeting }) {
             text={"Chat"}
             fontColor={"black"}
             fontSize={20}
+            height={76}
+            width={60}
           />
         </button>
       </form>

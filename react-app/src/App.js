@@ -9,6 +9,7 @@ import NavBar from './components/NavBar/NavBar';
 import Homepage from './components/Homepage';
 import Meetings from './components/Meetings';
 import MeetingPage from './components/MeetingPage'
+import HostingPage from './components/HostingPage';
 
 import { authenticate } from './store/session';
 
@@ -36,7 +37,7 @@ function App() {
           <Homepage />
         </Route>
         <Route path='/host' exact={true}>
-          <h1>HOSTING FORM</h1>
+          <HostingPage />
         </Route>
         <Route path='/join' exact={true}>
           <Meetings/>

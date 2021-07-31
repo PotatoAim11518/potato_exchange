@@ -1,16 +1,10 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styles from './Tile.module.css';
 
-export default function Tile({ label, destination, text, rotation }) {
-  const history = useHistory();
-
-  const handleClick = () => {
-    history.push(`${destination}`)
-  }
+export default function Tile({ label, action, text, rotation }) {
 
   return (
-    <div className={styles.tile} onClick={handleClick}>
+    <div className={styles.tile} onClick={action}>
       <h1 className={styles.tileLabel}>{label}</h1>
       <p className={styles.tileText}>{text}</p>
     </div>
