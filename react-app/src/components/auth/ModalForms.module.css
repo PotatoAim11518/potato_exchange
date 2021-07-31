@@ -53,10 +53,10 @@
   border-bottom:2px solid yellow;
   transition: border-bottom 0.3s;
 }
+
 .inputField:focus {
   border-bottom: 2px solid goldenrod;
   transition: border-bottom 0.3s;
-
 }
 
 .inputField::placeholder {
