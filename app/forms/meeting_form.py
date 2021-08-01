@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields.core import IntegerField, StringField
-from wtforms.fields.simple import SubmitField
+from wtforms import IntegerField, StringField
+from wtforms import SubmitField
 from wtforms.validators import Length, ValidationError, NumberRange, DataRequired
 from app.models import Meeting
 
@@ -22,7 +22,7 @@ def already_hosting(form, field):
 class MeetingForm(FlaskForm):
     host_id = IntegerField('Host ID', validators=[DataRequired(), already_hosting])
     name = StringField('Name', validators=[DataRequired(), meeting_exists, Length(
-        min=2, max=64, message="Please enter a name up to 64 characters long")])
+        min=2, max=64, message="Please enter a meeting title up to 64 characters long")])
     description = StringField('Description', validators=[DataRequired(), Length(
         min=1, max=1000, message="Please enter a description up to 1000 characters long")])
     queue_limit = IntegerField('Queue Size', validators=[DataRequired(), NumberRange(

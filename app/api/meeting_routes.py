@@ -31,6 +31,7 @@ def meeting(id):
 
 
 @meeting_routes.route('/host', methods=["POST"])
+@login_required
 def host_meeting():
     """
     Creates a new meeting

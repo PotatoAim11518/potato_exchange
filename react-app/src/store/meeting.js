@@ -1,5 +1,5 @@
 const LOAD_MEETINGS = 'meetings/LOAD_MEETINGS'
-// const LOAD_MEETING = 'meetings/LOAD_MEETING'
+const HOST_MEETING = 'meetings/HOST_MEETING'
 const UPDATE_MEETING = 'meetings/UPDATE_MEETING'
 const DELETE_MEETING = 'meetings/DELETE_MEETING'
 
@@ -12,6 +12,11 @@ const load_all = (meetings) => ({
 //   type: LOAD_MEETING,
 //   meeting
 // })
+
+const host = (meeting) => ({
+  type: HOST_MEETING,
+  meeting
+})
 
 const update = (meeting) => ({
   type: UPDATE_MEETING,
@@ -37,10 +42,10 @@ export const getMeeting = (id) => async (dispatch) => {
 }
 
 export const hostMeeting = (host_id, name, description, queue_limit) => async (dispatch) => {
-  const response = await fetch(`/api/meetings/host`, {
-    method: 'POST',
+  const response = await fetch('/api/meetings/host', {
+    method: "POST",
     headers: {
-      'Content-type': 'multipart/form-data'
+      'Content-type': 'application/json'
     },
     body: JSON.stringify({
       host_id,
@@ -52,7 +57,7 @@ export const hostMeeting = (host_id, name, description, queue_limit) => async (d
 
   if (response.ok) {
     const data = await response.json()
-    dispatch(update(data))
+    dispatch(host(data))
     return null;
   } else if (response.status < 500) {
     const data = await response.json();
@@ -95,8 +100,8 @@ export default function meetingReducer(state=initialState, action) {
         allMeetings[meeting['id']] = meeting
       })
       return { ...state, ...allMeetings }
-    // case LOAD_MEETING:
-    //   return { ...state, [action.meeting['id']]: action.meeting }
+    case HOST_MEETING:
+      return { ...state, [action.meeting['id']]: action.meeting }
     case UPDATE_MEETING:
       return { ...state, [action.meeting['id']]: action.meeting }
     case DELETE_MEETING:

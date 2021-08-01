@@ -34,26 +34,26 @@ export default function HostingForm() {
   }
 
   const updateMeetingName = (e) => {
-    setName(e.target.value)
+    setName(e.target.value);
   }
 
   const updateDescription = (e) => {
-    setDescription(e.target.value)
+    setDescription(e.target.value);
   }
 
   const updateQueueLimit = (e) => {
-    setQueueLimit(e.target.value)
+    setQueueLimit(e.target.value);
   }
 
   return (
     <div className={styles.formContainer}>
-      <form className={styles.form} method='post' onSubmit={handleSubmit}>
+      <form className={styles.form} method="post" onSubmit={handleSubmit}>
         <input name="host_id" type="hidden" value={host_id}></input>
         <div>
           <input
             className={styles.inputField}
-            name='name'
-            type='text'
+            name="name"
+            type="text"
             minLength="2"
             maxLength="64"
             placeholder="Meeting Title"
@@ -64,11 +64,11 @@ export default function HostingForm() {
         <div>
           <input
             className={styles.inputField}
-            name='description'
-            type='text'
+            name="description"
+            type="text"
             minLength="1"
             maxLength="1000"
-            placeholder='Description'
+            placeholder="Description"
             onChange={updateDescription}
             value={description}
             ></input>
@@ -76,11 +76,11 @@ export default function HostingForm() {
         <div>
           <input
             className={styles.inputField}
-            name='queue_limit'
-            type='number'
+            name="queue_limit"
+            type="number"
             min="1"
             max="25"
-            placeholder='Queue Limit'
+            placeholder="Queue Limit"
             onChange={updateQueueLimit}
             value={queue_limit}
           ></input>
