@@ -14,7 +14,7 @@ export default function Button({
   fontSize
 }) {
 
-  const paddingStr = paddingY + "px " + paddingX + "px;"
+  let paddingStr = String(paddingY) + "px " + String(paddingX) + "px"
   return (
     <div className={styles.buttonContainer}>
       <div

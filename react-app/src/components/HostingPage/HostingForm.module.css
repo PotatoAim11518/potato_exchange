@@ -80,3 +80,10 @@
   color: red;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.closeModal {
+  position: relative;
+  width: 100%;
+  top: 14px;
+  right: 50%;
+}

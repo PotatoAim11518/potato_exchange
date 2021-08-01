@@ -58,7 +58,7 @@ export const hostMeeting = (host_id, name, description, queue_limit) => async (d
   if (response.ok) {
     const data = await response.json()
     dispatch(host(data))
-    return null;
+    return data;
   } else if (response.status < 500) {
     const data = await response.json();
     if (data.errors) {

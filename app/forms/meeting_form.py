@@ -20,8 +20,8 @@ def already_hosting(form, field):
 
 
 class MeetingForm(FlaskForm):
-    host_id = IntegerField('Host ID', validators=[DataRequired(), already_hosting])
-    name = StringField('Name', validators=[DataRequired(), meeting_exists, Length(
+    host_id = IntegerField('Host ID', validators=[already_hosting, DataRequired()])
+    name = StringField('Name', validators=[meeting_exists, DataRequired(), Length(
         min=2, max=64, message="Please enter a meeting title up to 64 characters long")])
     description = StringField('Description', validators=[DataRequired(), Length(
         min=1, max=1000, message="Please enter a description up to 1000 characters long")])

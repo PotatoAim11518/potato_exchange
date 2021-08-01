@@ -22,15 +22,17 @@ export default function HostingForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors([])
     if (host_id) {
       const response = await dispatch(hostMeeting(host_id, name, description, queue_limit))
-      if (response) {
+      if (response?.length) {
         setErrors(response)
+      } else {
+        return history.push(`/meetings/${response?.id}`)
       }
     } else {
       setErrors(["No user logged in."])
     }
-    // history.push(`/meetings/${response['id']}`)
   }
 
   const updateMeetingName = (e) => {
@@ -92,15 +94,15 @@ export default function HostingForm() {
             </div>
           ))}
         </div>
-        <button type="submit">Submit
-          {/* <Button
+        <button type="submit">
+          <Button
             action={handleSubmit}
             borderRadius={10}
             btnColor={"gold"}
             text={"Host"}
             fontColor={"black"}
             fontSize={16}
-          /> */}
+          />
         </button>
       </form>
     </div>
