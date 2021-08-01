@@ -38,7 +38,10 @@ export const getMeeting = (id) => async (dispatch) => {
 
 export const hostMeeting = (host_id, name, description, queue_limit) => async (dispatch) => {
   const response = await fetch(`/api/meetings/host`, {
-    method: "POST",
+    method: 'POST',
+    headers: {
+      'Content-type': 'multipart/form-data'
+    },
     body: JSON.stringify({
       host_id,
       name,
@@ -48,13 +51,13 @@ export const hostMeeting = (host_id, name, description, queue_limit) => async (d
   })
 
   if (response.ok) {
-    const meeting = await response.json()
-    dispatch(update(meeting))
+    const data = await response.json()
+    dispatch(update(data))
     return null;
   } else if (response.status < 500) {
-    const meeting = await response.json();
-    if (meeting.errors) {
-      return meeting.errors;
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
     }
   } else {
     return ['Server error occurred. Please try again.']
@@ -62,10 +65,10 @@ export const hostMeeting = (host_id, name, description, queue_limit) => async (d
 }
 
 
-export const updateMeeting = (id,
-  payload) => async (dispatch) => {
+export const updateMeeting = (id, payload) => async (dispatch) => {
   const response = await fetch(`/api/meetings/${id}/update`, {
     method: "PATCH",
+    headers: {'Content-type': 'application/json'},
     body: JSON.stringify({...payload})
   })
   const meeting = await response.json()

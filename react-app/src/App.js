@@ -36,12 +36,12 @@ function App() {
         <Route path='/' exact={true} >
           <Homepage />
         </Route>
-        <Route path='/host' exact={true}>
-          <HostingPage />
-        </Route>
         <Route path='/join' exact={true}>
           <Meetings/>
         </Route>
+        <ProtectedRoute path='/host' exact={true}>
+          <HostingPage />
+        </ProtectedRoute>
         <Route path='/meetings/:id' exact={true}>
           <MeetingPage />
         </Route>

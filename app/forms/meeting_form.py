@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms.fields.core import IntegerField, StringField
+from wtforms.fields.simple import SubmitField
 from wtforms.validators import Length, ValidationError, NumberRange, DataRequired
 from app.models import Meeting
 
@@ -26,6 +27,7 @@ class MeetingForm(FlaskForm):
         min=1, max=1000, message="Please enter a description up to 1000 characters long")])
     queue_limit = IntegerField('Queue Size', validators=[DataRequired(), NumberRange(
         min=1, max=25, message="Please enter a queue size between 1 and 25")])
+    submit = SubmitField("Host")
 
 
 class MeetingEditForm(FlaskForm):

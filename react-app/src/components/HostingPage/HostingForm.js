@@ -7,26 +7,30 @@ import Button from '../button';
 import styles from './HostingForm.module.css'
 
 export default function HostingForm() {
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.session.user)
-  const host_id = user?.id
-
   const [errors, setErrors] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [queue_limit, setQueueLimit] = useState("");
 
+  const user = useSelector((state) => state.session.user)
+  const host_id = user?.id
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await dispatch(hostMeeting(host_id, name, description, queue_limit))
-    if (response.ok) {
-      setErrors(response)
-      history.push(`/meetings/${response['id']}`)
+    if (host_id) {
+      const response = await dispatch(hostMeeting(host_id, name, description, queue_limit))
+      if (response) {
+        setErrors(response)
+      }
     } else {
-      setErrors(["Meeting could not be created."])
+      setErrors(["No user logged in."])
     }
+    // history.push(`/meetings/${response['id']}`)
   }
 
   const updateMeetingName = (e) => {
@@ -43,54 +47,44 @@ export default function HostingForm() {
 
   return (
     <div className={styles.formContainer}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input name="host" type="hidden" value={host_id}/>
+      <form className={styles.form} method='post' onSubmit={handleSubmit}>
+        <input name="host_id" type="hidden" value={host_id}></input>
         <div>
           <input
             className={styles.inputField}
             name='name'
             type='text'
-            minlength="2"
-            maxlength="64"
-            placeholder='Meeting Title'
+            minLength="2"
+            maxLength="64"
+            placeholder="Meeting Title"
             onChange={updateMeetingName}
             value={name}
-          />
+          ></input>
         </div>
         <div>
           <input
             className={styles.inputField}
             name='description'
             type='text'
-            minlength="1"
-            maxlength="1000"
+            minLength="1"
+            maxLength="1000"
             placeholder='Description'
             onChange={updateDescription}
             value={description}
-            />
+            ></input>
         </div>
         <div>
           <input
             className={styles.inputField}
-            name='queue limit'
+            name='queue_limit'
             type='number'
             min="1"
             max="25"
             placeholder='Queue Limit'
             onChange={updateQueueLimit}
             value={queue_limit}
-          />
+          ></input>
         </div>
-        <button type="submit">
-          <Button
-            action={handleSubmit}
-            borderRadius={10}
-            btnColor={"gold"}
-            text={"Host"}
-            fontColor={"black"}
-            fontSize={16}
-          />
-        </button>
         <div className={styles.errorsContainer}>
           {errors.map((error, ind) => (
             <div className={styles.error} key={ind}>
@@ -98,6 +92,16 @@ export default function HostingForm() {
             </div>
           ))}
         </div>
+        <button type="submit">Submit
+          {/* <Button
+            action={handleSubmit}
+            borderRadius={10}
+            btnColor={"gold"}
+            text={"Host"}
+            fontColor={"black"}
+            fontSize={16}
+          /> */}
+        </button>
       </form>
     </div>
   )

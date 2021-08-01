@@ -31,20 +31,23 @@ def meeting(id):
 
 
 @meeting_routes.route('/host', methods=["POST"])
-@login_required
 def host_meeting():
-    form = MeetingForm(request.form)
+    """
+    Creates a new meeting
+    """
+    form = MeetingForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         meeting = Meeting(
-            host_id=current_user.id,
+            host_id=form['host_id'].data,
             name=form['name'].data,
             description=form['description'].data,
             queue_limit=form['queue_limit'].data
         )
         db.session.add(meeting)
         db.session.commit()
-        return meeting.to_dict()
+        new_meeting = Meeting.query.filter(Meeting.host_id == current_user.id).first()
+        return new_meeting.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
