@@ -2,10 +2,11 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100vw;
-  padding-top: 150px;
+  height: 110%;
+  padding-top: 100px;
   /* gap: 20px; */
 }
 

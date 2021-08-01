@@ -19,9 +19,8 @@ const LoginForm = ({ setShowModal }) => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
-      setErrors(data);
+      setErrors(data)
     }
-    setShowModal(false)
   };
 
   const goSignUp = () => {
@@ -44,7 +43,7 @@ const LoginForm = ({ setShowModal }) => {
     <>
       {existingUser && (
         <div className={styles.formContainer}>
-          <form className={styles.form} onSubmit={onLogin}>
+          <form className={styles.form} method="post" onSubmit={onLogin}>
             <div>
               <input
                 className={styles.inputField}
