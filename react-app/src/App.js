@@ -42,6 +42,9 @@ function App() {
         <ProtectedRoute path='/host' exact={true}>
           <HostingPage />
         </ProtectedRoute>
+        <ProtectedRoute path='/meetings/:id/update' exact={true}>
+          <HostingPage />
+        </ProtectedRoute>
         <Route path='/meetings/:id' exact={true}>
           <MeetingPage />
         </Route>
@@ -51,9 +54,9 @@ function App() {
         <ProtectedRoute path='/users/:userId' exact={true} >
           <User />
         </ProtectedRoute>
-        {/* <ProtectedRoute path='/' exact={true} >
-          <h1>My Home Page</h1>
-        </ProtectedRoute> */}
+        <Route path=''>
+          <h1>Oops! Where is this?</h1>
+        </Route>
       </Switch>
     </BrowserRouter>
   );

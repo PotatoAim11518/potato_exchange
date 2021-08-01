@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { getMeeting } from '../../store/meeting'
+import ButtonArray from './ButtonArray';
 import Chatroom from './Chatroom';
 
 import styles from './Meeting.module.css';
@@ -38,11 +39,8 @@ export default function MeetingPage() {
         </div>
         <p className={styles.description}>{meeting?.description}</p>
         {meeting?.host_id === user_id &&
-          <div className={styles.modifyMeeting}>
-          Edit
-          Lock Queue
-          Close Room
-        </div>}
+          <ButtonArray meeting={meeting}/>
+        }
         <p className={styles.waitingText}><em>Queue #/{meeting?.queue_limit}</em></p>
       </div>
       <div className={styles.video}>
