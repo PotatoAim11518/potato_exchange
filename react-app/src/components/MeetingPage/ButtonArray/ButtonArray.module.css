@@ -1,0 +1,10 @@
+.arrayContainer {
+  width: 100%;
+  /* height: 50px; */
+  padding: 20px;
+  border-radius: 6px;
+
+  background-color: rgb(100, 100, 100);
+  display: flex;
+  flex-direction: row;
+}

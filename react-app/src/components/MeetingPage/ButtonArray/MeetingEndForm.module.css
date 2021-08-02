@@ -1,0 +1,54 @@
+.pageContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 150px;
+  width: 100%;
+  height: 100%;
+}
+
+.formContainer {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 40px;
+  border-radius: 15px;
+  background-color: rgb(30, 30, 30);
+  box-shadow: 0px 1px 18px rgba(40, 40, 40, 1);
+  width: 100%;
+  height: auto;
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+
+}
+
+.endHeader {
+  width: 400px;
+  font-size: 30px;
+  font-family: 'Podkova', serif;
+  text-align: center;
+}
+
+.endText {
+  width: 400px;
+  padding: 10px 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.closeModal {
+  position: relative;
+  width: 100%;
+  top: 14px;
+  right: 50%;
+}

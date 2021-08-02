@@ -58,14 +58,15 @@ function LoginSignup() {
           )}
           {showModal && !signup && (
             <Modal onClose={() => setShowModal(false)}>
-              <LoginForm />
+              <LoginForm setShowModal={setShowModal}/>
             </Modal>
           )}
         </div>
       )}
       {user &&
+      <div className={styles.authButtons}>
         <LogoutButton onClick={() => setShowModal(false)}/>
-      }
+      </div>}
     </>
   );
 }

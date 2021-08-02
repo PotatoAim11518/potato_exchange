@@ -6,7 +6,7 @@ import Button from "../button";
 import SignUpForm from "./SignUpForm";
 import styles from "./ModalForms.module.css";
 
-const LoginForm = () => {
+const LoginForm = ({ setShowModal }) => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +19,7 @@ const LoginForm = () => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
-      setErrors(data);
+      setErrors(data)
     }
   };
 
@@ -43,7 +43,7 @@ const LoginForm = () => {
     <>
       {existingUser && (
         <div className={styles.formContainer}>
-          <form className={styles.form} onSubmit={onLogin}>
+          <form className={styles.form} method="post" onSubmit={onLogin}>
             <div>
               <input
                 className={styles.inputField}
