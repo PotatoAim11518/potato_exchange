@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField
-from wtforms import SubmitField
+from wtforms import IntegerField, StringField, SubmitField
 from wtforms.validators import Length, ValidationError, NumberRange, DataRequired
 from app.models import Meeting
 

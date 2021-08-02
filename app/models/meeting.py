@@ -25,8 +25,8 @@ class Meeting(db.Model):
     host = relationship('User',
                         back_populates='meeting', lazy='joined', innerjoin=True)
     queue = relationship('User', secondary='queues', back_populates='meeting')
-    message = relationship(
-        'Message', back_populates='meeting', lazy='joined', innerjoin=True, cascade='all, delete-orphan')
+    messages = relationship(
+        'Message', back_populates='meeting', uselist=True, lazy='dynamic', innerjoin=True, cascade='all, delete-orphan')
     # chatroom = relationship(
     #     'Chatroom', back_populates='meeting', cascade='all, delete-orphan')
 
@@ -40,5 +40,4 @@ class Meeting(db.Model):
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'host': self.host and self.host.to_dict(),
-            'message': self.message and self.message.to_dict()
         }

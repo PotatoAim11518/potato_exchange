@@ -1,10 +1,11 @@
 from flask import Blueprint, request
-from app.models import Meeting
-from app.models import db
-from app.forms import MeetingForm, MeetingEditForm
+from app.models import db, Meeting, Message
+from app.forms import MeetingForm, MeetingEditForm, MessageForm
 from flask_login import current_user, login_required
+from .message_routes import message_routes
 
 meeting_routes = Blueprint('meetings', __name__)
+meeting_routes.register_blueprint(message_routes)
 
 
 def validation_errors_to_error_messages(validation_errors):
@@ -28,6 +29,30 @@ def meetings():
 def meeting(id):
     meeting = Meeting.query.get_or_404(id)
     return meeting.to_dict()
+
+
+@meeting_routes.route('/<int:id>/messages')  # messages for this meeting
+def meeting_messages(id):
+    messages = Message.query.filter(Message.meeting_id == id).all()
+    return {'meeting_messages': [message.to_dict() for message in messages]}
+
+
+@meeting_routes.route('/<int:id>/messages/send', methods=["POST"])  # send message to meeting
+@login_required
+def send_message(id):
+    form = MessageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        message = Message(
+            meeting_id=id,
+            message=form['message'].data
+        )
+        db.session.add(message)
+        db.session.commit()
+        return message.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
 
 
 @meeting_routes.route('/host', methods=["POST"])

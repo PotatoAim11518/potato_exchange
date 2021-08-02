@@ -15,14 +15,14 @@ class Message(db.Model):
                            default=db.func.now(), onupdate=db.func.now())
 
     user = relationship('User', backref='messages')
-    meeting = relationship('Meeting', back_populates='messages')
+    meeting = relationship('Meeting', back_populates='messages', uselist=False)
     # chatroom = relationship('Chatroom', back_populates='messages')
 
     def to_dict(self):
         return {
             'id': self.id,
             'user_id': self.user_id,
-            'chatroom_id': self.chatroom_id,
+            'meeting_id': self.meeting_id,
             'message': self.message,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
