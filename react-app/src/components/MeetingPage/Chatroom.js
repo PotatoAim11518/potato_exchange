@@ -36,7 +36,7 @@ export default function Chatroom({ meeting }) {
           </li>
         </ul>
       </div>
-      <form className={styles.form} onSubmit={"hi"}>
+      <form className={styles.form} onSubmit={()=>{}}>
 
         <input
           className={styles.inputField}

@@ -59,11 +59,12 @@ def edit_meeting(id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = {
+            'host_id': form['host_id'].data,
             'name': form['name'].data,
             'description': form['description'].data,
             'queue_limit': form['queue_limit'].data,
         }
-        Meeting.query.filter(Meeting.id == id).update(data)
+        Meeting.query.filter(Meeting.id == id).update(data, synchronize_session=False)
         db.session.commit()
         updated_meeting = Meeting.query.filter(Meeting.id == id).first()
         return updated_meeting.to_dict()
