@@ -30,7 +30,6 @@ export default function MeetingEditForm() {
     setErrors([])
     if (user_id === host_id) {
       const response = await dispatch(updateMeeting(id, host_id, name, description, queue_limit))
-      console.log(response)
       if (response?.length) {
         setErrors(response)
         return

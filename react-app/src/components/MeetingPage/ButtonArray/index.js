@@ -12,8 +12,12 @@ export default function ButtonArray({meeting}) {
     history.push(`/meetings/${id}/update`)
   }
 
+  const onCloseRoom = () => {
+    history.push(`/meetings/${id}/end`)
+  }
+
   return (
-    <div>
+    <div className={styles.arrayContainer}>
       <Button
         text={"Edit"}
         action={onEdit}
@@ -40,7 +44,7 @@ export default function ButtonArray({meeting}) {
       />
       <Button
         text={"Close Room"}
-        action={onEdit}
+        action={onCloseRoom}
         // paddingY={}
         // paddingX={}
         width={100}
@@ -50,7 +54,6 @@ export default function ButtonArray({meeting}) {
         fontColor={"white"}
         fontSize={16}
       />
-
     </div>
   )
 }
