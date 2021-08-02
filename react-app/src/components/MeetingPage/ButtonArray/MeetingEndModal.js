@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import MeetingEndForm from './MeetingEndForm';
 import { Modal } from '../../../context/Modal';
@@ -9,16 +8,11 @@ import Button from '../../button';
 import styles from './MeetingEndForm.module.css'
 
 export default function MeetingEndModal() {
-  const { id } = useParams();
-  const [showModal, setShowModal] = useState(false);
   const history = useHistory();
-
-  const meetings = useSelector((state) => state.meetings)
-  const meeting = meetings[id]
 
   return (
     <div className={styles.pageContainer}>
-      <Modal onClose={() => setShowModal(false)}>
+      <Modal onClose={() => history.goBack()}>
         <div className={styles.closeModal}>
           <Button
             text={"Back"}

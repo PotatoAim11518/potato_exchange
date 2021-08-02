@@ -32,7 +32,7 @@ export default function MeetingEndForm() {
     <div className={styles.formContainer}>
       <div>
         <h2 className={styles.endHeader}>Are you sure?</h2>
-        <p className={styles.endText}>We hope you had a good time! Closing this room will removed everyone from the queue and remove your room from Potato Exchange. Are you absolutely sure?</p>
+        <p className={styles.endText}>We hope you had a good time! Closing this room will remove everyone from the queue and remove your room from Potato Exchange. Are you absolutely sure?</p>
       </div>
       <div className={styles.buttonContainer}>
         <Button

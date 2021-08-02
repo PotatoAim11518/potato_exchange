@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Button from '../../button';
 import styles from './ButtonArray.module.css';
