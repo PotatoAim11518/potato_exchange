@@ -44,6 +44,7 @@ def send_message(id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         message = Message(
+            user_id=form['user_id'].data,
             meeting_id=id,
             message=form['message'].data
         )

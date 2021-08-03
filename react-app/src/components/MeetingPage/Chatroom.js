@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { getMeetingMessages } from '../../store/message';
+import { getMeetingMessages, sendMessage } from '../../store/message';
 import ChatMessage from './ChatMessage';
 import Button from '../button';
 import styles from './Chatroom.module.css';
@@ -12,8 +12,16 @@ export default function Chatroom() {
   const dispatch = useDispatch();
 
   const [message, setMessage] = useState("");
+
+  const user_id = useSelector((state) => state.session.user)['id']
   const meeting_messages = useSelector((state) => Object.values(state.meeting_messages))
   const chatroom_messages = meeting_messages.filter((meeting) => meeting['meeting_id'] === +id)
+
+  const handleChat = (e) => {
+    e.preventDefault();
+    dispatch(sendMessage(user_id, id, message))
+    setMessage("")
+  }
 
   const updateMessage = (e) => {
     setMessage(e.target.value)
@@ -28,9 +36,11 @@ export default function Chatroom() {
       <div className={styles.chatMessages}>
         {chatroom_messages.map((message) =>
           <ChatMessage key={message.id} message={message}/>
-        )}
+        ).reverse()}
       </div>
-      <form className={styles.form} onSubmit={()=>{}}>
+      <form className={styles.form} method="post" onSubmit={handleChat}>
+        <input name="user_id" type="hidden" value={user_id}></input>
+        <input name="meeting_id" type="hidden" value={id}></input>
         <input
           className={styles.inputField}
           name="chatbox"
@@ -38,11 +48,11 @@ export default function Chatroom() {
           placeholder="Enter a message for the FBI"
           value={message}
           onChange={updateMessage}
-        />
+        ></input>
 
         <button type="submit">
           <Button
-            // action={}
+            action={handleChat}
             borderRadius={10}
             btnColor={"gold"}
             text={"Chat"}

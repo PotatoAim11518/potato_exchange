@@ -40,13 +40,15 @@ export const getMeetingMessages = (meeting_id) => async (dispatch) => {
   }
 }
 
-export const sendMessage = (meeting_id, message) => async (dispatch) => {
-  const response = await fetch(`/api/meetings/${meeting_id}/send`, {
+export const sendMessage = (user_id, meeting_id, message) => async (dispatch) => {
+  const response = await fetch(`/api/meetings/${meeting_id}/messages/send`, {
     method: "POST",
     headers: {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
+      user_id,
+      meeting_id,
       message
     })
 
