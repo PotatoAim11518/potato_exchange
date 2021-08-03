@@ -51,7 +51,7 @@ export default function MeetingPage() {
           VideoGuest
         </div>
       </div>
-      <Chatroom meeting={meeting}/>
+      <Chatroom/>
     </div>
   )
 }

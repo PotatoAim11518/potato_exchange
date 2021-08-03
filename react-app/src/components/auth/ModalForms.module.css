@@ -10,9 +10,9 @@
   justify-content: center;
   align-items: center;
   padding: 20px 40px;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: rgb(30, 30, 30);
-  box-shadow: 0px 1px 18px rgba(40, 40, 40, 1);
+  /* box-shadow: 0px 1px 18px rgba(40, 40, 40, 1); */
 }
 
 .form {
@@ -34,35 +34,45 @@
 }
 
 .error {
-  color: red;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: salmon;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .inputRow {
 }
 
 .inputField {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 24px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
   min-width: 300px;
   max-width: 300px;
   color: white;
   outline: none;
   background-color: rgb(30, 30, 30);
   padding: 10px;
-  border-bottom:2px solid yellow;
+  border-bottom:2px solid grey;
+  transition: border-bottom 0.3s;
+}
+
+.inputField:hover {
+  border-bottom: 2px solid teal;
+  transition: border-bottom 0.3s;
+}
+
+.inputField:focus:hover {
+  border-bottom: 2px solid teal;
   transition: border-bottom 0.3s;
 }
 
 .inputField:focus {
-  border-bottom: 2px solid goldenrod;
+  border-bottom: 2px solid teal;
   transition: border-bottom 0.3s;
 }
 
 .inputField::placeholder {
   color: rgb(165, 165, 165);
-  font-size: 24px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .inputField:-webkit-autofill,
@@ -70,13 +80,14 @@
 .inputField:-webkit-autofill:focus,
 .inputField:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px rgb(30, 30, 30) inset !important;
-  font-size: 24px !important;
+  font-size: 18px !important;
 }
 
 .inputField:-webkit-autofill {
   -webkit-text-fill-color: white !important;
-  font-size: 24px !important;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  -webkit-text-size-adjust: none !important;
+  font-size: 18px !important;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .buttonContainer {

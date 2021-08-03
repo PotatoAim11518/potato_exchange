@@ -141,16 +141,16 @@ const SignUpForm = () => {
                 action={onSignUp}
                 width={200}
                 borderRadius={10}
-                btnColor={"gold"}
+                btnColor={"salmon"}
                 text={"Submit"}
-                fontColor={"black"}
+                fontColor={"white"}
               />
             </button>
             <Button
               action={goLogIn}
               width={200}
               borderRadius={10}
-              btnColor={"blue"}
+              btnColor={"teal"}
               text={"Already a user"}
               fontColor={"white"}
             />

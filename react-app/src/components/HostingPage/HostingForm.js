@@ -98,9 +98,9 @@ export default function HostingForm() {
           <Button
             action={handleSubmit}
             borderRadius={10}
-            btnColor={"gold"}
+            btnColor={"salmon"}
             text={"Host"}
-            fontColor={"black"}
+            fontColor={"white"}
             fontSize={16}
           />
         </button>

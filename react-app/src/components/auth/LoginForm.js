@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { login } from "../../store/session";
 import Button from "../button";
 import SignUpForm from "./SignUpForm";
@@ -21,6 +21,12 @@ const LoginForm = ({ setShowModal }) => {
     if (data) {
       setErrors(data)
     }
+  };
+
+  const demoLogin = async (e) => {
+    e.preventDefault();
+    await dispatch(login("demo@aa.io", "password"));
+    await setShowModal(false)
   };
 
   const goSignUp = () => {
@@ -75,17 +81,27 @@ const LoginForm = ({ setShowModal }) => {
               <Button
                 action={onLogin}
                 width={200}
-                borderRadius={10}
-                btnColor={"gold"}
+                borderRadius={8}
+                btnColor={"salmon"}
                 text={"Login"}
-                fontColor={"black"}
+                fontColor={"white"}
+              />
+            </button>
+            <button type="submit">
+              <Button
+                action={demoLogin}
+                width={200}
+                borderRadius={8}
+                btnColor={"seagreen"}
+                text={"Demo Login"}
+                fontColor={"white"}
               />
             </button>
             <Button
               action={goSignUp}
               width={200}
-              borderRadius={10}
-              btnColor={"blue"}
+              borderRadius={8}
+              btnColor={"teal"}
               text={"New? Sign Up!"}
               fontColor={"white"}
             />
