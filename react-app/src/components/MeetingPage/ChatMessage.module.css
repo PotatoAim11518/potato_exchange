@@ -1,0 +1,16 @@
+.chatRowContainer {
+  width: 100%;
+}
+
+.chatRow {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.username {
+  color: teal;
+  font-weight: 600;
+}
+
+.timestamp {
+  color: lightslategray;
+}

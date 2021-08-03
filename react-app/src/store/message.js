@@ -110,16 +110,16 @@ export default function messageReducer(state=initial_state, action) {
     case LOAD_MEETING_MESSAGES:
       const meetingMessages = {}
       action.messages['meeting_messages'].forEach((message) => {
-        meetingMessages[message['meeting_id']]['id'] = message
+        meetingMessages[message['id']] = message
       })
       return {...state, ...meetingMessages}
     case SEND_MEETING_MESSAGE:
-      return {...state, [action.message['meeting_id'][action.message['id']]]: action.message}
+      return {...state, [action.message['id']]: action.message}
     case MODERATE_MEETING_MESSAGE:
-      return {...state, [action.message['meeting_id'][action.message['id']]]: action.message}
+      return {...state, [action.message['id']]: action.message}
     case DELETE_MEETING_MESSAGE:
       const newState = {...state}
-      delete newState[action.message['meeting_id'][action.message['id']]]
+      delete newState[action.message['id']]
       return newState
     default:
       return state

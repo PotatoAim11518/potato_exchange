@@ -53,8 +53,6 @@ def send_message(id):
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-
-
 @meeting_routes.route('/host', methods=["POST"])
 @login_required
 def host_meeting():
