@@ -22,11 +22,11 @@ export default function ButtonArray({meeting}) {
         action={onEdit}
         // paddingY={}
         // paddingX={}
-        width={100}
+        width={120}
         // height={}
-        borderRadius={10}
-        btnColor={"gold"}
-        fontColor={"black"}
+        borderRadius={8}
+        btnColor={"teal"}
+        fontColor={"white"}
         fontSize={16}
       />
       <Button
@@ -34,10 +34,10 @@ export default function ButtonArray({meeting}) {
         action={onEdit}
         // paddingY={}
         // paddingX={}
-        width={100}
+        width={120}
         // height={}
-        borderRadius={10}
-        btnColor={"blue"}
+        borderRadius={8}
+        btnColor={"slategrey"}
         fontColor={"white"}
         fontSize={16}
       />
@@ -46,10 +46,10 @@ export default function ButtonArray({meeting}) {
         action={onCloseRoom}
         // paddingY={}
         // paddingX={}
-        width={100}
+        width={120}
         // height={}
-        borderRadius={10}
-        btnColor={"crimson"}
+        borderRadius={8}
+        btnColor={"darkred"}
         fontColor={"white"}
         fontSize={16}
       />
