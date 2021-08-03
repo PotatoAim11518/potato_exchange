@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+from flask_socketio import SocketIO, send, emit
 
 from .models import db, User
 from .api.user_routes import user_routes
@@ -15,7 +16,12 @@ from .seeds import seed_commands
 
 from .config import Config
 
+
 app = Flask(__name__)
+socket_io = SocketIO(app)
+
+if __name__ == '__main__':
+    socket_io.run(app)
 
 # Setup login manager
 login = LoginManager(app)
@@ -74,3 +80,15 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_static_file('favicon.ico')
     return app.send_static_file('index.html')
+
+
+@socket_io.on('connect')
+def test_connect():
+    emit('my response', {'data': 'Connected'})
+
+
+@socket_io.on('message')
+def receive_message(data):
+    print(data)
+    send(data, broadcast=True)
+    return None

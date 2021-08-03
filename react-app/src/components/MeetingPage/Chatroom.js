@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { getMeetingMessages, sendMessage } from '../../store/message';
 import ChatMessage from './ChatMessage';
 import Button from '../button';
+import socket from './socket';
 import styles from './Chatroom.module.css';
 
 import { Modal } from '../../context/Modal';
@@ -17,6 +18,7 @@ export default function Chatroom() {
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [socketMsg, setSocketMsg] = useState("initial state");
 
 
   const user = useSelector((state) => state.session.user)
@@ -31,6 +33,7 @@ export default function Chatroom() {
       if (data) {
         setErrors(data);
       } else {
+        socket.send('message', data)
         setErrors([])
       }
       setMessage("")
@@ -43,12 +46,23 @@ export default function Chatroom() {
     setMessage(e.target.value)
   }
 
+  const receiveBroadcast = () => {
+    socket.on("message", data => {
+      setSocketMsg(data)
+    })
+  }
+
   useEffect(()=> {
-    dispatch(getMeetingMessages(id))
+    socket.on("connect", () => {
+      console.log("?????? socket.connected ??????: ", socket.connected)
+    })
+    dispatch(getMeetingMessages(id)) // this is chat history
+    receiveBroadcast()
   },[dispatch, id])
 
   return (
     <div className={styles.chatroom}>
+      {socketMsg}
       <div className={styles.chatMessages}>
         {chatroom_messages.map((message) =>
           <ChatMessage key={message.id} message={message}/>
