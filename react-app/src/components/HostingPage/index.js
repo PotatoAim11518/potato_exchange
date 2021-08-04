@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import HostingForm from './HostingForm';
 import { Modal } from '../../context/Modal';
 import Button from '../button';

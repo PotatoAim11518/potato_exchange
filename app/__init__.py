@@ -118,7 +118,6 @@ def receive_message(user_id, id, message):
         # new_message = Message.query.filter(Message.user_id == user_id, Message.meeting_id == id).order_by(
         #     Message.created_at.desc()).first()
         data = json.dumps(message.to_dict(), default=str)
-        print(">>>>>>DATA<<<<<<", data)
         emit('incoming_message', data, broadcast=True)
     else:
         emit('incoming_errors', ["Message must be up to 255 characters long"])

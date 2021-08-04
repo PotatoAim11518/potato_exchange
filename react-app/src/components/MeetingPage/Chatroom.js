@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 
 import socket from "./socket";
 
-import { getMeetingMessages, sendMessage } from "../../store/message";
+import { getMeetingMessages } from "../../store/message";
 
 import ChatMessage from "./ChatMessage";
 import Button from "../button";
@@ -65,13 +65,12 @@ export default function Chatroom() {
   return (
     <div className={styles.chatroom}>
       <div className={styles.chatMessages}>
-        {chatroom_messages.map((message) => (
-          <ChatMessage key={message.id} message={message} />
-        ))}
-        {newMessages.map((message) => {
-          return <ChatMessage key={message['id']} message={message}/>
-        }
-        )}
+        {newMessages && newMessages.map((message) =>
+          <ChatMessage key={message['id']} message={message}/>
+        ).reverse()}
+        {chatroom_messages.map((message) =>
+          <ChatMessage key={message['id']} message={message}/>
+        ).reverse()}
       </div>
       <form className={styles.form} method="post" onSubmit={handleChat}>
         <input name="user_id" type="hidden" value={user_id}></input>
