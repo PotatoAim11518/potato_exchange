@@ -60,7 +60,7 @@ export default function Chatroom() {
       setErrors([]);
       setNewMessages([...newMessages, message]);
     });
-  }, [newMessages]);
+  }, [newMessages, errors]);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -75,8 +75,10 @@ export default function Chatroom() {
         {chatroom_messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
-        {newMessages.map((message) =>
-          <ChatMessage key={message.id} message={message}/>
+        {newMessages.map((message) => {
+          console.log(message)
+          return <ChatMessage key={message.id} message={message}/>
+        }
         )}
       </div>
       <form className={styles.form} method="post" onSubmit={handleChat}>

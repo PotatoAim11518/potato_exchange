@@ -109,26 +109,13 @@ def receive_message(data):
         message = Message(
             user_id=data['user_id'],
             meeting_id=data['id'],
-            message=data['message'],)
+            message=data['message'],
+        )
         db.session.add(message)
         db.session.commit()
-        # new_message = Message.query.filter(Message.user_id == data['user_id'], Message.meeting_id == data['id']).order_by(
-        #     Message.created_at.desc()).first()
-        # send = new_message.to_dict()
+        new_message = Message.query.filter(Message.user_id == data['user_id'], Message.meeting_id == data['id']).order_by(
+            Message.created_at.desc()).first()
+        data = new_message.to_dict()
         emit('incoming_message', data, broadcast=True)
     else:
         emit('incoming_errors', ["Message must be up to 255 characters long"])
-
-    # form = MessageForm()
-    # form['csrf_token'].data = request.cookies['csrf_token']
-    # if form.validate_on_submit():
-    #     message = Message(
-    #         user_id=data['user_id'],
-    #         meeting_id=data['meeting_id'],
-    #         message=data['message'],
-    #     )
-    #     db.session.add(message)
-    #     db.session.commit()
-    #     emit('incoming_message', message.to_dict(), broadcast=True)
-    #     return
-    # return emit('incoming_errors', validation_errors_to_error_messages(form.errors))
