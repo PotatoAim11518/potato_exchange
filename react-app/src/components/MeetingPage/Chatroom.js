@@ -38,15 +38,8 @@ export default function Chatroom() {
   const handleChat = async (e) => {
     e.preventDefault();
     if (user_id) {
-      // const data = await dispatch(sendMessage(user_id, id, message))
-      socket.emit("client_message", { user_id, id, message });
-      setMessage("");
-      // if (data) {
-      //   setErrors(data);
-      // } else {
-      //   setErrors([])
-      // }
-      // setMessage("")
+      socket.emit("client_message", user_id, id, message);
+      setMessage("")
     } else {
       setShowModal(true);
     }
@@ -58,7 +51,7 @@ export default function Chatroom() {
     });
     socket.on("incoming_message", (message) => {
       setErrors([]);
-      setNewMessages([...newMessages, message]);
+      setNewMessages([...newMessages, JSON.parse(message)]);
     });
   }, [newMessages, errors]);
 
@@ -76,8 +69,7 @@ export default function Chatroom() {
           <ChatMessage key={message.id} message={message} />
         ))}
         {newMessages.map((message) => {
-          console.log(message)
-          return <ChatMessage key={message.id} message={message}/>
+          return <ChatMessage key={message['id']} message={message}/>
         }
         )}
       </div>

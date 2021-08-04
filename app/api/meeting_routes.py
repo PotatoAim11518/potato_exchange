@@ -30,14 +30,18 @@ def meeting(id):
     meeting = Meeting.query.get_or_404(id)
     return meeting.to_dict()
 
+# messages for this meeting
 
-@meeting_routes.route('/<int:id>/messages')  # messages for this meeting
+
+@meeting_routes.route('/<int:id>/messages')
 def meeting_messages(id):
     messages = Message.query.filter(Message.meeting_id == id).all()
     return {'meeting_messages': [message.to_dict() for message in messages]}
 
+# send message to meeting
 
-@meeting_routes.route('/<int:id>/messages/send', methods=["POST"])  # send message to meeting
+
+@meeting_routes.route('/<int:id>/messages/send', methods=["POST"])
 @login_required
 def send_message(id):
     form = MessageForm()

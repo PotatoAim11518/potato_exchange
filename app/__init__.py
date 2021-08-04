@@ -1,4 +1,6 @@
 import os
+import json
+
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -104,18 +106,19 @@ def test_connect():
 
 @socket_io.on('client_message')
 @login_required
-def receive_message(data):
-    if len(data['message']) in range(1, 256):
+def receive_message(user_id, id, message):
+    if len(message) in range(1, 256):
         message = Message(
-            user_id=data['user_id'],
-            meeting_id=data['id'],
-            message=data['message'],
+            user_id=user_id,
+            meeting_id=id,
+            message=message
         )
         db.session.add(message)
         db.session.commit()
-        new_message = Message.query.filter(Message.user_id == data['user_id'], Message.meeting_id == data['id']).order_by(
-            Message.created_at.desc()).first()
-        data = new_message.to_dict()
+        # new_message = Message.query.filter(Message.user_id == user_id, Message.meeting_id == id).order_by(
+        #     Message.created_at.desc()).first()
+        data = json.dumps(message.to_dict(), default=str)
+        print(">>>>>>DATA<<<<<<", data)
         emit('incoming_message', data, broadcast=True)
     else:
         emit('incoming_errors', ["Message must be up to 255 characters long"])
