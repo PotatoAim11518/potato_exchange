@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 
-import { getMeetingMessages, sendMessage } from '../../store/message';
-import ChatMessage from './ChatMessage';
-import Button from '../button';
-import styles from './Chatroom.module.css';
+import socket from "./socket";
 
-import { Modal } from '../../context/Modal';
-import LoginForm from '../auth/LoginForm';
+import { getMeetingMessages } from "../../store/message";
+
+import ChatMessage from "./ChatMessage";
+import Button from "../button";
+import { Modal } from "../../context/Modal";
+import LoginForm from "../auth/LoginForm";
+
+import styles from "./Chatroom.module.css";
 
 export default function Chatroom() {
   const { id } = useParams();
@@ -17,41 +20,55 @@ export default function Chatroom() {
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
+  // const [newMessages, setNewMessages] = useState([]);
 
+  const user = useSelector((state) => state.session.user);
+  const user_id = user?.["id"];
+  const meeting_messages = useSelector((state) =>
+    Object.values(state.meeting_messages)
+  );
+  const chatroom_messages = meeting_messages.filter(
+    (meeting) => meeting["meeting_id"] === +id
+  );
 
-  const user = useSelector((state) => state.session.user)
-  const user_id = user?.['id']
-  const meeting_messages = useSelector((state) => Object.values(state.meeting_messages))
-  const chatroom_messages = meeting_messages.filter((meeting) => meeting['meeting_id'] === +id)
+  const updateMessage = (e) => {
+    setMessage(e.target.value);
+  };
 
   const handleChat = async (e) => {
     e.preventDefault();
     if (user_id) {
-      const data = await dispatch(sendMessage(user_id, id, message))
-      if (data) {
-        setErrors(data);
-      } else {
-        setErrors([])
-      }
+      socket.emit("client_message", user_id, id, message);
       setMessage("")
     } else {
-      setShowModal(true)
+      setShowModal(true);
     }
-  }
+  };
 
-  const updateMessage = (e) => {
-    setMessage(e.target.value)
-  }
+  useEffect(() => {
+    dispatch(getMeetingMessages(id)); // this is chat history
+    socket.on("connect", () => {
+      console.log("Connection Status: ", socket.connected);
+    });
+    socket.on("incoming_errors", async (errors) => {
+      setErrors(errors);
+    });
+    socket.on("incoming_message", async (message) => {
+      setErrors([]);
+      // setNewMessages([...newMessages, JSON.parse(message)]);
+      await dispatch(getMeetingMessages(id));
+    });
+  }, [dispatch, id]);
 
-  useEffect(()=> {
-    dispatch(getMeetingMessages(id))
-  },[dispatch, id])
 
   return (
     <div className={styles.chatroom}>
       <div className={styles.chatMessages}>
+        {/* {newMessages && newMessages.map((message) =>
+          <ChatMessage key={message['id']} message={message}/>
+        ).reverse()} */}
         {chatroom_messages.map((message) =>
-          <ChatMessage key={message.id} message={message}/>
+          <ChatMessage key={message['id']} message={message}/>
         ).reverse()}
       </div>
       <form className={styles.form} method="post" onSubmit={handleChat}>
@@ -82,7 +99,7 @@ export default function Chatroom() {
       </form>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <LoginForm setShowModal={setShowModal}/>
+          <LoginForm setShowModal={setShowModal} />
         </Modal>
       )}
       <div className={styles.errorsContainer}>

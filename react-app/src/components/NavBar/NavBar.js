@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import LoginSignup from '../auth';
-import Button from '../button';
 import styles from './NavBar.module.css';
 
 const NavBar = () => {
@@ -16,8 +15,10 @@ const NavBar = () => {
 
   return (
     <div className={styles.navContainer}>
-      <div className={styles.user}>{username}</div>
-      <div className={styles.potato} onClick={goHome}></div>
+      <div className={styles.leftContainer}>
+        <div className={styles.potato} onClick={goHome}></div>
+        <div className={styles.user}>{username}</div>
+      </div>
       <div className={styles.userAuth}>
         <LoginSignup/>
       </div>

@@ -1,22 +1,36 @@
 .navContainer {
   z-index: 100;
-  position: sticky;
-  top: 0;
+  position: relative;
+  top: 0px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
+.leftContainer {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+}
+
 .user {
-  width: 270px;
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  font-size: 20px;
+  font-family: 'Podkova', serif;
+  color: rgb(73, 36, 8);
+  font-weight: 600;
+  text-shadow: 1px 1px 10px rgb(133, 91, 63);
+  /* width: 270px; */
 }
 
 .potato {
   position: relative;
   max-width: 40px;
   min-width: 40px;
-  height: 100px;
-  margin: 0 30px;
+  height: 80px;
+  margin: 0 20px;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -26,7 +40,7 @@
 
 .potato:hover {
   cursor: pointer;
-  transform: scale(1.07);
+  transform: scale(1.1);
   transition: transform 0.2s ease-in-out;
 }
 
