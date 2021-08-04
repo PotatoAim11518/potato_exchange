@@ -4,7 +4,7 @@
 }
 
 #root {
-  min-height: 120vh;
+  min-height: 150vh;
   min-width: 100vw;
   background-image: url(./assets/corkboard-background.jpg);
   background-size: 110%;

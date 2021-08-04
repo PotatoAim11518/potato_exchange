@@ -12,6 +12,7 @@ import MeetingPage from './components/MeetingPage'
 import HostingPage from './components/HostingPage';
 import MeetingEditModal from './components/MeetingPage/ButtonArray/MeetingEditModal';
 import MeetingEndModal from './components/MeetingPage/ButtonArray/MeetingEndModal';
+import About from './components/About';
 
 import { authenticate } from './store/session';
 
@@ -33,7 +34,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      {/* <LoginSignup /> */}
+      <About />
       <Switch>
         <Route path='/' exact={true} >
           <Homepage />
