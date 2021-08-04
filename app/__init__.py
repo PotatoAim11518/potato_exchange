@@ -105,7 +105,7 @@ def test_connect():
 
 
 @socket_io.on('client_message')
-@login_required
+# @login_required
 def receive_message(user_id, id, message):
     if len(message) in range(1, 256):
         message = Message(

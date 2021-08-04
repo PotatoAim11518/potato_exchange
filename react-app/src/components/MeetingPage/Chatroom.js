@@ -46,28 +46,27 @@ export default function Chatroom() {
   };
 
   useEffect(() => {
-    socket.on("incoming_errors", (errors) => {
-      setErrors(errors);
-    });
-    socket.on("incoming_message", (message) => {
-      setErrors([]);
-      setNewMessages([...newMessages, JSON.parse(message)]);
-    });
-  }, [newMessages, errors]);
-
-  useEffect(() => {
+    dispatch(getMeetingMessages(id)); // this is chat history
     socket.on("connect", () => {
       console.log("Connection Status: ", socket.connected);
     });
-    dispatch(getMeetingMessages(id)); // this is chat history
+    socket.on("incoming_errors", async (errors) => {
+      setErrors(errors);
+    });
+    socket.on("incoming_message", async (message) => {
+      setErrors([]);
+      // setNewMessages([...newMessages, JSON.parse(message)]);
+      await dispatch(getMeetingMessages(id));
+    });
   }, [dispatch, id]);
+
 
   return (
     <div className={styles.chatroom}>
       <div className={styles.chatMessages}>
-        {newMessages && newMessages.map((message) =>
+        {/* {newMessages && newMessages.map((message) =>
           <ChatMessage key={message['id']} message={message}/>
-        ).reverse()}
+        ).reverse()} */}
         {chatroom_messages.map((message) =>
           <ChatMessage key={message['id']} message={message}/>
         ).reverse()}
