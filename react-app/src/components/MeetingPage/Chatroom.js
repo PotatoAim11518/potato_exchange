@@ -20,7 +20,7 @@ export default function Chatroom() {
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [newMessages, setNewMessages] = useState([]);
+  // const [newMessages, setNewMessages] = useState([]);
 
   const user = useSelector((state) => state.session.user);
   const user_id = user?.["id"];
