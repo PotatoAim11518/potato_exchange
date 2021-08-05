@@ -106,7 +106,7 @@ def end_meeting(id):
                                    Meeting.host_id == current_user.id).first()
     deleted_meeting = meeting.to_dict()
     if meeting:
-        Meeting.query.filter(Meeting.id == id).delete(synchronize_session=False)
+        db.session.delete(meeting)
         db.session.commit()
         return deleted_meeting
     else:

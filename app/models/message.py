@@ -7,8 +7,7 @@ class Message(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    meeting_id = db.Column(db.Integer, db.ForeignKey(
-        'meetings.id'), nullable=False)
+    meeting_id = db.Column(db.Integer, db.ForeignKey('meetings.id'), nullable=False)
     message = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False,

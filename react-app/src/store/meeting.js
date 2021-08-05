@@ -97,10 +97,12 @@ export const updateMeeting = (id, host_id, name, description, queue_limit) => as
 export const endMeeting = (id) => async (dispatch) => {
   const response = await fetch(`/api/meetings/${id}/end`, {
     method: "DELETE",
-    body: JSON.stringify({id})
+    // body: JSON.stringify({id})
   })
-  const old_meeting = await response.json()
-  dispatch(remove(old_meeting))
+  if (response.ok) {
+    const old_meeting = await response.json()
+    dispatch(remove(old_meeting))
+  }
 }
 
 

@@ -22,10 +22,8 @@ export default function MeetingEndForm() {
     e.preventDefault();
     if (user_id === host_id) {
       await dispatch(endMeeting(id))
-      history.push('/meetings')
-    } else {
-      history.push('/join')
     }
+    history.push('/join')
   }
 
   return (
