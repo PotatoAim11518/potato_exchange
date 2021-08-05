@@ -27,11 +27,11 @@
   align-items: flex-start;
   font-family: 'Open Sans', sans-serif;
   border-radius: 10px;
-  gap: 50px;
+  gap: 10px;
   background-color: rgb(40, 40, 40);
   width: 500px;
   height: 800px;
-  padding: 20px;
+  padding: 30px;
   box-shadow: 0 0 18px rgb(30, 30, 30);
   animation: fromLeft 0.3s;
 }
@@ -78,7 +78,7 @@
   font-size: 16px;
   font-weight: 200;
   text-align: left;
-  height: 30%;
+  min-height: 30%;
   padding-top: 10px;
   overflow-y: auto;
   scroll-behavior: smooth;

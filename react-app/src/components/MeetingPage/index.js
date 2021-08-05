@@ -27,14 +27,14 @@ export default function MeetingPage() {
     <div className={styles.pageContainer}>
       <Meeting user_id={user_id} meeting={meeting}/>
 
-      <div className={styles.video}>
+      {/* <div className={styles.video}>
         <div className={styles.videoBox}>
           VideoSelf
         </div>
         <div className={styles.videoBox}>
           VideoGuest
         </div>
-      </div>
+      </div> */}
 
       <Chatroom/>
     </div>
