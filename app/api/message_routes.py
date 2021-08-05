@@ -34,7 +34,7 @@ def moderate_message(id):
 def delete_message(id):
     message = Message.query.get(id)
     if message:
-        Message.query.get(id).delete(synchronize_session=False)
+        db.session.delete(message)
         db.session.commit()
         return message.to_dict()
     else:

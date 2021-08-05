@@ -26,7 +26,7 @@ class Meeting(db.Model):
                         back_populates='meeting', lazy='joined', innerjoin=True)
     queue = relationship('User', secondary='queues', back_populates='meeting')
     messages = relationship(
-        'Message', back_populates='meeting', uselist=True, lazy='dynamic', innerjoin=True, cascade='all, delete-orphan')
+        'Message', back_populates='meeting', cascade="all, delete-orphan")
     # chatroom = relationship(
     #     'Chatroom', back_populates='meeting', cascade='all, delete-orphan')
 
