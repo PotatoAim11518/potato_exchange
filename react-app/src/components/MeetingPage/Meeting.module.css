@@ -95,7 +95,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  animation: floatUp 0.8s;
+  animation: floatUp 0.7s;
 }
 
 .videoBox {

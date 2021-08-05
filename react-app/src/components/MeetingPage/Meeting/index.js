@@ -1,5 +1,6 @@
 import React from "react";
 import ButtonArray from "../ButtonArray";
+import Queue from "./Queue";
 import styles from "./Meeting.module.css";
 
 export default function Meeting({ user_id, meeting }) {
@@ -32,9 +33,7 @@ export default function Meeting({ user_id, meeting }) {
       </div>
       <p className={styles.description}>{meeting?.description}</p>
       {meeting?.host_id === user_id && <ButtonArray meeting={meeting} />}
-      <p className={styles.waitingText}>
-        <em>Queue #/{meeting?.queue_limit}</em>
-      </p>
+      <Queue user_id={user_id} meeting={meeting}/>
     </div>
   );
 }
