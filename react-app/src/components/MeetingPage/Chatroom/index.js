@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-import socket from "./socket";
+import socket from "../socket";
 
-import { getMeetingMessages } from "../../store/message";
+import { getMeetingMessages } from "../../../store/message";
 
 import ChatMessage from "./ChatMessage";
-import Button from "../button";
-import { Modal } from "../../context/Modal";
-import LoginForm from "../auth/LoginForm";
+import Button from "../../button";
+import { Modal } from "../../../context/Modal";
+import LoginForm from "../../auth/LoginForm";
 
 import styles from "./Chatroom.module.css";
 
