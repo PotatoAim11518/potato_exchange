@@ -60,7 +60,6 @@ export default function Chatroom() {
     });
   }, [dispatch, id]);
 
-  console.log(">>>>>>> RERENDERING <<<<<<")
   return (
     <div className={styles.chatroom}>
       <div className={styles.chatMessages}>
