@@ -3,21 +3,27 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // import socket from "../socket";
-import { getMeetingQueue, joinQueue, leaveQueue, kickFromQueue } from "../../../store/queue";
+import { getMeetingQueue, joinQueue, kickFromQueue } from "../../../store/queue";
 import Button from "../../button";
 import Patron from "./Patron";
+import { Modal } from "../../../context/Modal";
+import LeaveConfirm from "./LeaveConfirm";
+
 import styles from "./Queue.module.css";
 
 export default function Queue({ user_id, meeting }) {
   const dispatch = useDispatch();
-
+  const [showModal, setShowModal] = useState(false)
   const queue = useSelector((state) => Object.values(state.queue));
   const meetingQueue = queue.filter(
     (patron) => patron.meeting_id === meeting.id
   );
+
   const inQueue =
     queue.filter((patron) => patron.user_id === user_id).length > 0;
+
   const nextGuestText = meetingQueue.length ? "Next Guest" : "No Guests";
+  const nextGuestColor = meetingQueue.length ? "black" : "slategrey";
 
   const handleJoinQueue = () => {
     if (queue?.length < meeting?.queue_limit)
@@ -25,7 +31,7 @@ export default function Queue({ user_id, meeting }) {
   };
 
   const handleLeaveQueue = () => {
-    dispatch(leaveQueue(meeting.id));
+    setShowModal(true)
   };
 
   const handleNextGuest = () => {
@@ -40,6 +46,11 @@ export default function Queue({ user_id, meeting }) {
 
   return (
     <div className={styles.queueWrapper}>
+      {showModal &&
+      <Modal onClose={() => setShowModal(false)}>
+        <LeaveConfirm meeting={meeting} setShowModal={setShowModal}/>
+      </Modal>
+      }
       <div className={styles.waitingText}>
         <em>
           Queue {queue?.length}/{meeting?.queue_limit}
@@ -66,7 +77,7 @@ export default function Queue({ user_id, meeting }) {
               width={110}
               height={30}
               borderRadius={8}
-              btnColor={"black"}
+              btnColor={nextGuestColor}
               text={nextGuestText}
               fontColor={"white"}
               fontSize={18}

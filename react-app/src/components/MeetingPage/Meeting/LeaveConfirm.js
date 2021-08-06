@@ -1,16 +1,16 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { kickFromQueue } from "../../../store/queue";
+import { leaveQueue } from "../../../store/queue";
 import Button from "../../button";
 import styles from "../../MeetingPage/ButtonArray/MeetingEndForm.module.css";
 
-export default function KickConfirm({patron, meeting, setShowModal }) {
+export default function LeaveConfirm({ meeting, setShowModal }) {
 
   const dispatch = useDispatch();
 
-  const handleKickGuest = () => {
-    dispatch(kickFromQueue(meeting?.id, patron.user_id));
+  const handleLeaveQueue = () => {
+    dispatch(leaveQueue(meeting.id));
     setShowModal(false)
   }
 
@@ -19,7 +19,7 @@ export default function KickConfirm({patron, meeting, setShowModal }) {
       <div>
         <h2 className={styles.endHeader}>Are you sure?</h2>
         <p className={styles.endText}>
-          This will kick {patron.user.username} from the queue. Are you sure?
+          This will remove you from the queue. You will lose your spot and have to rejoin. Are you sure?
         </p>
       </div>
       <div className={styles.buttonContainer}>
@@ -33,7 +33,7 @@ export default function KickConfirm({patron, meeting, setShowModal }) {
           width={80}
         />
         <Button
-          action={handleKickGuest}
+          action={handleLeaveQueue}
           borderRadius={8}
           btnColor={"darkred"}
           text={"Yes"}

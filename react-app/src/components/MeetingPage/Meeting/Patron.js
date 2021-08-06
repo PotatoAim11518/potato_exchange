@@ -9,7 +9,6 @@ import styles from './Patron.module.css'
 export default function Patron({patron, meeting}) {
   const user = useSelector((state) => state.session.user)
   const user_id = user?.id
-  const dispatch = useDispatch();
   const userColor = patron.user.id === user_id ? styles.currentUser : styles.otherUser
 
   const [showModal, setShowModal] = useState(false);
