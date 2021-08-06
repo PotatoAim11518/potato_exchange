@@ -1,12 +1,12 @@
 from sqlalchemy.orm import relationship
 from .db import db
 
-queues = db.Table('queues', db.Model.metadata,
-                  db.Column('user_id', db.Integer, db.ForeignKey(
-                      'users.id'), primary_key=True),
-                  db.Column('meeting_id', db.Integer, db.ForeignKey(
-                      'meetings.id'), primary_key=True)
-                  )
+# queues = db.Table('queues', db.Model.metadata,
+#                   db.Column('user_id', db.Integer, db.ForeignKey(
+#                       'users.id'), primary_key=True),
+#                   db.Column('meeting_id', db.Integer, db.ForeignKey(
+#                       'meetings.id'), primary_key=True)
+#                   )
 
 
 class Meeting(db.Model):
@@ -24,9 +24,10 @@ class Meeting(db.Model):
 
     host = relationship('User',
                         back_populates='meeting', lazy='joined', innerjoin=True)
-    queue = relationship('User', secondary='queues', back_populates='meeting')
+    queues = relationship('Queue', back_populates='meeting', cascade="all, delete-orphan")
     messages = relationship(
         'Message', back_populates='meeting', cascade="all, delete-orphan")
+    # queue = relationship('User', secondary='queues', back_populates='meeting')
     # chatroom = relationship(
     #     'Chatroom', back_populates='meeting', cascade='all, delete-orphan')
 
