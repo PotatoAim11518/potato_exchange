@@ -1,36 +1,38 @@
 import React, { useEffect, useState } from "react";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 // import socket from "../socket";
-import { getMeetingQueue, joinQueue, leaveQueue } from '../../../store/queue';
+import { getMeetingQueue, joinQueue, leaveQueue } from "../../../store/queue";
 import Button from "../../button";
 import styles from "./Queue.module.css";
 
 export default function Queue({ user_id, meeting }) {
   const dispatch = useDispatch();
 
-  const queue = useSelector((state) => Object.values(state.queue))
-  const inQueue = queue.filter((patron) => patron.user_id === user_id).length > 0;
-
+  const queue = useSelector((state) => Object.values(state.queue));
+  const inQueue =
+    queue.filter((patron) => patron.user_id === user_id).length > 0;
 
   const handleJoinQueue = () => {
     if (queue?.length < meeting?.queue_limit)
-    dispatch(joinQueue(user_id, meeting.id))
-  }
+      dispatch(joinQueue(user_id, meeting.id));
+  };
 
   const handleLeaveQueue = () => {
-    dispatch(leaveQueue(meeting.id))
-  }
+    dispatch(leaveQueue(meeting.id));
+  };
 
-  useEffect(()=> {
-    dispatch(getMeetingQueue(meeting?.id))
-  },[dispatch, meeting, inQueue])
+  useEffect(() => {
+    dispatch(getMeetingQueue(meeting?.id));
+  }, [dispatch, meeting, inQueue]);
 
   return (
     <div className={styles.queueWrapper}>
       <div className={styles.waitingText}>
-        <em>Queue {queue?.length}/{meeting?.queue_limit}</em>
+        <em>
+          Queue {queue?.length}/{meeting?.queue_limit}
+        </em>
       </div>
       <div className={styles.queueContainer}>
         <div className={styles.queueList}>
@@ -91,45 +93,47 @@ export default function Queue({ user_id, meeting }) {
         )}
         {user_id !== meeting?.host_id && (
           <div className={styles.hostButtons}>
-            {!inQueue && queue?.length < meeting?.queue_limit ?
-            <Button
-              action={handleJoinQueue}
-              paddingY={20}
-              paddingX={40}
-              width={110}
-              height={30}
-              borderRadius={8}
-              btnColor={"teal"}
-              text={"Join"}
-              fontColor={"white"}
-              fontSize={18}
-            />
-            :
-            <Button
-              paddingY={20}
-              paddingX={40}
-              width={110}
-              height={30}
-              borderRadius={8}
-              btnColor={"slategray"}
-              text={"Locked"}
-              fontColor={"white"}
-              fontSize={18}
-            />}
-            {inQueue && <Button
-              action={handleLeaveQueue}
-              paddingY={20}
-              paddingX={40}
-              width={110}
-              height={30}
-              borderRadius={8}
-              btnColor={"slategray"}
-              text={"Leave"}
-              fontColor={"white"}
-              fontSize={18}
-            />}
-
-        </div>)}
+            {inQueue ? (
+              <Button
+                action={handleLeaveQueue}
+                paddingY={20}
+                paddingX={40}
+                width={110}
+                height={30}
+                borderRadius={8}
+                btnColor={"slategray"}
+                text={"Leave"}
+                fontColor={"white"}
+                fontSize={18}
+              />
+            ) : meeting?.queue_limit > 0 ? (
+              <Button
+                action={handleJoinQueue}
+                paddingY={20}
+                paddingX={40}
+                width={110}
+                height={30}
+                borderRadius={8}
+                btnColor={"teal"}
+                text={"Join"}
+                fontColor={"white"}
+                fontSize={18}
+              />
+            ) : (
+              <Button
+                paddingY={20}
+                paddingX={40}
+                width={110}
+                height={30}
+                borderRadius={8}
+                btnColor={"slategray"}
+                text={"Locked"}
+                fontColor={"white"}
+                fontSize={18}
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

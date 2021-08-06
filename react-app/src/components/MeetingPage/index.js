@@ -6,7 +6,7 @@ import { getMeeting } from '../../store/meeting'
 import Meeting from './Meeting';
 import Chatroom from './Chatroom';
 
-import styles from './Meeting.module.css';
+import styles from './MeetingPage.module.css';
 
 
 export default function MeetingPage() {
