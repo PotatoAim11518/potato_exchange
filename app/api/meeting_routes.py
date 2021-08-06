@@ -138,7 +138,7 @@ def joinQueue(meeting_id):
         )
         db.session.add(add_to_queue)
         db.session.commit()
-        return queue.to_dict()
+        return add_to_queue.to_dict()
     else:
         return {'errors': ["Already in queue for this meeting."]}
 

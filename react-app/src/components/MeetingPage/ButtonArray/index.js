@@ -14,7 +14,6 @@ export default function ButtonArray({meeting}) {
 
   const [queue_limit, setQueueLimit] = useState(queue_limit_copy)
 
-  console.log(">>>>>>>>>>>>>queueLimit", queue_limit)
   const onEdit = () => {
     history.push(`/meetings/${id}/update`)
   }

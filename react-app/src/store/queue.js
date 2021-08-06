@@ -51,8 +51,15 @@ export const getMeetingQueue = (meeting_id) => async (dispatch) => {
   }
 }
 
-export const joinQueue = (meeting_id) => async (dispatch) => {
-  const response = await fetch(`/api/meetings/${meeting_id}/join`)
+export const joinQueue = (user_id, meeting_id) => async (dispatch) => {
+  const response = await fetch(`/api/meetings/${meeting_id}/join`, {
+    method: "PUT",
+    headers: {'Content-type': 'application/json'},
+    body: JSON.stringify({
+      user_id,
+      meeting_id
+    })
+  })
   if (response.ok) {
     const queue = await response.json();
     dispatch(update(queue))
@@ -67,7 +74,9 @@ export const joinQueue = (meeting_id) => async (dispatch) => {
 }
 
 export const leaveQueue = (meeting_id) => async (dispatch) => {
-  const response = await fetch(`/api/meetings/${meeting_id}/leave`)
+  const response = await fetch(`/api/meetings/${meeting_id}/leave`, {
+    method: "DELETE"
+  })
   if (response.ok) {
     const queue = await response.json();
     dispatch(remove(queue))
