@@ -121,7 +121,7 @@ def send_message(id):
 @meeting_routes.route('/<int:meeting_id>/queue', methods=["GET"])
 def getQueue(meeting_id):
     queues = Queue.query.filter(Queue.meeting_id == meeting_id).all()
-    return {'queues': [queue and queue.to_dict() for queue in queues]}
+    return {'queues': [queue.to_dict() for queue in queues]}
 
 
 # join meeting's queue

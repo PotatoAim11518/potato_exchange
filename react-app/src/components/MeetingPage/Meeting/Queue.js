@@ -17,8 +17,7 @@ export default function Queue({ user_id, meeting }) {
   );
   const inQueue =
     queue.filter((patron) => patron.user_id === user_id).length > 0;
-  const nextGuestText = meetingQueue.length ? "Next Guest" : "No Guests"
-
+  const nextGuestText = meetingQueue.length ? "Next Guest" : "No Guests";
 
   const handleJoinQueue = () => {
     if (queue?.length < meeting?.queue_limit)
@@ -31,14 +30,13 @@ export default function Queue({ user_id, meeting }) {
 
   const handleNextGuest = () => {
     if (meetingQueue.length) {
-      dispatch(kickFromQueue(meeting?.id, meetingQueue[0].user_id))
+      dispatch(kickFromQueue(meeting?.id, meetingQueue[0].user_id));
     }
-    dispatch(getMeetingQueue(meeting?.id));
-  }
+  };
 
   useEffect(() => {
     dispatch(getMeetingQueue(meeting?.id));
-  }, [dispatch, meeting, inQueue]);
+  }, [dispatch, meeting?.id, inQueue]);
 
   return (
     <div className={styles.queueWrapper}>
@@ -50,14 +48,12 @@ export default function Queue({ user_id, meeting }) {
       <div className={styles.queueContainer}>
         <div className={styles.queueList}>
           {meetingQueue?.map((patron, index) => (
-            <>
+            <div className={styles.patronRow}>
               <p className={styles.patronIndex}>
-                {index + 1}:{" "}
-                <span>
-                  <Patron key={index} patron={patron} />
-                </span>
+                {index + 1}:
               </p>
-            </>
+              <Patron key={index} patron={patron} meeting={meeting} />
+            </div>
           ))}
         </div>
 
@@ -72,18 +68,6 @@ export default function Queue({ user_id, meeting }) {
               borderRadius={8}
               btnColor={"black"}
               text={nextGuestText}
-              fontColor={"white"}
-              fontSize={18}
-            />
-            <Button
-              action={""}
-              paddingY={20}
-              paddingX={40}
-              width={110}
-              height={30}
-              borderRadius={8}
-              btnColor={"darkred"}
-              text={"Kick"}
               fontColor={"white"}
               fontSize={18}
             />
@@ -147,7 +131,7 @@ export default function Queue({ user_id, meeting }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 /*

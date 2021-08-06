@@ -39,7 +39,6 @@ export const getMeetingQueue = (meeting_id) => async (dispatch) => {
   const response = await fetch(`/api/meetings/${meeting_id}/queue`);
   if (response.ok) {
     const queues = await response.json();
-    console.log(queues)
     dispatch(load_queues(queues));
   } else if (response.status < 500) {
     const queues = await response.json()
@@ -110,20 +109,20 @@ export const kickFromQueue = (meeting_id, user_id) => async (dispatch) => {
 
 // Reducer
 const initialState = {}
-let newState = {}
 
 const queueReducer = (state=initialState, action) => {
   switch(action.type) {
     case LOAD_QUEUES:
+      const newState = {}
       action.queues['queues'].forEach((queue) =>
-        newState[queue['id']] = queue
+        newState[queue['user_id']] = queue
       )
       return newState
     case UPDATE_QUEUE:
       return {...state, [action.queue['id']]: action.queue}
     case REMOVE_QUEUE:
       const delState = {...state}
-      delete delState[action.queue['id']]
+      delete delState[action.queue['user_id']]
       return delState
     default:
       return state

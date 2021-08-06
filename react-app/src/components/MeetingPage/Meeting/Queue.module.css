@@ -32,6 +32,15 @@
   width: 75%;
 }
 
+.patronRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  width: 50%;
+}
+
 .patronIndex {
   font-weight: 600;
 }
