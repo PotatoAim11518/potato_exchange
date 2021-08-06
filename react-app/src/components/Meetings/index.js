@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getMeetings } from '../../store/meeting';
 import Card from './Card';
+import HostingCard from './HostingCard';
 import styles from './Meetings.module.css';
 
 export default function Meetings() {
@@ -17,9 +18,12 @@ export default function Meetings() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.meetingContainer}>
-        {meetings.map((meeting) =>
-          <Card key={meeting?.id} meeting={meeting}/>
-        )}
+        <>
+          {meetings.map((meeting) =>
+            <Card key={meeting?.id} meeting={meeting}/>
+            )}
+          <HostingCard/>
+        </>
       </div>
     </div>
   )
