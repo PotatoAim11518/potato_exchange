@@ -5,12 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 // import socket from "../socket";
 import { getMeetingQueue, joinQueue, leaveQueue } from "../../../store/queue";
 import Button from "../../button";
+import Patron from "./Patron";
 import styles from "./Queue.module.css";
 
 export default function Queue({ user_id, meeting }) {
   const dispatch = useDispatch();
 
   const queue = useSelector((state) => Object.values(state.queue));
+  const meetingQueue = queue.filter(
+    (patron) => patron.meeting_id === meeting.id
+  );
   const inQueue =
     queue.filter((patron) => patron.user_id === user_id).length > 0;
 
@@ -36,31 +40,16 @@ export default function Queue({ user_id, meeting }) {
       </div>
       <div className={styles.queueContainer}>
         <div className={styles.queueList}>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
-          <div># Username</div>
+          {meetingQueue?.map((patron, index) => (
+            <>
+              <p>
+                {index + 1}:{" "}
+                <span>
+                  <Patron key={index} patron={patron} />
+                </span>
+              </p>
+            </>
+          ))}
         </div>
 
         {user_id === meeting?.host_id && (
@@ -106,7 +95,20 @@ export default function Queue({ user_id, meeting }) {
                 fontColor={"white"}
                 fontSize={18}
               />
-            ) : meeting?.queue_limit > 0 ? (
+            ) : meetingQueue.length === meeting?.queue_limit ? (
+              <Button
+                paddingY={20}
+                paddingX={40}
+                width={110}
+                height={30}
+                borderRadius={8}
+                btnColor={"slategray"}
+                text={"Full"}
+                fontColor={"white"}
+                fontSize={18}
+              />
+            ) : meeting?.queue_limit > 0 &&
+              meetingQueue.length < meeting?.queue_limit ? (
               <Button
                 action={handleJoinQueue}
                 paddingY={20}
