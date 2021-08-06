@@ -10,6 +10,14 @@
   color: teal;
   font-weight: 600;
 }
+.usernameCurrentUser {
+  color: salmon;
+  font-weight: 600;
+}
+.usernameHost {
+  color: gold;
+  font-weight: 600;
+}
 
 .timestamp {
   color: lightslategray;
