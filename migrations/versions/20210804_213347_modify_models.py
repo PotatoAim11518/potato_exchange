@@ -1,7 +1,7 @@
 """modify models
 
 Revision ID: d91951b3a46b
-Revises: 
+Revises:
 Create Date: 2021-08-04 21:33:47.632282
 
 """
@@ -57,13 +57,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('queues',
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('meeting_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['meeting_id'], ['meetings.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('user_id', 'meeting_id')
-    )
+
     # ### end Alembic commands ###
 
 
