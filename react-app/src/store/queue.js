@@ -115,14 +115,14 @@ const queueReducer = (state=initialState, action) => {
     case LOAD_QUEUES:
       const newState = {}
       action.queues['queues'].forEach((queue) =>
-        newState[queue['user_id']] = queue
+        newState[queue['id']] = queue
       )
       return newState
     case UPDATE_QUEUE:
       return {...state, [action.queue['id']]: action.queue}
     case REMOVE_QUEUE:
       const delState = {...state}
-      delete delState[action.queue['user_id']]
+      delete delState[action.queue['id']]
       return delState
     default:
       return state
