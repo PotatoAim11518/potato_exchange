@@ -104,10 +104,9 @@ def edit_meeting(id):
 def end_meeting(id):
     meeting = Meeting.query.filter(Meeting.id == id,
                                    Meeting.host_id == current_user.id).first()
-    deleted_meeting = meeting.to_dict()
     if meeting:
         db.session.delete(meeting)
         db.session.commit()
-        return deleted_meeting
+        return meeting.to_dict()
     else:
         return {'errors': ['No meeting found.']}
