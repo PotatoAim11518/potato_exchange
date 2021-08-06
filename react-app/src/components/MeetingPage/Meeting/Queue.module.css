@@ -32,6 +32,10 @@
   width: 75%;
 }
 
+.patronIndex {
+  font-weight: 600;
+}
+
 .hostButtons {
   height: 100%;
   width: 25%;

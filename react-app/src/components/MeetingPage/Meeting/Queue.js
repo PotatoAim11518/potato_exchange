@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // import socket from "../socket";
-import { getMeetingQueue, joinQueue, leaveQueue } from "../../../store/queue";
+import { getMeetingQueue, joinQueue, leaveQueue, kickFromQueue } from "../../../store/queue";
 import Button from "../../button";
 import Patron from "./Patron";
 import styles from "./Queue.module.css";
@@ -17,6 +17,8 @@ export default function Queue({ user_id, meeting }) {
   );
   const inQueue =
     queue.filter((patron) => patron.user_id === user_id).length > 0;
+  const nextGuestText = meetingQueue.length ? "Next Guest" : "No Guests"
+
 
   const handleJoinQueue = () => {
     if (queue?.length < meeting?.queue_limit)
@@ -26,6 +28,13 @@ export default function Queue({ user_id, meeting }) {
   const handleLeaveQueue = () => {
     dispatch(leaveQueue(meeting.id));
   };
+
+  const handleNextGuest = () => {
+    if (meetingQueue.length) {
+      dispatch(kickFromQueue(meeting?.id, meetingQueue[0].user_id))
+    }
+    dispatch(getMeetingQueue(meeting?.id));
+  }
 
   useEffect(() => {
     dispatch(getMeetingQueue(meeting?.id));
@@ -42,7 +51,7 @@ export default function Queue({ user_id, meeting }) {
         <div className={styles.queueList}>
           {meetingQueue?.map((patron, index) => (
             <>
-              <p>
+              <p className={styles.patronIndex}>
                 {index + 1}:{" "}
                 <span>
                   <Patron key={index} patron={patron} />
@@ -55,14 +64,14 @@ export default function Queue({ user_id, meeting }) {
         {user_id === meeting?.host_id && (
           <div className={styles.hostButtons}>
             <Button
-              action={""}
+              action={handleNextGuest}
               paddingY={20}
               paddingX={40}
               width={110}
               height={30}
               borderRadius={8}
               btnColor={"black"}
-              text={"Next Guest"}
+              text={nextGuestText}
               fontColor={"white"}
               fontSize={18}
             />

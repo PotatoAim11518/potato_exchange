@@ -91,10 +91,12 @@ export const leaveQueue = (meeting_id) => async (dispatch) => {
 }
 
 export const kickFromQueue = (meeting_id, user_id) => async (dispatch) => {
-  const response = await fetch(`/api/meetings/${meeting_id}/kick/${user_id}`)
+  const response = await fetch(`/api/meetings/${meeting_id}/kick/${user_id}`, {
+    method: "DELETE"
+  })
   if (response.ok) {
     const queue = await response.json();
-    dispatch(update(queue))
+    dispatch(remove(queue))
   } else if (response.status < 500) {
     const queue = await response.json();
     if (queue.errors) {
@@ -120,9 +122,9 @@ const queueReducer = (state=initialState, action) => {
     case UPDATE_QUEUE:
       return {...state, [action.queue['id']]: action.queue}
     case REMOVE_QUEUE:
-      newState = {...state}
-      delete newState[action.queue['id']]
-      return newState
+      const delState = {...state}
+      delete delState[action.queue['id']]
+      return delState
     default:
       return state
   }

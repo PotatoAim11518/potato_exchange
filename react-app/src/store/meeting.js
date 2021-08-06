@@ -147,7 +147,7 @@ export default function meetingReducer(state=initialState, action) {
         allMeetings[meeting['id']] = meeting
       })
       return { ...state, ...allMeetings }
-      case HOST_MEETING:
+    case HOST_MEETING:
         return { ...state, [action.meeting['id']]: action.meeting }
     case UPDATE_MEETING:
       return { ...state, [action.meeting['id']]: action.meeting }

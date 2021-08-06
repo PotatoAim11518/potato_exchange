@@ -1,0 +1,14 @@
+.currentUser,
+.otherUser {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.currentUser {
+  color: salmon;
+}
+
+
+.otherUser {
+  font-weight: 200;
+  color: teal;
+}
