@@ -91,7 +91,8 @@ export default function Queue({ user_id, meeting }) {
         )}
         {user_id !== meeting?.host_id && (
           <div className={styles.hostButtons}>
-            {!inQueue && <Button
+            {!inQueue && queue?.length < meeting?.queue_limit ?
+            <Button
               action={handleJoinQueue}
               paddingY={20}
               paddingX={40}
@@ -100,6 +101,18 @@ export default function Queue({ user_id, meeting }) {
               borderRadius={8}
               btnColor={"teal"}
               text={"Join"}
+              fontColor={"white"}
+              fontSize={18}
+            />
+            :
+            <Button
+              paddingY={20}
+              paddingX={40}
+              width={110}
+              height={30}
+              borderRadius={8}
+              btnColor={"slategray"}
+              text={"Locked"}
               fontColor={"white"}
               fontSize={18}
             />}
@@ -115,6 +128,7 @@ export default function Queue({ user_id, meeting }) {
               fontColor={"white"}
               fontSize={18}
             />}
+
         </div>)}
       </div>
     </div>
