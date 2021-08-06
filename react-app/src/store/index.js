@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session'
 import meetings from './meeting'
 import meeting_messages from './message'
+import queue from './queue'
 
 const rootReducer = combineReducers({
   session,
   meetings,
-  meeting_messages
+  meeting_messages,
+  queue
 });
 
 

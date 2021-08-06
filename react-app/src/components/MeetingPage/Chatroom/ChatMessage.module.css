@@ -8,11 +8,11 @@
 
 .username {
   color: teal;
-  font-weight: 600;
+  font-weight: 400;
 }
 .usernameCurrentUser {
   color: salmon;
-  font-weight: 600;
+  font-weight: 400;
 }
 .usernameHost {
   color: gold;
