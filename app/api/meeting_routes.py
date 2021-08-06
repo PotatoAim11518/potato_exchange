@@ -121,12 +121,11 @@ def send_message(id):
 @meeting_routes.route('/<int:meeting_id>/queue', methods=["GET"])
 def getQueue(meeting_id):
     queues = Queue.query.filter(Queue.meeting_id == meeting_id).all()
-    if not queues:
-        return {'errors': ['Queue is empty']}
-    return {'queues': [queue.to_dict() for queue in queues] }
+    return {'queues': [queue and queue.to_dict() for queue in queues]}
 
 
 # join meeting's queue
+
 
 @meeting_routes.route('/<int:meeting_id>/join', methods=["PUT"])
 @login_required
@@ -153,7 +152,26 @@ def lockQueue(meeting_id):
     meeting = Meeting.query.get(meeting_id)
     meeting_dict = meeting.to_dict()
     if current_user.id == meeting_dict['host_id']:
-        Meeting.query.get(meeting_id).update({Meeting.queue_limit: 0}, synchronize_session=False)
+        Meeting.query.filter(Meeting.id == meeting_id).update({Meeting.queue_limit: 0}, synchronize_session=False)
+        db.session.commit()
+        meeting = Meeting.query.get(meeting_id)
+        return meeting.to_dict()
+    else:
+        return {'errors': ["You are not the meeting host."]}
+
+
+# unlock queue by setting queue limit back to previous state
+
+
+@meeting_routes.route('/<int:meeting_id>/unlock', methods=["PATCH"])
+@login_required
+def unlockQueue(meeting_id):
+    # queue = Queue.query.filter(Queue.meeting_id == meeting_id).first()
+    req = request.get_json()
+    meeting = Meeting.query.get(meeting_id)
+    meeting_dict = meeting.to_dict()
+    if current_user.id == meeting_dict['host_id']:
+        Meeting.query.filter(Meeting.id == meeting_id).update(req, synchronize_session=False)
         db.session.commit()
         meeting = Meeting.query.get(meeting_id)
         return meeting.to_dict()
@@ -180,7 +198,7 @@ def leaveQueue(meeting_id):
 
 @meeting_routes.route('/<int:meeting_id>/kick/<int:user_id>', methods=["DELETE"])
 @login_required
-def leaveQueue(meeting_id, user_id):
+def kickQueue(meeting_id, user_id):
     queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
     # TO DO: add check if the current user is the meeting host
     if queue:

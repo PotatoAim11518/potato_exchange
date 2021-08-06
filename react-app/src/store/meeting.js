@@ -99,7 +99,29 @@ export const endMeeting = (id) => async (dispatch) => {
 }
 
 export const lockMeetingQueue = (meeting_id) => async (dispatch) => {
-  const response = await fetch(`/api/meetings/${meeting_id}/lock`)
+  const response = await fetch(`/api/meetings/${meeting_id}/lock`, {
+    method: "PATCH"
+  })
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(update(data))
+    return data;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ['Server error occurred. Please try again.']
+  }
+}
+
+export const unlockMeetingQueue = (meeting_id, queue_limit) => async (dispatch) => {
+  const response = await fetch(`/api/meetings/${meeting_id}/unlock`, {
+    method: "PATCH",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({queue_limit})
+  })
   if (response.ok) {
     const data = await response.json()
     dispatch(update(data))

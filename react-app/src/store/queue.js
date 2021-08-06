@@ -38,8 +38,9 @@ export const allMeetingQueues = () => async (dispatch) => {
 export const getMeetingQueue = (meeting_id) => async (dispatch) => {
   const response = await fetch(`/api/meetings/${meeting_id}/queue`);
   if (response.ok) {
-    const queues = await response.json()
-    dispatch(load_queues(queues))
+    const queues = await response.json();
+    console.log(queues)
+    dispatch(load_queues(queues));
   } else if (response.status < 500) {
     const queues = await response.json()
     if (queues.errors) {
@@ -69,7 +70,7 @@ export const leaveQueue = (meeting_id) => async (dispatch) => {
   const response = await fetch(`/api/meetings/${meeting_id}/leave`)
   if (response.ok) {
     const queue = await response.json();
-    dispatch(update(queue))
+    dispatch(remove(queue))
   } else if (response.status < 500) {
     const queue = await response.json();
     if (queue.errors) {
