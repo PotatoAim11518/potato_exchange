@@ -23,7 +23,7 @@ from .config import Config
 
 app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
-socket_io = SocketIO(app, engineio_logger=True)
+socket_io = SocketIO(app, engineio_logger=True, cors_allowed_origins=['https://potatoexchange.herokuapp.com', 'http://potatoexchange.herokuapp.com', 'http://localhost:5000'])
 
 
 # Setup login manager
