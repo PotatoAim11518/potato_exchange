@@ -2,7 +2,6 @@ import os
 import json
 import logging
 import gevent
-import redis
 
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
@@ -23,13 +22,9 @@ from .seeds import seed_commands
 
 from .config import Config
 
-REDIS_URL = os.environ['REDIS_URL']
-REDIS_CHAN = 'chat'
-
 app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
 socket_io = SocketIO(app)
-redis = redis.from_url(REDIS_URL)
 
 if __name__ == '__main__':
     socket_io.run(app)
@@ -118,48 +113,3 @@ def receive_message(user_id, id, message):
         emit('incoming_message', data, broadcast=True)
     else:
         emit('incoming_errors', ["Message must be up to 255 characters long"])
-
-
-# Set up redis to register and push chat updates
-
-
-class ChatBackend(object):
-    """Interface for registering and updating WebSocket clients."""
-
-    def __init__(self):
-        self.clients = list()
-        self.pubsub = redis.pubsub()
-        self.pubsub.subscribe(REDIS_CHAN)
-
-    def __iter_data(self):
-        for message in self.pubsub.listen():
-            data = message.get('data')
-            if message['type'] == 'message':
-                app.logger.info(u'Sending message: {}'.format(data))
-                yield data
-
-    def register(self, client):
-        """Register a WebSocket connection for Redis updates."""
-        self.clients.append(client)
-
-    def send(self, client, data):
-        """Send given data to the registered client.
-        Automatically discards invalid connections."""
-        try:
-            client.send(data)
-        except Exception:
-            self.clients.remove(client)
-
-    def run(self):
-        """Listens for new messages in Redis, and sends them to clients."""
-        for data in self.__iter_data():
-            for client in self.clients:
-                gevent.spawn(self.send, client, data)
-
-    def start(self):
-        """Maintains Redis subscription in the background."""
-        gevent.spawn(self.run)
-
-
-chats = ChatBackend()
-chats.start()

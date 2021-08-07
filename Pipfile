@@ -28,8 +28,8 @@ Mako = "==1.1.4"
 lorem-text = "==1.5"
 flask-socketio = "==5.1.1"
 python-socketio = "==5.4.0"
-redis = "*"
 gevent = "*"
+eventlet = "*"
 
 [dev-packages]
 psycopg2-binary = "==2.8.6"
