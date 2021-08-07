@@ -111,5 +111,5 @@ def receive_message(user_id, id, message):
         emit('incoming_errors', ["Message must be up to 255 characters long"])
 
 
-# if __name__ == '__main__':
-#     socket_io.run(app)
+if __name__ == '__main__':
+    socket_io.run(app, host='0.0.0.0')
