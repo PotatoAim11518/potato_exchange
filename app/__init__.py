@@ -25,8 +25,6 @@ app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
 socket_io = SocketIO(app, engineio_logger=True)
 
-if __name__ == '__main__':
-    socket_io.run(app)
 
 # Setup login manager
 login = LoginManager(app)
@@ -111,3 +109,7 @@ def receive_message(user_id, id, message):
         emit('incoming_message', data, broadcast=True)
     else:
         emit('incoming_errors', ["Message must be up to 255 characters long"])
+
+
+# if __name__ == '__main__':
+#     socket_io.run(app)
