@@ -1,5 +1,8 @@
 import os
 import json
+import logging
+import gevent
+import redis
 
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
@@ -20,9 +23,13 @@ from .seeds import seed_commands
 
 from .config import Config
 
+REDIS_URL = os.environ['REDIS_URL']
+REDIS_CHAN = 'chat'
 
 app = Flask(__name__)
+app.debug = 'DEBUG' in os.environ
 socket_io = SocketIO(app)
+redis = redis.from_url(REDIS_URL)
 
 if __name__ == '__main__':
     socket_io.run(app)
@@ -87,23 +94,13 @@ def react_root(path):
     return app.send_static_file('index.html')
 
 
-# Sockets
+
+# Chat Sockets
 
 
 @socket_io.on('connect')
 def test_connect():
     emit('my response', {'data': 'Connected'})
-
-
-# def validation_errors_to_error_messages(validation_errors):
-#     """
-#     Simple function that turns the WTForms validation errors into a simple list
-#     """
-#     errorMessages = []
-#     for field in validation_errors:
-#         for error in validation_errors[field]:
-#             errorMessages.append(f'{field} : {error}')
-#     return errorMessages
 
 
 @socket_io.on('client_message')
@@ -117,9 +114,52 @@ def receive_message(user_id, id, message):
         )
         db.session.add(message)
         db.session.commit()
-        # new_message = Message.query.filter(Message.user_id == user_id, Message.meeting_id == id).order_by(
-        #     Message.created_at.desc()).first()
         data = json.dumps(message.to_dict(), default=str)
         emit('incoming_message', data, broadcast=True)
     else:
         emit('incoming_errors', ["Message must be up to 255 characters long"])
+
+
+# Set up redis to register and push chat updates
+
+
+class ChatBackend(object):
+    """Interface for registering and updating WebSocket clients."""
+
+    def __init__(self):
+        self.clients = list()
+        self.pubsub = redis.pubsub()
+        self.pubsub.subscribe(REDIS_CHAN)
+
+    def __iter_data(self):
+        for message in self.pubsub.listen():
+            data = message.get('data')
+            if message['type'] == 'message':
+                app.logger.info(u'Sending message: {}'.format(data))
+                yield data
+
+    def register(self, client):
+        """Register a WebSocket connection for Redis updates."""
+        self.clients.append(client)
+
+    def send(self, client, data):
+        """Send given data to the registered client.
+        Automatically discards invalid connections."""
+        try:
+            client.send(data)
+        except Exception:
+            self.clients.remove(client)
+
+    def run(self):
+        """Listens for new messages in Redis, and sends them to clients."""
+        for data in self.__iter_data():
+            for client in self.clients:
+                gevent.spawn(self.send, client, data)
+
+    def start(self):
+        """Maintains Redis subscription in the background."""
+        gevent.spawn(self.run)
+
+
+chats = ChatBackend()
+chats.start()
