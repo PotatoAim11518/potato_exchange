@@ -1,7 +1,6 @@
 import os
 import json
-import logging
-import gevent
+import eventlet
 
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
@@ -24,7 +23,7 @@ from .config import Config
 
 app = Flask(__name__)
 app.debug = 'DEBUG' in os.environ
-socket_io = SocketIO(app)
+socket_io = SocketIO(app, engineio_logger=True)
 
 if __name__ == '__main__':
     socket_io.run(app)
@@ -87,7 +86,6 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_static_file('favicon.ico')
     return app.send_static_file('index.html')
-
 
 
 # Chat Sockets
