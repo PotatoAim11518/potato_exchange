@@ -30,6 +30,7 @@ flask-socketio = "==5.1.1"
 python-socketio = "==5.4.0"
 eventlet = "*"
 gevent-websocket = "*"
+gevent = "*"
 
 [dev-packages]
 psycopg2-binary = "==2.8.6"
