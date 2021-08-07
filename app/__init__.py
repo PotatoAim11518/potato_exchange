@@ -14,6 +14,7 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.meeting_routes import meeting_routes
 from .api.message_routes import message_routes
+from .api.queue_routes import queue_routes
 
 from .seeds import seed_commands
 
@@ -44,6 +45,7 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(meeting_routes, url_prefix='/api/meetings')
 app.register_blueprint(message_routes, url_prefix='/api/messages')
+app.register_blueprint(queue_routes, url_prefix='/api/queues')
 db.init_app(app)
 Migrate(app, db)
 

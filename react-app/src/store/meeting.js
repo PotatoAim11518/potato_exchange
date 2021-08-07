@@ -8,11 +8,6 @@ const load_all = (meetings) => ({
   meetings
 })
 
-// const load_one = (meeting) => ({
-//   type: LOAD_MEETING,
-//   meeting
-// })
-
 const host = (meeting) => ({
   type: HOST_MEETING,
   meeting
@@ -69,7 +64,6 @@ export const hostMeeting = (host_id, name, description, queue_limit) => async (d
   }
 }
 
-
 export const updateMeeting = (id, host_id, name, description, queue_limit) => async (dispatch) => {
   const response = await fetch(`/api/meetings/${id}/update`, {
     method: "PATCH",
@@ -93,7 +87,6 @@ export const updateMeeting = (id, host_id, name, description, queue_limit) => as
   }
 }
 
-
 export const endMeeting = (id) => async (dispatch) => {
   const response = await fetch(`/api/meetings/${id}/end`, {
     method: "DELETE",
@@ -102,6 +95,44 @@ export const endMeeting = (id) => async (dispatch) => {
   if (response.ok) {
     const old_meeting = await response.json()
     dispatch(remove(old_meeting))
+  }
+}
+
+export const lockMeetingQueue = (meeting_id) => async (dispatch) => {
+  const response = await fetch(`/api/meetings/${meeting_id}/lock`, {
+    method: "PATCH"
+  })
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(update(data))
+    return data;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ['Server error occurred. Please try again.']
+  }
+}
+
+export const unlockMeetingQueue = (meeting_id, queue_limit) => async (dispatch) => {
+  const response = await fetch(`/api/meetings/${meeting_id}/unlock`, {
+    method: "PATCH",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({queue_limit})
+  })
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(update(data))
+    return data;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ['Server error occurred. Please try again.']
   }
 }
 
@@ -117,14 +148,14 @@ export default function meetingReducer(state=initialState, action) {
       })
       return { ...state, ...allMeetings }
     case HOST_MEETING:
-      return { ...state, [action.meeting['id']]: action.meeting }
+        return { ...state, [action.meeting['id']]: action.meeting }
     case UPDATE_MEETING:
       return { ...state, [action.meeting['id']]: action.meeting }
-    case DELETE_MEETING:
-      const newMeetings = { ...state }
-      delete newMeetings[action.meeting['id']]
-      return newMeetings
+      case DELETE_MEETING:
+        const newMeetings = { ...state }
+        delete newMeetings[action.meeting['id']]
+        return newMeetings
     default:
       return state
+    }
   }
-}

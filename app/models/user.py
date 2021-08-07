@@ -19,8 +19,11 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.now(), onupdate=db.func.now())
 
-    meeting = relationship('Meeting', secondary='queues',
-                           back_populates='host')
+    meeting = relationship('Meeting', back_populates='host')
+    queue = relationship('Queue', back_populates='user', uselist=False)
+    # meeting = relationship('Queue', secondary='queues',
+    #                        back_populates='host')
+
 
     @property
     def password(self):
