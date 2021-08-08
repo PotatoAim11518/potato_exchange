@@ -1,0 +1,27 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.hole {
+  width: 50vw;
+  height: 50vh;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/shovel_and_dirt.png');
+}
+
+.text {
+  font-family: 'Podkova', serif;
+  font-size: 5vh;
+  text-align: center;
+  color: gold;
+  font-weight: 600;
+  text-shadow: 1px 1px 10px black;
+  margin: 5vh 0;
+}

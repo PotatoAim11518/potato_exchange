@@ -13,6 +13,7 @@ import HostingPage from './components/HostingPage';
 import MeetingEditModal from './components/MeetingPage/ButtonArray/MeetingEditModal';
 import MeetingEndModal from './components/MeetingPage/ButtonArray/MeetingEndModal';
 import About from './components/About';
+import NotFound from './components/NotFound';
 
 import { authenticate } from './store/session';
 
@@ -60,8 +61,8 @@ function App() {
         <ProtectedRoute path='/users/:userId' exact={true} >
           <User />
         </ProtectedRoute>
-        <Route path=''>
-          <h1>Oops! Where is this?</h1>
+        <Route path='/*'>
+          <NotFound/>
         </Route>
       </Switch>
     </BrowserRouter>
