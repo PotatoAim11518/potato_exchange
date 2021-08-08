@@ -21,8 +21,8 @@ export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
   useEffect(() => {
     socket.on('dequeue user', async () => {
       await dispatch(getMeetingQueue(meeting?.id));
-
     })
+    dispatch(getMeetingQueue(meeting?.id));
   },[dispatch, meeting?.id])
 
   return (

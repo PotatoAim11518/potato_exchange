@@ -135,6 +135,13 @@ def remove_from_queue(user_id, meeting_id):
         emit('dequeue user', broadcast=True)
 
 
+@socket_io.on('kick user')
+def kick_from_queue(meeting_id, user_id):
+    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
+    if queue:
+        db.session.delete(queue)
+        db.session.commit()
+        emit('remove user', broadcast=True)
 
 
 if __name__ == '__main__':
