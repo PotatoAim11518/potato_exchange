@@ -63,30 +63,7 @@
     opacity: 0.0;
     transform: translate(-50%, 100%)
   }
-  /* 10%, 20%, 80%, 90% {
-    opacity: 0.5;
-  }
-  30%, 40%, 50%, 60%, 70% {
-    opacity: 1.0;
-    transform: translateY(0%)
-  } */
 }
-
-@keyframes wiggle {
-  10%, 30%, 50%  {
-    transform: rotate(25deg);
-  }
-  20%, 40%, 60% {
-    transform: rotate(-25deg);
-  }
-  70%, 80%, 90%, 100% {
-    transform: rotate(0deg);
-  }
-}
-
-/* .potato:active {
-  text-shadow: 0 0 20px 10px black;
-} */
 
 .userAuth {
   padding-right: 30px;

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { getMeeting } from '../../store/meeting'
 import Meeting from './Meeting';
 import Chatroom from './Chatroom';
+import BackButton from '../backbutton';
 
 import styles from './MeetingPage.module.css';
 
@@ -25,6 +26,7 @@ export default function MeetingPage() {
 
   return (
     <div className={styles.pageContainer}>
+      <BackButton/>
       <Meeting user_id={user_id} meeting={meeting}/>
 
       {/* <div className={styles.video}>
