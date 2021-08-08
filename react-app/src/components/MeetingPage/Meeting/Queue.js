@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-// import socket from "../socket";
+import socket from "../socket";
+
 import { getMeetingQueue, joinQueue, kickFromQueue } from "../../../store/queue";
 import Button from "../../button";
 import Patron from "./Patron";
