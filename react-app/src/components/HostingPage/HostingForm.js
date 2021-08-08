@@ -64,16 +64,17 @@ export default function HostingForm() {
           ></input>
         </div>
         <div>
-          <input
+          <textarea
             className={styles.inputField}
             name="description"
             type="text"
+            rows="6"
             minLength="1"
             maxLength="1000"
             placeholder="Description"
             onChange={updateDescription}
             value={description}
-            ></input>
+            ></textarea>
         </div>
         <div>
           <input

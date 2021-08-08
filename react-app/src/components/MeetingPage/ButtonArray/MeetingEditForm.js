@@ -76,16 +76,17 @@ export default function MeetingEditForm({setShowEditModal}) {
           ></input>
         </div>
         <div>
-          <input
+          <textarea
             className={styles.inputField}
             name="description"
             type="text"
+            rows="8"
             minLength="1"
             maxLength="1000"
             placeholder="Description"
             onChange={updateDescription}
             value={description}
-            ></input>
+            ></textarea>
         </div>
         <div>
           <input
