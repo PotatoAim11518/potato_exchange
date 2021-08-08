@@ -50,11 +50,11 @@ export default function Queue({ user_id, meeting }) {
   };
 
   useEffect(() => {
-    socket.on('enqueue user', async () => {
-      await dispatch(getMeetingQueue(meeting?.id));
+    socket.on('enqueue user', () => {
+      dispatch(getMeetingQueue(meeting?.id));
     })
-    socket.on('dequeue user', async () => {
-      await dispatch(getMeetingQueue(meeting?.id));
+    socket.on('dequeue user', () => {
+      dispatch(getMeetingQueue(meeting?.id));
     })
     socket.on('remove user', () => {
       dispatch(getMeetingQueue(meeting?.id));

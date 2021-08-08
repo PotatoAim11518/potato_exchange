@@ -7,7 +7,7 @@ import { endMeeting } from '../../../store/meeting';
 import Button from '../../button';
 import styles from './MeetingEndForm.module.css'
 
-export default function MeetingEndForm() {
+export default function MeetingEndForm({setShowEndModal}) {
   const { id } = useParams();
 
   const user = useSelector((state) => state.session.user)
@@ -34,7 +34,7 @@ export default function MeetingEndForm() {
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          action={()=> history.goBack()}
+          action={()=> setShowEndModal(false)}
           borderRadius={10}
           btnColor={"teal"}
           text={"No"}

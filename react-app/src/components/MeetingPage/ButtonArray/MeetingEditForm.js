@@ -7,7 +7,7 @@ import { updateMeeting, getMeeting } from '../../../store/meeting';
 import Button from '../../button';
 import styles from './MeetingEditForm.module.css'
 
-export default function MeetingEditForm() {
+export default function MeetingEditForm({setShowEditModal}) {
   const { id } = useParams();
 
   const user = useSelector((state) => state.session.user)
@@ -34,7 +34,8 @@ export default function MeetingEditForm() {
         setErrors(response)
         return
       } else {
-        return history.push(`/meetings/${meeting?.id}`)
+        // return history.push(`/meetings/${meeting?.id}`)
+        setShowEditModal(false)
       }
     } else {
       setErrors(["Room owner does not match."])

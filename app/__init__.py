@@ -9,7 +9,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, login_required, current_user
 from flask_socketio import SocketIO, send, emit
 
-from .models import db, User, Message, Queue
+from .models import db, User, Message, Queue, Meeting
 from .forms import MessageForm
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
@@ -142,6 +142,19 @@ def kick_from_queue(meeting_id, user_id):
         db.session.delete(queue)
         db.session.commit()
         emit('remove user', broadcast=True)
+
+
+@socket_io.on('lock queue')
+def lock_queue(meeting_id):
+    meeting = Meeting.query.get(meeting_id)
+    meeting_dict = meeting.to_dict()
+    if current_user.id == meeting_dict['host_id']:
+        Meeting.query.filter(Meeting.id == meeting_id).update({Meeting.queue_limit: 0}, synchronize_session=False)
+        db.session.commit()
+        emit('queue locked', broadcast=True)
+
+
+
 
 
 if __name__ == '__main__':
