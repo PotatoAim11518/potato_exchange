@@ -5,13 +5,13 @@ import { leaveQueue } from "../../../store/queue";
 import Button from "../../button";
 import styles from "../../MeetingPage/ButtonArray/MeetingEndForm.module.css";
 
-export default function LeaveConfirm({ meeting, setShowModal }) {
+export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
 
   const dispatch = useDispatch();
 
   const handleLeaveQueue = () => {
     dispatch(leaveQueue(meeting.id));
-    setShowModal(false)
+    setShowLeaveModal(false)
   }
 
   return (
@@ -24,7 +24,7 @@ export default function LeaveConfirm({ meeting, setShowModal }) {
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          action={() => setShowModal(false)}
+          action={() => setShowLeaveModal(false)}
           borderRadius={8}
           btnColor={"teal"}
           text={"No"}

@@ -111,5 +111,11 @@ def receive_message(user_id, id, message):
         emit('incoming_errors', ["Message must be up to 255 characters long"])
 
 
+# Queue sockets
+
+
+
+
+
 if __name__ == '__main__':
     socket_io.run(app, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))

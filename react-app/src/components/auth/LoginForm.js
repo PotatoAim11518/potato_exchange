@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { login } from "../../store/session";
 import Button from "../button";
 import SignUpForm from "./SignUpForm";
@@ -20,13 +19,15 @@ const LoginForm = ({ setShowModal }) => {
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data)
+    } else {
+      setShowModal()
     }
   };
 
   const demoLogin = async (e) => {
     e.preventDefault();
     await dispatch(login("demo@aa.io", "password"));
-    // await setShowModal(false)
+    setShowModal()
   };
 
   const goSignUp = () => {
@@ -41,9 +42,9 @@ const LoginForm = ({ setShowModal }) => {
     setPassword(e.target.value);
   };
 
-  if (user) {
-    return <Redirect to='/' />;
-  }
+  // if (user) {
+  //   return <Redirect to='/' />;
+  // }
 
   return (
     <>

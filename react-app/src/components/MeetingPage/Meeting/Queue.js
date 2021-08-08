@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-// import socket from "../socket";
+import socket from "../socket";
+
 import { getMeetingQueue, joinQueue, kickFromQueue } from "../../../store/queue";
 import Button from "../../button";
 import Patron from "./Patron";
@@ -15,7 +16,7 @@ import styles from "./Queue.module.css";
 export default function Queue({ user_id, meeting }) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
   const user = useSelector((state) => state.session.user);
   const queue = useSelector((state) => Object.values(state.queue));
   const meetingQueue = queue.filter(
@@ -33,12 +34,12 @@ export default function Queue({ user_id, meeting }) {
       if (queue?.length < meeting?.queue_limit)
         dispatch(joinQueue(user_id, meeting.id));
     } else {
-      setShowLoginModal(true)
+      setShowModal(true)
     }
   };
 
   const handleLeaveQueue = () => {
-    setShowModal(true)
+    setShowLeaveModal(true)
   };
 
   const handleNextGuest = () => {
@@ -53,14 +54,14 @@ export default function Queue({ user_id, meeting }) {
 
   return (
     <div className={styles.queueWrapper}>
-      {showModal &&
-      <Modal onClose={() => setShowModal(false)}>
-        <LeaveConfirm meeting={meeting} setShowModal={setShowModal}/>
+      {showLeaveModal &&
+      <Modal onClose={() => setShowLeaveModal(false)}>
+        <LeaveConfirm meeting={meeting} setShowLeaveModal={setShowLeaveModal}/>
       </Modal>
       }
-      {showLoginModal &&
-      <Modal onClose={() => setShowLoginModal(false)}>
-        <LoginForm setShowLoginModal={setShowLoginModal}/>
+      {showModal &&
+      <Modal onClose={() => setShowModal(false)}>
+        <LoginForm setShowModal={() => setShowModal(false)}/>
       </Modal>
       }
       <div className={styles.waitingText}>
