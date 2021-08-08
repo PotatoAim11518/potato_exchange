@@ -1,29 +1,19 @@
 .navContainer {
   z-index: 100;
-  position: relative;
+  position: fixed;
+  width: 100%;
   top: 0px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.leftContainer {
+/* .leftContainer {
   display: flex;
   flex-direction: row;
   width: fit-content;
-}
-
-.user {
-  display: flex;
-  align-items: center;
-  padding: 20px 0;
-  font-size: 20px;
-  font-family: 'Podkova', serif;
-  color: rgb(73, 36, 8);
-  font-weight: 600;
-  text-shadow: 1px 1px 10px rgb(133, 91, 63);
-  /* width: 270px; */
-}
+  min-width: 270px;
+} */
 
 .potato {
   position: relative;
@@ -44,9 +34,36 @@
   transition: transform 0.2s ease-in-out;
 }
 
-/* .potato:active {
-  text-shadow: 0 0 20px 10px black;
-} */
+.user {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: teal;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 10px 20px;
+  font-size: 20px;
+  font-family: 'Podkova', serif;
+  color: black;
+  font-weight: 600;
+  /* text-shadow: 1px 1px 10px rgb(133, 91, 63); */
+  animation: appear 2s;
+}
+
+@keyframes appear {
+  30%, 80% {
+    opacity: 1.0;
+    transform: translate(-50%, 0%);
+  }
+  0%, 100% {
+    opacity: 0.0;
+    transform: translate(-50%, 100%)
+  }
+}
 
 .userAuth {
   padding-right: 30px;

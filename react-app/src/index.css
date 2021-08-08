@@ -4,7 +4,7 @@
 }
 
 #root {
-  min-height: 150vh;
+  min-height: 110vh;
   min-width: 100vw;
   background-image: url(./assets/corkboard-background.jpg);
   background-size: 110%;
@@ -45,7 +45,7 @@ a:visited {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 /* Track */

@@ -1,0 +1,29 @@
+.user {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: teal;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 10px 20px;
+  font-size: 20px;
+  font-family: 'Podkova', serif;
+  color: black;
+  font-weight: 600;
+  animation: appear 2s;
+}
+
+@keyframes appear {
+  30%, 80% {
+    opacity: 1.0;
+    transform: translate(-50%, 0%);
+  }
+  0%, 100% {
+    opacity: 0.0;
+    transform: translate(-50%, 100%)
+  }
+}

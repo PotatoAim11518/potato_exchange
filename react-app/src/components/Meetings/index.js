@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMeetings } from '../../store/meeting';
 import Card from './Card';
 import HostingCard from './HostingCard';
+import BackButton from '../backbutton';
 import styles from './Meetings.module.css';
 
 export default function Meetings() {
@@ -17,6 +18,7 @@ export default function Meetings() {
 
   return (
     <div className={styles.pageContainer}>
+      <BackButton/>
       <div className={styles.meetingContainer}>
         <>
           {meetings.map((meeting) =>

@@ -15,13 +15,13 @@ export default function HostingPage() {
       <Modal onClose={() => setShowModal(false)}>
         <div className={styles.closeModal}>
           <Button
-            text={"Back"}
-            fontColor={"black"}
+            text={<i className="fas fa-angle-left"></i>}
+            fontColor={"white"}
             paddingY={32}
             paddingX={32}
             action={() => history.goBack()}
             width={60}
-            fontSize={18}
+            fontSize={24}
             btnColor={"teal"}
             borderRadius={51}
             />
