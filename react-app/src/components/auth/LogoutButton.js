@@ -13,7 +13,6 @@ const LogoutButton = ({ onClick }) => {
   const onLogout = async (e) => {
     await dispatch(logout());
     onClick()
-    history.push('/')
   };
 
   return (
