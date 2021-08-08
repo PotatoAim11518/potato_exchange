@@ -53,6 +53,12 @@ export default function Queue({ user_id, meeting }) {
     socket.on('enqueue user', async () => {
       await dispatch(getMeetingQueue(meeting?.id));
     })
+    socket.on('dequeue user', async () => {
+      await dispatch(getMeetingQueue(meeting?.id));
+    })
+    socket.on('remove user', () => {
+      dispatch(getMeetingQueue(meeting?.id));
+    })
     dispatch(getMeetingQueue(meeting?.id));
   }, [dispatch, meeting?.id, inQueue]);
 

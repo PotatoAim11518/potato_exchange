@@ -17,12 +17,10 @@ export default function KickConfirm({patron, meeting, setShowModal }) {
     setShowModal(false)
   }
 
-  useEffect(() => {
-    socket.on('remove user', () => {
-      dispatch(getMeetingQueue(meeting?.id));
-    })
-    dispatch(getMeetingQueue(meeting?.id));
-  },[dispatch, meeting?.id])
+  // useEffect(() => {
+
+  //   dispatch(getMeetingQueue(meeting?.id));
+  // },[dispatch, meeting?.id])
 
   return (
     <div className={styles.formContainer}>

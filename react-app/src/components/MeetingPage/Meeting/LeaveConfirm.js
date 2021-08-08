@@ -18,12 +18,10 @@ export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
     setShowLeaveModal(false)
   }
 
-  useEffect(() => {
-    socket.on('dequeue user', async () => {
-      await dispatch(getMeetingQueue(meeting?.id));
-    })
-    dispatch(getMeetingQueue(meeting?.id));
-  },[dispatch, meeting?.id])
+  // useEffect(() => {
+
+  //   dispatch(getMeetingQueue(meeting?.id));
+  // },[dispatch, meeting?.id])
 
   return (
     <div className={styles.formContainer}>
