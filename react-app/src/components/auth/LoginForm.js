@@ -26,7 +26,6 @@ const LoginForm = ({ setShowModal }) => {
   const demoLogin = async (e) => {
     e.preventDefault();
     await dispatch(login("demo@aa.io", "password"));
-    // await setShowModal(false)
   };
 
   const goSignUp = () => {
@@ -41,9 +40,9 @@ const LoginForm = ({ setShowModal }) => {
     setPassword(e.target.value);
   };
 
-  if (user) {
-    return <Redirect to='/' />;
-  }
+  // if (user) {
+  //   return <Redirect to='/' />;
+  // }
 
   return (
     <>
