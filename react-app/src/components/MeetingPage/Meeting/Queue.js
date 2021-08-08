@@ -7,16 +7,19 @@ import { getMeetingQueue, joinQueue, kickFromQueue } from "../../../store/queue"
 import Button from "../../button";
 import Patron from "./Patron";
 import { Modal } from "../../../context/Modal";
+import LoginForm from "../../auth/LoginForm";
 import LeaveConfirm from "./LeaveConfirm";
 
 import styles from "./Queue.module.css";
 
 export default function Queue({ user_id, meeting }) {
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const user = useSelector((state) => state.session.user);
   const queue = useSelector((state) => Object.values(state.queue));
   const meetingQueue = queue.filter(
-    (patron) => patron.meeting_id === meeting.id
+    (patron) => patron.meeting_id === meeting?.id
   );
 
   const inQueue =
@@ -26,8 +29,12 @@ export default function Queue({ user_id, meeting }) {
   const nextGuestColor = meetingQueue.length ? "black" : "slategrey";
 
   const handleJoinQueue = () => {
-    if (queue?.length < meeting?.queue_limit)
-      dispatch(joinQueue(user_id, meeting.id));
+    if (user) {
+      if (queue?.length < meeting?.queue_limit)
+        dispatch(joinQueue(user_id, meeting.id));
+    } else {
+      setShowLoginModal(true)
+    }
   };
 
   const handleLeaveQueue = () => {
@@ -49,6 +56,11 @@ export default function Queue({ user_id, meeting }) {
       {showModal &&
       <Modal onClose={() => setShowModal(false)}>
         <LeaveConfirm meeting={meeting} setShowModal={setShowModal}/>
+      </Modal>
+      }
+      {showLoginModal &&
+      <Modal onClose={() => setShowLoginModal(false)}>
+        <LoginForm setShowLoginModal={setShowLoginModal}/>
       </Modal>
       }
       <div className={styles.waitingText}>
