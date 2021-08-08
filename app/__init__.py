@@ -6,10 +6,10 @@ from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, current_user
 from flask_socketio import SocketIO, send, emit
 
-from .models import db, User, Message
+from .models import db, User, Message, Queue
 from .forms import MessageForm
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
@@ -113,6 +113,26 @@ def receive_message(user_id, id, message):
 
 # Queue sockets
 
+@socket_io.on('join request')
+def add_to_queue(user_id, meeting_id):
+    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
+    if not queue:
+        add_to_queue = Queue(
+            user_id=user_id,
+            meeting_id=meeting_id
+        )
+        db.session.add(add_to_queue)
+        db.session.commit()
+        emit('enqueue user', broadcast=True)
+
+
+@socket_io.on('leave request')
+def remove_from_queue(user_id, meeting_id):
+    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
+    if queue:
+        db.session.delete(queue)
+        db.session.commit()
+        emit('dequeue user', broadcast=True)
 
 
 

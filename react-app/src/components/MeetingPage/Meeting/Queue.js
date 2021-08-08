@@ -32,13 +32,14 @@ export default function Queue({ user_id, meeting }) {
   const handleJoinQueue = () => {
     if (user) {
       if (queue?.length < meeting?.queue_limit)
-        dispatch(joinQueue(user_id, meeting.id));
-    } else {
-      setShowModal(true)
-    }
-  };
+        // dispatch(joinQueue(user_id, meeting.id));
+        socket.emit('join request', user_id, meeting.id)
+      } else {
+        setShowModal(true)
+      }
+    };
 
-  const handleLeaveQueue = () => {
+    const handleLeaveQueue = () => {
     setShowLeaveModal(true)
   };
 
@@ -49,6 +50,9 @@ export default function Queue({ user_id, meeting }) {
   };
 
   useEffect(() => {
+    socket.on('enqueue user', async () => {
+      await dispatch(getMeetingQueue(meeting?.id));
+    })
     dispatch(getMeetingQueue(meeting?.id));
   }, [dispatch, meeting?.id, inQueue]);
 
