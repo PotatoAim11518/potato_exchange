@@ -6,7 +6,7 @@ import styles from './Username.module.css'
 export default function Username() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user)
-  const username = user?.username ? `Logged in as ${user?.username}` : null;
+  const username = user?.username ? `Logged in as ${user?.username}` : `Welcome, stranger!`;
 
 
   useEffect(() => {

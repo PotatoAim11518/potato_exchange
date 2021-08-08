@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import { Modal } from '../../context/Modal';
+import LoginForm from '../auth/LoginForm';
 import styles from './Card.module.css';
 
 export default function HostingCard() {
@@ -20,10 +23,17 @@ export default function HostingCard() {
   }
 
   return (
-    <div className={styles.hostingCard} onClick={handleHost}>
-      <h1 className={styles.hostText}>Host</h1>
-      <div className={styles.addButton}><i className="fas fa-plus"></i></div>
-      <h2 className={styles.hostSubtext}>Create your own room</h2>
-    </div>
+    <>
+      <div className={styles.hostingCard} onClick={handleHost}>
+        <h1 className={styles.hostText}>Host</h1>
+        <div className={styles.addButton}><i className="fas fa-plus"></i></div>
+        <h2 className={styles.hostSubtext}>Create your own room</h2>
+      </div>
+      {showModal &&
+        <Modal onClose={() => setShowModal(false)}>
+          <LoginForm setShowModal={setShowModal}/>
+        </Modal>
+      }
+    </>
   )
 }

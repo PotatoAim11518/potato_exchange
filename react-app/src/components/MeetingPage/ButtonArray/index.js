@@ -3,14 +3,14 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Button from '../../button';
 import { getMeetingQueue } from '../../../store/queue';
-import { lockMeetingQueue, unlockMeetingQueue } from '../../../store/meeting';
+import { lockMeetingQueue, unlockMeetingQueue, getMeeting } from '../../../store/meeting';
 import styles from './ButtonArray.module.css';
 
 export default function ButtonArray({meeting}) {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const queue_limit_copy = meeting.queue_limit
+  const queue_limit_copy = meeting?.queue_limit
 
   const [queue_limit, setQueueLimit] = useState(queue_limit_copy)
 
@@ -32,7 +32,8 @@ export default function ButtonArray({meeting}) {
 
   useEffect(() => {
     dispatch(getMeetingQueue(id))
-  },[dispatch, id, meeting.queue_limit])
+    dispatch(getMeeting(id))
+  },[dispatch, id, meeting?.queue_limit])
 
   return (
     <div className={styles.arrayContainer}>
@@ -48,7 +49,7 @@ export default function ButtonArray({meeting}) {
         fontColor={"white"}
         fontSize={16}
       />
-      {meeting.queue_limit > 0 &&
+      {meeting?.queue_limit > 0 &&
       <Button
         text={"Lock Queue"}
         action={onLockQueue}
@@ -61,7 +62,7 @@ export default function ButtonArray({meeting}) {
         fontColor={"white"}
         fontSize={16}
       />}
-      {meeting.queue_limit === 0 &&
+      {meeting?.queue_limit === 0 &&
       <Button
         text={"Unlock Queue"}
         action={onUnlockQueue}

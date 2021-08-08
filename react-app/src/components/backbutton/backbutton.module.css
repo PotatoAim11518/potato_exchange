@@ -3,4 +3,16 @@
   bottom: 0%;
   left: 0%;
   margin: 28px 40px;
+  animation: render 0.5s;
+}
+
+@keyframes render {
+  from {
+    transform: translateX(-60px);
+    opacity: 0.0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1.0;
+  }
 }

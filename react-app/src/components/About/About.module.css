@@ -67,6 +67,18 @@
   width: 60px;
   margin: 30px 20px;
   transition: transform 0.5s;
+  animation: render 0.5s;
+}
+
+@keyframes render {
+  from {
+    transform: translateX(60px);
+    opacity: 0.0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1.0;
+  }
 }
 
 .infoHeaders {
