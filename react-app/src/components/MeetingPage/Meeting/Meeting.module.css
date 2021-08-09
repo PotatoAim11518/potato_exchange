@@ -76,6 +76,9 @@
   min-width: 120px;
   text-align: end;
   background-image: url(../../../assets/sprout.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 
