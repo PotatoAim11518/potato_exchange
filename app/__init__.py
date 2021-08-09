@@ -6,10 +6,10 @@ from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, current_user
 from flask_socketio import SocketIO, send, emit
 
-from .models import db, User, Message
+from .models import db, User, Message, Queue, Meeting
 from .forms import MessageForm
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
@@ -113,8 +113,79 @@ def receive_message(user_id, id, message):
 
 # Queue sockets
 
+@socket_io.on('join request')
+def add_to_queue(user_id, meeting_id):
+    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
+    if not queue:
+        add_to_queue = Queue(
+            user_id=user_id,
+            meeting_id=meeting_id
+        )
+        db.session.add(add_to_queue)
+        db.session.commit()
+        emit('update', broadcast=True)
 
 
+@socket_io.on('leave request')
+def remove_from_queue(user_id, meeting_id):
+    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
+    if queue:
+        db.session.delete(queue)
+        db.session.commit()
+        emit('update', broadcast=True)
+
+
+@socket_io.on('kick user')
+def kick_from_queue(meeting_id, user_id):
+    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
+    if queue:
+        db.session.delete(queue)
+        db.session.commit()
+        emit('update', broadcast=True)
+
+
+@socket_io.on('next user')
+def kick_from_queue(meeting_id, user_id):
+    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
+    if queue:
+        db.session.delete(queue)
+        db.session.commit()
+        emit('update', broadcast=True)
+
+
+@socket_io.on('edit')
+def edit_meeting(meeting_id):
+    emit('update', broadcast=True)
+
+
+@socket_io.on('lock queue')
+def lock_queue(meeting_id):
+    meeting = Meeting.query.get(meeting_id)
+    meeting_dict = meeting.to_dict()
+    if current_user.id == meeting_dict['host_id']:
+        Meeting.query.filter(Meeting.id == meeting_id).update({Meeting.queue_limit: 0}, synchronize_session=False)
+        db.session.commit()
+        emit('update', broadcast=True)
+
+
+@socket_io.on('unlock queue')
+def unlock_queue(meeting_id, queue_limit):
+    meeting = Meeting.query.get(meeting_id)
+    meeting_dict = meeting.to_dict()
+    if current_user.id == meeting_dict['host_id']:
+        Meeting.query.filter(Meeting.id == meeting_id).update({Meeting.queue_limit: queue_limit}, synchronize_session=False)
+        db.session.commit()
+        emit('update', broadcast=True)
+
+
+@socket_io.on('end_meeting')
+def end_meeting(meeting_id, user_id):
+    meeting = Meeting.query.filter(Meeting.id == meeting_id,
+                                   Meeting.host_id == user_id).first()
+    if meeting:
+        db.session.delete(meeting)
+        db.session.commit()
+        emit('clear_meeting', broadcast=True)
 
 
 if __name__ == '__main__':

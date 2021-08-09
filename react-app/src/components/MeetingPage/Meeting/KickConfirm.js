@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { kickFromQueue } from "../../../store/queue";
+import socket from "../socket";
+
+import { kickFromQueue, getMeetingQueue } from "../../../store/queue";
 import Button from "../../button";
 import styles from "../../MeetingPage/ButtonArray/MeetingEndForm.module.css";
 
@@ -10,14 +12,20 @@ export default function KickConfirm({patron, meeting, setShowModal }) {
   const dispatch = useDispatch();
 
   const handleKickGuest = () => {
-    dispatch(kickFromQueue(meeting?.id, patron.user_id));
+    // dispatch(kickFromQueue(meeting?.id, patron.user_id));
+    socket.emit('kick user', meeting?.id, patron.user_id)
     setShowModal(false)
   }
+
+  // useEffect(() => {
+
+  //   dispatch(getMeetingQueue(meeting?.id));
+  // },[dispatch, meeting?.id])
 
   return (
     <div className={styles.formContainer}>
       <div>
-        <h2 className={styles.endHeader}>Are you sure?</h2>
+        <h2 className={styles.endHeader}>Kick {patron.user.username} from queue?</h2>
         <p className={styles.endText}>
           This will kick {patron.user.username} from the queue. Are you sure?
         </p>

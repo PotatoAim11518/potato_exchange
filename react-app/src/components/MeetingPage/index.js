@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { getMeeting } from '../../store/meeting'
+import socket from './socket';
+import { Modal } from '../../context/Modal';
+import MeetingEndModal from './ButtonArray/MeetingEndModal';
 import Meeting from './Meeting';
 import Chatroom from './Chatroom';
 import BackButton from '../backbutton';
@@ -19,13 +22,23 @@ export default function MeetingPage() {
   const user_id = user?.id
   const meeting = meetings[id]
 
+  const [showEndMeetingModal, setShowEndMeetingModal] = useState(false);
 
   useEffect(() => {
     dispatch(getMeeting(id))
-  },[dispatch, id])
+    socket.on('clear_meeting', () => {
+      if (user_id !== meeting?.host_id) {
+        setShowEndMeetingModal(true)
+      }
+    })
+  },[dispatch, id, showEndMeetingModal, user_id, meeting?.host_id])
 
   return (
     <div className={styles.pageContainer}>
+      {showEndMeetingModal &&
+      <Modal onClose={() => setShowEndMeetingModal(false)}>
+        <MeetingEndModal setShowEndMeetingModal={setShowEndMeetingModal}/>
+      </Modal>}
       <BackButton/>
       <Meeting user_id={user_id} meeting={meeting}/>
 

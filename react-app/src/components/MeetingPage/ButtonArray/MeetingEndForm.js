@@ -4,10 +4,11 @@ import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import { endMeeting } from '../../../store/meeting';
+import socket from '../socket';
 import Button from '../../button';
 import styles from './MeetingEndForm.module.css'
 
-export default function MeetingEndForm() {
+export default function MeetingEndForm({setShowEndModal}) {
   const { id } = useParams();
 
   const user = useSelector((state) => state.session.user)
@@ -18,36 +19,41 @@ export default function MeetingEndForm() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleClose = async (e) => {
+  const handleClose = (e) => {
     e.preventDefault();
     if (user_id === host_id) {
-      await dispatch(endMeeting(id))
+      socket.emit('end_meeting', meeting?.id, user_id)
+      socket.on('clear_meeting', () => {
+        window.location.href = '/join'
+      })
+      // await dispatch(endMeeting(id))
+    } else {
+      return ['You are not the host.']
     }
-    history.push('/join')
   }
 
   return (
     <div className={styles.formContainer}>
       <div>
-        <h2 className={styles.endHeader}>Are you sure?</h2>
+        <h2 className={styles.endHeader}>End {meeting?.name}?</h2>
         <p className={styles.endText}>We hope you had a good time! Closing this room will remove everyone from the queue and remove your room from Potato Exchange. Are you absolutely sure?</p>
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          action={()=> history.goBack()}
+          action={()=> setShowEndModal(false)}
           borderRadius={10}
           btnColor={"teal"}
           text={"No"}
-          fontColor={"black"}
+          fontColor={"white"}
           fontSize={16}
           width={80}
         />
         <Button
           action={handleClose}
           borderRadius={10}
-          btnColor={"gold"}
+          btnColor={"darkred"}
           text={"Yes"}
-          fontColor={"black"}
+          fontColor={"white"}
           fontSize={16}
           width={80}
         />

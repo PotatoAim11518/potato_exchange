@@ -4,10 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import socket from "../socket";
 
-import { getMeetingQueue, joinQueue, kickFromQueue } from "../../../store/queue";
+import {
+  getMeetingQueue,
+  joinQueue,
+  kickFromQueue,
+} from "../../../store/queue";
 import Button from "../../button";
 import Patron from "./Patron";
 import { Modal } from "../../../context/Modal";
+import NextConfirm from "./NextConfirm";
 import LoginForm from "../../auth/LoginForm";
 import LeaveConfirm from "./LeaveConfirm";
 
@@ -17,6 +22,7 @@ export default function Queue({ user_id, meeting }) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [showNextGuestModal, setShowNextGuestModal] = useState(false);
   const user = useSelector((state) => state.session.user);
   const queue = useSelector((state) => Object.values(state.queue));
   const meetingQueue = queue.filter(
@@ -32,50 +38,68 @@ export default function Queue({ user_id, meeting }) {
   const handleJoinQueue = () => {
     if (user) {
       if (queue?.length < meeting?.queue_limit)
-        dispatch(joinQueue(user_id, meeting.id));
+        // dispatch(joinQueue(user_id, meeting.id));
+        socket.emit("join request", user_id, meeting.id);
     } else {
-      setShowModal(true)
+      setShowModal(true);
     }
   };
 
   const handleLeaveQueue = () => {
-    setShowLeaveModal(true)
+    setShowLeaveModal(true);
   };
 
   const handleNextGuest = () => {
     if (meetingQueue.length) {
-      dispatch(kickFromQueue(meeting?.id, meetingQueue[0].user_id));
+      // dispatch(kickFromQueue(meeting?.id, meetingQueue[0].user_id));
+      setShowNextGuestModal(true)
     }
   };
 
   useEffect(() => {
+    socket.on("update", () => {
+      dispatch(getMeetingQueue(meeting?.id));
+    });
     dispatch(getMeetingQueue(meeting?.id));
   }, [dispatch, meeting?.id, inQueue]);
 
   return (
     <div className={styles.queueWrapper}>
-      {showLeaveModal &&
-      <Modal onClose={() => setShowLeaveModal(false)}>
-        <LeaveConfirm meeting={meeting} setShowLeaveModal={setShowLeaveModal}/>
+      {showNextGuestModal &&
+      <Modal onClose={() => setShowNextGuestModal(false)}>
+        <NextConfirm nextGuest={meetingQueue[0]} meeting={meeting} setShowNextGuestModal={setShowNextGuestModal}/>
       </Modal>
       }
-      {showModal &&
-      <Modal onClose={() => setShowModal(false)}>
-        <LoginForm setShowModal={() => setShowModal(false)}/>
-      </Modal>
-      }
+      {showLeaveModal && (
+        <Modal onClose={() => setShowLeaveModal(false)}>
+          <LeaveConfirm
+            meeting={meeting}
+            setShowLeaveModal={setShowLeaveModal}
+          />
+        </Modal>
+      )}
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <LoginForm setShowModal={() => setShowModal(false)} />
+        </Modal>
+      )}
       <div className={styles.waitingText}>
-        <em>
-          Queue {queue?.length}/{meeting?.queue_limit}
-        </em>
+        {meeting?.queue_limit > 0 ? (
+          <>
+            <i className="fas fa-lock-open"></i> Queue {queue?.length}/
+            {meeting?.queue_limit}
+          </>
+        ) : (
+          <em>
+            <i className="fas fa-lock"></i> Queue Locked
+          </em>
+        )}
       </div>
       <div className={styles.queueContainer}>
         <div className={styles.queueList}>
           {meetingQueue?.map((patron, index) => (
             <div className={styles.patronRow}>
-              <p className={styles.patronIndex}>
-                {index + 1}:
-              </p>
+              <p className={styles.patronIndex}>{index + 1}:</p>
               <Patron key={index} patron={patron} meeting={meeting} />
             </div>
           ))}
@@ -146,7 +170,7 @@ export default function Queue({ user_id, meeting }) {
                 height={30}
                 borderRadius={8}
                 btnColor={"slategray"}
-                text={"Locked"}
+                text={<><i className="fas fa-lock"></i><span> Locked</span></>}
                 fontColor={"white"}
                 fontSize={18}
               />
@@ -155,7 +179,7 @@ export default function Queue({ user_id, meeting }) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 /*

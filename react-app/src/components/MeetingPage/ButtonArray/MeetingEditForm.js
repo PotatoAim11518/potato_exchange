@@ -5,15 +5,16 @@ import { useParams } from 'react-router-dom';
 
 import { updateMeeting, getMeeting } from '../../../store/meeting';
 import Button from '../../button';
+import socket from '../socket';
 import styles from './MeetingEditForm.module.css'
 
-export default function MeetingEditForm() {
+export default function MeetingEditForm({setShowEditModal}) {
   const { id } = useParams();
 
   const user = useSelector((state) => state.session.user)
   const user_id = user?.id
   const meeting = useSelector((state) => state.meetings)[id]
-  // const meeting_id = meeting?.id
+  const meeting_id = meeting?.id
   const host_id = meeting?.host_id
 
   const [errors, setErrors] = useState([]);
@@ -34,7 +35,9 @@ export default function MeetingEditForm() {
         setErrors(response)
         return
       } else {
-        return history.push(`/meetings/${meeting?.id}`)
+        // return history.push(`/meetings/${meeting?.id}`)
+        socket.emit('edit', meeting_id)
+        setShowEditModal(false)
       }
     } else {
       setErrors(["Room owner does not match."])
@@ -75,16 +78,17 @@ export default function MeetingEditForm() {
           ></input>
         </div>
         <div>
-          <input
+          <textarea
             className={styles.inputField}
             name="description"
             type="text"
+            rows="8"
             minLength="1"
             maxLength="1000"
             placeholder="Description"
             onChange={updateDescription}
             value={description}
-            ></input>
+            ></textarea>
         </div>
         <div>
           <input
