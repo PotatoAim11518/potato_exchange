@@ -14,9 +14,6 @@ export default function Meetings() {
   const meetings = useSelector((state) => Object.values(state.meetings))
 
   useEffect(() => {
-    // socket.on('clear_meeting', () => {
-    //   dispatch(getMeetings())
-    // })
     dispatch(getMeetings())
   },[dispatch])
 
