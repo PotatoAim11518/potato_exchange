@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import socket from "../socket";
-import { leaveQueue, getMeetingQueue } from "../../../store/queue";
+// import { leaveQueue, getMeetingQueue } from "../../../store/queue";
 import Button from "../../button";
 import styles from "../../MeetingPage/ButtonArray/MeetingEndForm.module.css";
 
 export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user)
   const user_id = user?.id
 

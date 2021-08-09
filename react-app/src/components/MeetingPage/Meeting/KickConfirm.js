@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 import socket from "../socket";
 
-import { kickFromQueue, getMeetingQueue } from "../../../store/queue";
+// import { kickFromQueue, getMeetingQueue } from "../../../store/queue";
 import Button from "../../button";
 import styles from "../../MeetingPage/ButtonArray/MeetingEndForm.module.css";
 
 export default function KickConfirm({patron, meeting, setShowModal }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleKickGuest = () => {
     // dispatch(kickFromQueue(meeting?.id, patron.user_id));

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticate } from "../../../store/session";
 import styles from './Username.module.css'
 
 export default function Username() {

@@ -6,8 +6,8 @@ import socket from "../socket";
 
 import {
   getMeetingQueue,
-  joinQueue,
-  kickFromQueue,
+  // joinQueue,
+  // kickFromQueue,
 } from "../../../store/queue";
 import Button from "../../button";
 import Patron from "./Patron";
@@ -39,7 +39,7 @@ export default function Queue({ user_id, meeting }) {
     if (user) {
       if (queue?.length < meeting?.queue_limit)
         // dispatch(joinQueue(user_id, meeting.id));
-        socket.emit("join request", user_id, meeting.id);
+        socket.emit("join request", user_id, meeting?.id);
     } else {
       setShowModal(true);
     }
@@ -181,21 +181,3 @@ export default function Queue({ user_id, meeting }) {
     </div>
   );
 }
-
-/*
-Queueing requirements:
-- Button to toggle join/leave queue
-- Joining sends websocket request to backend with userID and meetingID,
-  - backend socket appends adds an entry row into the queues table
-  - successful entry creation emits that data back out to the room's participants
-  - render the queue in order by creation date
-- Host can see "Kick" button that emits a socket message that sends the current user up's
-id to:
-  - destroy's the user's queue db entry
-  - emits a queue dispatch rerender
-- Host can see "Next User" button that emits a socket message that sends the next user up's
-id to the socket server:
-  - socket server hears this and sends out that user id
-  - user with that id hears the message and has a state rendered to show them "stuff"
-
-*/

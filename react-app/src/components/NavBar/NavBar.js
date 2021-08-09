@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import LoginSignup from '../auth';
 import Username from '../auth/Username';
-import { authenticate } from '../../store/session';
 import styles from './NavBar.module.css';
 
 const NavBar = () => {

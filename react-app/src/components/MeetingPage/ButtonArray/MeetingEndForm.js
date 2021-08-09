@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { endMeeting } from '../../../store/meeting';
+// import { endMeeting } from '../../../store/meeting';
 import socket from '../socket';
 import Button from '../../button';
 import styles from './MeetingEndForm.module.css'
@@ -16,8 +16,8 @@ export default function MeetingEndForm({setShowEndModal}) {
   const meeting = useSelector((state) => state.meetings)[id]
   const host_id = meeting?.host_id
 
-  const history = useHistory();
-  const dispatch = useDispatch();
+  // const history = useHistory();
+  // const dispatch = useDispatch();
 
   const handleClose = (e) => {
     e.preventDefault();

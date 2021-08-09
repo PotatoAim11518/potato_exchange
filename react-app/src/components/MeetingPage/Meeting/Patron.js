@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Modal } from '../../../context/Modal';
 import KickConfirm from './KickConfirm';
 import Button from '../../button';
@@ -12,7 +12,6 @@ export default function Patron({patron, meeting}) {
   const userColor = patron.user.id === user_id ? styles.currentUser : styles.otherUser
 
   const [showModal, setShowModal] = useState(false);
-
 
   const handleKickGuest = () => {
     setShowModal(true)
