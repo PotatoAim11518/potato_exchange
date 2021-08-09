@@ -12,6 +12,7 @@ import {
 import Button from "../../button";
 import Patron from "./Patron";
 import { Modal } from "../../../context/Modal";
+import NextConfirm from "./NextConfirm";
 import LoginForm from "../../auth/LoginForm";
 import LeaveConfirm from "./LeaveConfirm";
 
@@ -21,6 +22,7 @@ export default function Queue({ user_id, meeting }) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [showNextGuestModal, setShowNextGuestModal] = useState(false);
   const user = useSelector((state) => state.session.user);
   const queue = useSelector((state) => Object.values(state.queue));
   const meetingQueue = queue.filter(
@@ -49,7 +51,8 @@ export default function Queue({ user_id, meeting }) {
 
   const handleNextGuest = () => {
     if (meetingQueue.length) {
-      dispatch(kickFromQueue(meeting?.id, meetingQueue[0].user_id));
+      // dispatch(kickFromQueue(meeting?.id, meetingQueue[0].user_id));
+      setShowNextGuestModal(true)
     }
   };
 
@@ -62,6 +65,11 @@ export default function Queue({ user_id, meeting }) {
 
   return (
     <div className={styles.queueWrapper}>
+      {showNextGuestModal &&
+      <Modal onClose={() => setShowNextGuestModal(false)}>
+        <NextConfirm nextGuest={meetingQueue[0]} meeting={meeting} setShowNextGuestModal={setShowNextGuestModal}/>
+      </Modal>
+      }
       {showLeaveModal && (
         <Modal onClose={() => setShowLeaveModal(false)}>
           <LeaveConfirm

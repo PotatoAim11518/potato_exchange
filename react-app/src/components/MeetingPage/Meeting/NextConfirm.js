@@ -1,21 +1,20 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import socket from "../socket";
-import { leaveQueue, getMeetingQueue } from "../../../store/queue";
+
+import { kickFromQueue, getMeetingQueue } from "../../../store/queue";
 import Button from "../../button";
 import styles from "../../MeetingPage/ButtonArray/MeetingEndForm.module.css";
 
-export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
+export default function NextConfirm({nextGuest, meeting, setShowNextGuestModal }) {
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user)
-  const user_id = user?.id
 
-  const handleLeaveQueue = () => {
-    // dispatch(leaveQueue(meeting.id));
-    socket.emit('leave request', user_id, meeting.id)
-    setShowLeaveModal(false)
+  const handleNextGuest = () => {
+    // dispatch(kickFromQueue(meeting?.id, patron.user_id));
+    socket.emit('next user', meeting?.id, nextGuest?.user_id)
+    setShowNextGuestModal(false)
   }
 
   // useEffect(() => {
@@ -26,14 +25,14 @@ export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
   return (
     <div className={styles.formContainer}>
       <div>
-        <h2 className={styles.endHeader}>Leave the queue?</h2>
+        <h2 className={styles.endHeader}>Finished talking to {nextGuest.user.username}?</h2>
         <p className={styles.endText}>
-          This will remove you from the queue. You will lose your spot and have to rejoin. Are you sure?
+          This will remove {nextGuest.user.username} from the queue and bring in the next patron. Are you sure?
         </p>
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          action={() => setShowLeaveModal(false)}
+          action={() => setShowNextGuestModal(false)}
           borderRadius={8}
           btnColor={"teal"}
           text={"No"}
@@ -42,7 +41,7 @@ export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
           width={80}
         />
         <Button
-          action={handleLeaveQueue}
+          action={handleNextGuest}
           borderRadius={8}
           btnColor={"darkred"}
           text={"Yes"}

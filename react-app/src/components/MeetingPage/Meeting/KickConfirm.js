@@ -25,7 +25,7 @@ export default function KickConfirm({patron, meeting, setShowModal }) {
   return (
     <div className={styles.formContainer}>
       <div>
-        <h2 className={styles.endHeader}>Are you sure?</h2>
+        <h2 className={styles.endHeader}>Kick {patron.user.username} from queue?</h2>
         <p className={styles.endText}>
           This will kick {patron.user.username} from the queue. Are you sure?
         </p>

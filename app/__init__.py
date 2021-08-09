@@ -144,6 +144,15 @@ def kick_from_queue(meeting_id, user_id):
         emit('update', broadcast=True)
 
 
+@socket_io.on('next user')
+def kick_from_queue(meeting_id, user_id):
+    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
+    if queue:
+        db.session.delete(queue)
+        db.session.commit()
+        emit('update', broadcast=True)
+
+
 @socket_io.on('edit')
 def edit_meeting(meeting_id):
     emit('update', broadcast=True)
@@ -170,9 +179,9 @@ def unlock_queue(meeting_id, queue_limit):
 
 
 @socket_io.on('end_meeting')
-def end_meeting(meeting_id):
+def end_meeting(meeting_id, user_id):
     meeting = Meeting.query.filter(Meeting.id == meeting_id,
-                                   Meeting.host_id == current_user.id).first()
+                                   Meeting.host_id == user_id).first()
     if meeting:
         db.session.delete(meeting)
         db.session.commit()

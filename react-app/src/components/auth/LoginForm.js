@@ -5,7 +5,7 @@ import Button from "../button";
 import SignUpForm from "./SignUpForm";
 import styles from "./ModalForms.module.css";
 
-const LoginForm = ({ setShowModal }) => {
+const LoginForm = ({setShowModal}) => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,8 +26,12 @@ const LoginForm = ({ setShowModal }) => {
 
   const demoLogin = async (e) => {
     e.preventDefault();
-    await dispatch(login("demo@aa.io", "password"));
-    setShowModal()
+    const data = await dispatch(login("demo@aa.io", "password"));
+    if (data) {
+      setErrors(data)
+    } else {
+      setShowModal()
+    }
   };
 
   const goSignUp = () => {
