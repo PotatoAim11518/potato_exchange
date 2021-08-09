@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import socket from '../MeetingPage/socket';
 import { getMeetings } from '../../store/meeting';
 import Card from './Card';
 import HostingCard from './HostingCard';
@@ -13,6 +14,9 @@ export default function Meetings() {
   const meetings = useSelector((state) => Object.values(state.meetings))
 
   useEffect(() => {
+    // socket.on('clear_meeting', () => {
+    //   dispatch(getMeetings())
+    // })
     dispatch(getMeetings())
   },[dispatch])
 
@@ -21,7 +25,7 @@ export default function Meetings() {
       <BackButton/>
       <div className={styles.meetingContainer}>
         <>
-          {meetings.map((meeting) =>
+          {meetings?.map((meeting) =>
             <Card key={meeting?.id} meeting={meeting}/>
             )}
           <HostingCard/>

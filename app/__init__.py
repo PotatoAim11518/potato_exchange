@@ -123,7 +123,7 @@ def add_to_queue(user_id, meeting_id):
         )
         db.session.add(add_to_queue)
         db.session.commit()
-        emit('enqueue user', broadcast=True)
+        emit('update', broadcast=True)
 
 
 @socket_io.on('leave request')
@@ -132,7 +132,7 @@ def remove_from_queue(user_id, meeting_id):
     if queue:
         db.session.delete(queue)
         db.session.commit()
-        emit('dequeue user', broadcast=True)
+        emit('update', broadcast=True)
 
 
 @socket_io.on('kick user')
@@ -141,7 +141,12 @@ def kick_from_queue(meeting_id, user_id):
     if queue:
         db.session.delete(queue)
         db.session.commit()
-        emit('remove user', broadcast=True)
+        emit('update', broadcast=True)
+
+
+@socket_io.on('edit')
+def edit_meeting(meeting_id):
+    emit('update', broadcast=True)
 
 
 @socket_io.on('lock queue')
@@ -151,10 +156,27 @@ def lock_queue(meeting_id):
     if current_user.id == meeting_dict['host_id']:
         Meeting.query.filter(Meeting.id == meeting_id).update({Meeting.queue_limit: 0}, synchronize_session=False)
         db.session.commit()
-        emit('queue locked', broadcast=True)
+        emit('update', broadcast=True)
 
 
+@socket_io.on('unlock queue')
+def unlock_queue(meeting_id, queue_limit):
+    meeting = Meeting.query.get(meeting_id)
+    meeting_dict = meeting.to_dict()
+    if current_user.id == meeting_dict['host_id']:
+        Meeting.query.filter(Meeting.id == meeting_id).update({Meeting.queue_limit: queue_limit}, synchronize_session=False)
+        db.session.commit()
+        emit('update', broadcast=True)
 
+
+@socket_io.on('end_meeting')
+def end_meeting(meeting_id):
+    meeting = Meeting.query.filter(Meeting.id == meeting_id,
+                                   Meeting.host_id == current_user.id).first()
+    if meeting:
+        db.session.delete(meeting)
+        db.session.commit()
+        emit('clear_meeting', broadcast=True)
 
 
 if __name__ == '__main__':

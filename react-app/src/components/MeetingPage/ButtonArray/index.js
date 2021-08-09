@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import socket from '../socket';
 import Button from '../../button';
@@ -15,10 +15,14 @@ export default function ButtonArray({meeting}) {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.session.user);
+  const user_id = user?.id;
+
   const queue_limit_copy = meeting?.queue_limit
+
   const [showEditModal, setShowEditModal] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
-
   const [queue_limit, setQueueLimit] = useState(queue_limit_copy)
 
   const onEdit = () => {
@@ -27,12 +31,13 @@ export default function ButtonArray({meeting}) {
   }
 
   const onLockQueue = () => {
-    dispatch(lockMeetingQueue(id))
-    // socket.emit('lock queue', meeting?.id)
+    // dispatch(lockMeetingQueue(id))
+    socket.emit('lock queue', meeting?.id)
   }
 
   const onUnlockQueue = () => {
-    dispatch(unlockMeetingQueue(id, queue_limit))
+    // dispatch(unlockMeetingQueue(id, queue_limit))
+    socket.emit('unlock queue', meeting?.id, queue_limit)
   }
 
   const onCloseRoom = () => {
@@ -41,9 +46,6 @@ export default function ButtonArray({meeting}) {
   }
 
   useEffect(() => {
-    // socket.on('queue locked', () => {
-    //   dispatch(getMeetingQueue(meeting?.id));
-    // })
     dispatch(getMeetingQueue(meeting?.id))
     dispatch(getMeeting(meeting?.id))
   },[dispatch, id, meeting?.queue_limit, meeting?.id])

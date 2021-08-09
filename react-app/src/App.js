@@ -11,7 +11,6 @@ import Meetings from './components/Meetings';
 import MeetingPage from './components/MeetingPage'
 import HostingPage from './components/HostingPage';
 import MeetingEditModal from './components/MeetingPage/ButtonArray/MeetingEditModal';
-import MeetingEndModal from './components/MeetingPage/ButtonArray/MeetingEndModal';
 import About from './components/About';
 import NotFound from './components/NotFound';
 
@@ -48,9 +47,6 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/meetings/:id/update' exact={true}>
           <MeetingEditModal />
-        </ProtectedRoute>
-        <ProtectedRoute path='/meetings/:id/end' exact={true}>
-          <MeetingEndModal />
         </ProtectedRoute>
         <Route path='/meetings/:id' exact={true}>
           <MeetingPage />

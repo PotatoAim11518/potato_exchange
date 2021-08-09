@@ -1,33 +1,35 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router';
 
-import MeetingEndForm from './MeetingEndForm';
-import { Modal } from '../../../context/Modal';
 import Button from '../../button';
+import styles from './MeetingEndModal.module.css'
 
-import styles from './MeetingEndForm.module.css'
-
-export default function MeetingEndModal() {
+export default function MeetingEndModal({setShowEndMeetingModal}) {
   const history = useHistory();
 
+  const handleClose = async (e) => {
+    e.preventDefault();
+    setShowEndMeetingModal(false)
+    window.location.href = '/join'
+  }
+
   return (
-    <div className={styles.pageContainer}>
-      <Modal onClose={() => history.goBack()}>
-        <div className={styles.closeModal}>
-          <Button
-            text={<i className="fas fa-angle-left"></i>}
-            fontColor={"white"}
-            paddingY={32}
-            paddingX={32}
-            action={() => history.goBack()}
-            width={60}
-            fontSize={24}
-            btnColor={"teal"}
-            borderRadius={51}
-            />
-        </div>
-        <MeetingEndForm />
-      </Modal>
+    <div className={styles.formContainer}>
+      <div>
+        <h2 className={styles.endHeader}>The Host has ended the meeting</h2>
+        <p className={styles.endText}>We hope you had a good time! Everyone has been removed from the queue and returned to the Lobby. Thanks for stopping by!</p>
+      </div>
+      <div className={styles.buttonContainer}>
+        <Button
+          action={handleClose}
+          borderRadius={10}
+          btnColor={"gold"}
+          text={"Okay"}
+          fontColor={"black"}
+          fontSize={16}
+          width={80}
+        />
+      </div>
     </div>
   )
 }

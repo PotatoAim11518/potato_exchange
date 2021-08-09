@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { getMeeting } from "../../../store/meeting";
 import ButtonArray from "../ButtonArray";
 import Queue from "./Queue";
+import socket from "../socket";
 import styles from "./Meeting.module.css";
 
 export default function Meeting({ user_id, meeting }) {
+  const dispatch = useDispatch();
+
   const dateOptions = {
     weekday: "short",
     year: "numeric",
@@ -19,6 +25,14 @@ export default function Meeting({ user_id, meeting }) {
     "en-US",
     timeOptions
   );
+
+
+
+  useEffect(() => {
+    socket.on('update', () => {
+      dispatch(getMeeting(meeting?.id));
+    })
+  },[dispatch, meeting?.id])
 
   return (
     <div className={styles.meetingContainer}>

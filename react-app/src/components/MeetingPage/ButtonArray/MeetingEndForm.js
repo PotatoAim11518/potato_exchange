@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import { endMeeting } from '../../../store/meeting';
+import socket from '../socket';
 import Button from '../../button';
 import styles from './MeetingEndForm.module.css'
 
@@ -18,12 +19,17 @@ export default function MeetingEndForm({setShowEndModal}) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleClose = async (e) => {
+  const handleClose = (e) => {
     e.preventDefault();
     if (user_id === host_id) {
-      await dispatch(endMeeting(id))
+      socket.emit('end_meeting', meeting?.id)
+      socket.on('clear_meeting', () => {
+        window.location.href = '/join'
+      })
+      // await dispatch(endMeeting(id))
+    } else {
+      return ['You are not the host.']
     }
-    history.push('/join')
   }
 
   return (

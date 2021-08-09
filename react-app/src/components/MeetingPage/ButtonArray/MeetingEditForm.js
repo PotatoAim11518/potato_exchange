@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import { updateMeeting, getMeeting } from '../../../store/meeting';
 import Button from '../../button';
+import socket from '../socket';
 import styles from './MeetingEditForm.module.css'
 
 export default function MeetingEditForm({setShowEditModal}) {
@@ -13,7 +14,7 @@ export default function MeetingEditForm({setShowEditModal}) {
   const user = useSelector((state) => state.session.user)
   const user_id = user?.id
   const meeting = useSelector((state) => state.meetings)[id]
-  // const meeting_id = meeting?.id
+  const meeting_id = meeting?.id
   const host_id = meeting?.host_id
 
   const [errors, setErrors] = useState([]);
@@ -35,6 +36,7 @@ export default function MeetingEditForm({setShowEditModal}) {
         return
       } else {
         // return history.push(`/meetings/${meeting?.id}`)
+        socket.emit('edit', meeting_id)
         setShowEditModal(false)
       }
     } else {
