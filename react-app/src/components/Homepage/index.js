@@ -36,6 +36,9 @@ export default function Homepage() {
         </Modal>
       )}
       <div className={styles.banner}>Potato Exchange</div>
+      <div className={styles.garden}>
+        {/* <a href="https://www.vecteezy.com/free-vector/vegetable-garden">Vegetable Garden Vectors by Vecteezy</a> */}
+      </div>
       <div className={styles.tileContainer}>
         <Tile label={"Host"} action={handleHost} text={"Host a queue for your own room"} />
         <Tile label={"Join"} action={handleJoin} text={"Looking for someone to meet? Explore queues here!"} rotation={"20"}/>
