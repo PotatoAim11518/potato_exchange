@@ -86,7 +86,8 @@ const LoginForm = ({setShowModal}) => {
                 btnColor={"salmon"}
                 text={"Login"}
                 fontColor={"white"}
-              />
+                fontSize={18}
+                />
             </button>
             <button type="submit">
               <Button
@@ -96,7 +97,8 @@ const LoginForm = ({setShowModal}) => {
                 btnColor={"seagreen"}
                 text={"Demo Login"}
                 fontColor={"white"}
-              />
+                fontSize={18}
+                />
             </button>
             <Button
               action={goSignUp}
@@ -105,6 +107,7 @@ const LoginForm = ({setShowModal}) => {
               btnColor={"teal"}
               text={"New? Sign Up!"}
               fontColor={"white"}
+              fontSize={18}
             />
           </form>
         </div>

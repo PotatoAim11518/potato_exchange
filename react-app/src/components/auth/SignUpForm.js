@@ -144,6 +144,7 @@ const SignUpForm = ({setShowModal}) => {
                 btnColor={"salmon"}
                 text={"Submit"}
                 fontColor={"white"}
+                fontSize={18}
               />
             </button>
             <Button
@@ -153,6 +154,7 @@ const SignUpForm = ({setShowModal}) => {
               btnColor={"teal"}
               text={"Already a user"}
               fontColor={"white"}
+              fontSize={18}
             />
           </form>
         </div>
