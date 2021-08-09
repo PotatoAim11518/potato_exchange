@@ -53,7 +53,7 @@ function LoginSignup() {
           />
           {showModal && signup && (
             <Modal onClose={() => setShowModal(false)}>
-              <SignUpForm />
+              <SignUpForm setShowModal={setShowModal}/>
             </Modal>
           )}
           {showModal && !signup && (

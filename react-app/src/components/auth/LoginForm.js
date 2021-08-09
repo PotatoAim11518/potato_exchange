@@ -20,18 +20,14 @@ const LoginForm = ({setShowModal}) => {
     if (data) {
       setErrors(data)
     } else {
-      setShowModal()
+      setShowModal(false)
     }
   };
 
   const demoLogin = async (e) => {
     e.preventDefault();
-    const data = await dispatch(login("demo@aa.io", "password"));
-    if (data) {
-      setErrors(data)
-    } else {
-      setShowModal()
-    }
+    await dispatch(login("demo@aa.io", "password"));
+    setShowModal(false)
   };
 
   const goSignUp = () => {
@@ -113,7 +109,7 @@ const LoginForm = ({setShowModal}) => {
           </form>
         </div>
       )}
-      {!existingUser && <SignUpForm />}
+      {!existingUser && <SignUpForm setShowModal={setShowModal} />}
     </>
   );
 };

@@ -6,7 +6,7 @@ import Button from "../button";
 import LoginForm from "./LoginForm";
 import styles from "./ModalForms.module.css";
 
-const SignUpForm = () => {
+const SignUpForm = ({setShowModal}) => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -157,7 +157,7 @@ const SignUpForm = () => {
           </form>
         </div>
       )}
-      {existingUser && <LoginForm />}
+      {existingUser && <LoginForm setShowModal={setShowModal}/>}
     </>
   );
 };
