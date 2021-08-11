@@ -87,6 +87,7 @@ def react_root(path):
 
 
 # Chat Sockets
+# Create Namespace Here
 
 
 @socket_io.on('connect')
