@@ -106,7 +106,7 @@ export default function ButtonArray({meeting}) {
         width={120}
         // height={}
         borderRadius={8}
-        btnColor={"darkred"}
+        btnColor={"black"}
         fontColor={"white"}
         fontSize={16}
       />

@@ -42,20 +42,20 @@ export default function MeetingEndForm({setShowEndModal}) {
         <Button
           action={()=> setShowEndModal(false)}
           borderRadius={10}
-          btnColor={"teal"}
-          text={"No"}
+          btnColor={"salmon"}
+          text={"Stay"}
           fontColor={"white"}
           fontSize={16}
-          width={80}
+          width={120}
         />
         <Button
           action={handleClose}
           borderRadius={10}
-          btnColor={"darkred"}
-          text={"Yes"}
+          btnColor={"teal"}
+          text={"Close Room"}
           fontColor={"white"}
           fontSize={16}
-          width={80}
+          width={120}
         />
       </div>
     </div>
