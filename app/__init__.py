@@ -86,10 +86,10 @@ def react_root(path):
     return app.send_static_file('index.html')
 
 
-# Chat Sockets
 # Create Namespace Here
 
 
+# Chat Sockets
 @socket_io.on('connect')
 def test_connect():
     emit('my response', {'data': 'Connected'})
@@ -113,7 +113,6 @@ def receive_message(user_id, id, message):
 
 
 # Queue sockets
-
 @socket_io.on('join request')
 def add_to_queue(user_id, meeting_id):
     queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
@@ -154,11 +153,6 @@ def kick_from_queue(meeting_id, user_id):
         emit('update', broadcast=True)
 
 
-@socket_io.on('edit')
-def edit_meeting(meeting_id):
-    emit('update', broadcast=True)
-
-
 @socket_io.on('lock queue')
 def lock_queue(user_id, meeting_id):
     meeting = Meeting.query.get(meeting_id)
@@ -177,6 +171,12 @@ def unlock_queue(user_id, meeting_id, queue_limit):
         Meeting.query.filter(Meeting.id == meeting_id).update({Meeting.queue_limit: queue_limit}, synchronize_session=False)
         db.session.commit()
         emit('update', broadcast=True)
+
+
+# Meeting sockets
+@socket_io.on('edit')
+def edit_meeting(meeting_id):
+    emit('update meeting', meeting_id, broadcast=True)
 
 
 @socket_io.on('end_meeting')

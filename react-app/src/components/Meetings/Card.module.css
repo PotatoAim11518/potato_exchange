@@ -101,7 +101,8 @@
   box-shadow: 0 0 18px rgb(30, 30, 30);
   transform: rotate(-2deg);
   transition: transform 0.1s, box-shadow 0.1s;
-  animation: flyIn 0.4s;
+  animation-delay: flyIn 0.3s;
+  animation: flyIn 0.3s;
 }
 
 .hostingCard:hover {
