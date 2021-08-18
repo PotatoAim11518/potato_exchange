@@ -39,7 +39,7 @@ export default function Queue({ user_id, meeting }) {
     if (user) {
       if (queue?.length < meeting?.queue_limit)
         // dispatch(joinQueue(user_id, meeting.id));
-        socket.emit("join request", user_id, meeting?.id);
+        socket.emit('join_request', user_id, meeting?.id);
     } else {
       setShowModal(true);
     }
@@ -57,11 +57,13 @@ export default function Queue({ user_id, meeting }) {
   };
 
   useEffect(() => {
-    socket.on("update", () => {
-      dispatch(getMeetingQueue(meeting?.id));
+    socket.on("update_queue", (meeting_id) => {
+      if (meeting_id === meeting?.id) {
+        dispatch(getMeetingQueue(meeting?.id));
+      }
     });
     dispatch(getMeetingQueue(meeting?.id));
-  }, [dispatch, meeting?.id, inQueue]);
+  }, [dispatch, meeting?.id]);
 
   return (
     <div className={styles.queueWrapper}>

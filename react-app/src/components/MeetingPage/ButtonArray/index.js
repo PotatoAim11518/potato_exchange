@@ -32,12 +32,12 @@ export default function ButtonArray({meeting}) {
 
   const onLockQueue = () => {
     // dispatch(lockMeetingQueue(id))
-    socket.emit('lock queue', user_id, meeting?.id)
+    socket.emit('lock_queue', user_id, meeting?.id)
   }
 
   const onUnlockQueue = () => {
     // dispatch(unlockMeetingQueue(id, queue_limit))
-    socket.emit('unlock queue', user_id, meeting?.id, queue_limit)
+    socket.emit('unlock_queue', user_id, meeting?.id, queue_limit) 
   }
 
   const onCloseRoom = () => {

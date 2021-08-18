@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { allMeetingQueues } from '../../store/queue';
+import { getMeetingQueue } from '../../store/queue';
 import socket from '../MeetingPage/socket';
 import styles from './Card.module.css';
 
@@ -29,11 +29,13 @@ export default function Card({ meeting }) {
   }
 
   useEffect(() => {
-    socket.on('update', () => {
-      dispatch(allMeetingQueues())
+    socket.on('update_queue', (meeting_id) => {
+      if (meeting_id === meeting?.id) {
+        dispatch(getMeetingQueue(meeting?.id))
+      }
     })
-    dispatch(allMeetingQueues())
-  },[dispatch])
+    dispatch(getMeetingQueue(meeting?.id))
+  },[dispatch, meeting?.id])
 
   return (
     <div className={styles.card} onClick={goToMeeting}>
