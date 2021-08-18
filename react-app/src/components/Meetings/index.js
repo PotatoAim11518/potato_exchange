@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import socket from '../MeetingPage/socket';
 import { getMeetings } from '../../store/meeting';
+import { allMeetingQueues } from '../../store/queue';
 import Card from './Card';
 import HostingCard from './HostingCard';
 import BackButton from '../backbutton';
@@ -15,6 +16,7 @@ export default function Meetings() {
 
   useEffect(() => {
     dispatch(getMeetings())
+    // dispatch(allMeetingQueues())
   },[dispatch])
 
   return (
