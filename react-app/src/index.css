@@ -4,15 +4,16 @@
 }
 
 #root {
-  min-height: 100vh;
-  min-width: 100vw;
-  background-image: url(./assets/corkboard-background.jpg);
-  background-size: 110%;
-  background-repeat: repeat;
-  background-position: top left;
-  height: 105vh;
 }
 
+body {
+  min-width: 100%;
+  min-height: 100%;
+  background-image: url(./assets/corkboard-background.jpg);
+  background-size: cover;
+  background-repeat: repeat-y;
+  background-position: top center;
+}
 
 html, body, div,
 h1, h2, h3, h4,
@@ -43,9 +44,10 @@ a:visited {
 }
 
 
-/* width */
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 /* Track */

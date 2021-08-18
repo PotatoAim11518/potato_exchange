@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { updateMeeting, getMeeting } from '../../../store/meeting';
+import { updateMeeting } from '../../../store/meeting';
 import Button from '../../button';
 import socket from '../socket';
 import styles from './MeetingEditForm.module.css'
@@ -23,7 +23,6 @@ export default function MeetingEditForm({setShowEditModal}) {
   const [queue_limit, setQueueLimit] = useState(meeting?.queue_limit);
 
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
@@ -55,11 +54,6 @@ export default function MeetingEditForm({setShowEditModal}) {
   const updateQueueLimit = (e) => {
     setQueueLimit(e.target.value);
   }
-
-  useEffect(() => {
-    dispatch(getMeeting(id))
-  },[dispatch, id])
-
 
   return (
     <div className={styles.formContainer}>

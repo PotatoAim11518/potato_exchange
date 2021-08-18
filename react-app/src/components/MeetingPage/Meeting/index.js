@@ -29,8 +29,10 @@ export default function Meeting({ user_id, meeting }) {
 
 
   useEffect(() => {
-    socket.on('update', () => {
-      dispatch(getMeeting(meeting?.id));
+    socket.on('update_meeting', (meeting_id) => {
+      if (meeting_id === meeting?.id) {
+        dispatch(getMeeting(meeting?.id));
+      }
     })
   },[dispatch, meeting?.id])
 

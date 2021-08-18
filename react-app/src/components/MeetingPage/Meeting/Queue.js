@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
+import { FaLock, FaLockOpen } from "react-icons/fa";
 
 import socket from "../socket";
 
@@ -39,7 +39,7 @@ export default function Queue({ user_id, meeting }) {
     if (user) {
       if (queue?.length < meeting?.queue_limit)
         // dispatch(joinQueue(user_id, meeting.id));
-        socket.emit("join request", user_id, meeting?.id);
+        socket.emit("join_request", user_id, meeting?.id);
     } else {
       setShowModal(true);
     }
@@ -52,24 +52,30 @@ export default function Queue({ user_id, meeting }) {
   const handleNextGuest = () => {
     if (meetingQueue.length) {
       // dispatch(kickFromQueue(meeting?.id, meetingQueue[0].user_id));
-      setShowNextGuestModal(true)
+      setShowNextGuestModal(true);
     }
   };
 
   useEffect(() => {
-    socket.on("update", () => {
-      dispatch(getMeetingQueue(meeting?.id));
+    socket.on("update_queue", (meeting_id) => {
+      if (meeting_id === meeting?.id) {
+        dispatch(getMeetingQueue(meeting?.id));
+      }
     });
     dispatch(getMeetingQueue(meeting?.id));
-  }, [dispatch, meeting?.id, inQueue]);
+  }, [dispatch, meeting?.id]);
 
   return (
     <div className={styles.queueWrapper}>
-      {showNextGuestModal &&
-      <Modal onClose={() => setShowNextGuestModal(false)}>
-        <NextConfirm nextGuest={meetingQueue[0]} meeting={meeting} setShowNextGuestModal={setShowNextGuestModal}/>
-      </Modal>
-      }
+      {showNextGuestModal && (
+        <Modal onClose={() => setShowNextGuestModal(false)}>
+          <NextConfirm
+            nextGuest={meetingQueue[0]}
+            meeting={meeting}
+            setShowNextGuestModal={setShowNextGuestModal}
+          />
+        </Modal>
+      )}
       {showLeaveModal && (
         <Modal onClose={() => setShowLeaveModal(false)}>
           <LeaveConfirm
@@ -85,26 +91,14 @@ export default function Queue({ user_id, meeting }) {
       )}
       <div className={styles.waitingText}>
         {meeting?.queue_limit > 0 ? (
-          <>
-            <i className="fas fa-lock-open"></i> Queue {queue?.length}/
-            {meeting?.queue_limit}
-          </>
+          <em>
+            <FaLockOpen /> Queue {queue?.length}/{meeting?.queue_limit}
+          </em>
         ) : (
           <em>
-            <i className="fas fa-lock"></i> Queue Locked
+            <FaLock /> Queue Locked
           </em>
         )}
-      </div>
-      <div className={styles.queueContainer}>
-        <div className={styles.queueList}>
-          {meetingQueue?.map((patron, index) => (
-            <div className={styles.patronRow}>
-              <p className={styles.patronIndex}>{index + 1}:</p>
-              <Patron key={index} patron={patron} meeting={meeting} />
-            </div>
-          ))}
-        </div>
-
         {user_id === meeting?.host_id && (
           <div className={styles.hostButtons}>
             <Button
@@ -170,7 +164,12 @@ export default function Queue({ user_id, meeting }) {
                 height={30}
                 borderRadius={8}
                 btnColor={"slategray"}
-                text={<><i className="fas fa-lock"></i><span> Locked</span></>}
+                text={
+                  <>
+                    <i className="fas fa-lock"></i>
+                    <span> Locked</span>
+                  </>
+                }
                 fontColor={"white"}
                 fontSize={18}
               />
@@ -178,6 +177,13 @@ export default function Queue({ user_id, meeting }) {
           </div>
         )}
       </div>
+      {/* <div className={styles.queueContainer}> */}
+      <div className={styles.queueList}>
+        {meetingQueue?.map((patron, index) => (
+          <Patron key={index} index={index} patron={patron} meeting={meeting} />
+        ))}
+      </div>
+      {/* </div> */}
     </div>
   );
 }

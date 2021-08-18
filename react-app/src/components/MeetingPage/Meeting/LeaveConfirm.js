@@ -14,7 +14,7 @@ export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
 
   const handleLeaveQueue = () => {
     // dispatch(leaveQueue(meeting.id));
-    socket.emit('leave request', user_id, meeting.id)
+    socket.emit('leave_request', user_id, meeting.id)
     setShowLeaveModal(false)
   }
 

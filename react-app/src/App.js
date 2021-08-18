@@ -10,7 +10,6 @@ import Homepage from './components/Homepage';
 import Meetings from './components/Meetings';
 import MeetingPage from './components/MeetingPage'
 import HostingPage from './components/HostingPage';
-import MeetingEditModal from './components/MeetingPage/ButtonArray/MeetingEditModal';
 import About from './components/About';
 import NotFound from './components/NotFound';
 
@@ -44,9 +43,6 @@ function App() {
         </Route>
         <ProtectedRoute path='/host' exact={true}>
           <HostingPage />
-        </ProtectedRoute>
-        <ProtectedRoute path='/meetings/:id/update' exact={true}>
-          <MeetingEditModal />
         </ProtectedRoute>
         <Route path='/meetings/:id' exact={true}>
           <MeetingPage />

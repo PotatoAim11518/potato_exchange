@@ -32,12 +32,12 @@ export default function ButtonArray({meeting}) {
 
   const onLockQueue = () => {
     // dispatch(lockMeetingQueue(id))
-    socket.emit('lock queue', user_id, meeting?.id)
+    socket.emit('lock_queue', user_id, meeting?.id)
   }
 
   const onUnlockQueue = () => {
     // dispatch(unlockMeetingQueue(id, queue_limit))
-    socket.emit('unlock queue', user_id, meeting?.id, queue_limit)
+    socket.emit('unlock_queue', user_id, meeting?.id, queue_limit) 
   }
 
   const onCloseRoom = () => {
@@ -106,7 +106,7 @@ export default function ButtonArray({meeting}) {
         width={120}
         // height={}
         borderRadius={8}
-        btnColor={"darkred"}
+        btnColor={"black"}
         fontColor={"white"}
         fontSize={16}
       />

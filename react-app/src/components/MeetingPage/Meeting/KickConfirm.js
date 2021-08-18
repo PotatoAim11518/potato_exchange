@@ -13,7 +13,7 @@ export default function KickConfirm({patron, meeting, setShowModal }) {
 
   const handleKickGuest = () => {
     // dispatch(kickFromQueue(meeting?.id, patron.user_id));
-    socket.emit('kick user', meeting?.id, patron.user_id)
+    socket.emit('kick_user', meeting?.id, patron.user_id)
     setShowModal(false)
   }
 

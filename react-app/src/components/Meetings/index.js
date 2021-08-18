@@ -21,12 +21,10 @@ export default function Meetings() {
     <div className={styles.pageContainer}>
       <BackButton/>
       <div className={styles.meetingContainer}>
-        <>
-          {meetings?.map((meeting) =>
-            <Card key={meeting?.id} meeting={meeting}/>
-            )}
-          <HostingCard/>
-        </>
+        {meetings?.map((meeting) =>
+          <Card key={meeting?.id} meeting={meeting}/>
+          )}
+        <HostingCard/>
       </div>
     </div>
   )
