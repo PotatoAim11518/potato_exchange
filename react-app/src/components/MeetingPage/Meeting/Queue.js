@@ -4,11 +4,7 @@ import { FaLock, FaLockOpen } from "react-icons/fa";
 
 import socket from "../socket";
 
-import {
-  getMeetingQueue,
-  // joinQueue,
-  // kickFromQueue,
-} from "../../../store/queue";
+import { getMeetingQueue, trimQueue } from "../../../store/queue";
 import Button from "../../button";
 import Patron from "./Patron";
 import { Modal } from "../../../context/Modal";
@@ -27,20 +23,22 @@ export default function Queue({ user_id, meeting }) {
   const [showQueuedModal, setShowQueuedModal] = useState(false);
   const user = useSelector((state) => state.session.user);
   const current_user_id = user?.id;
-  const queue = useSelector((state) => Object.values(state.queue));
-  const meetingQueue = queue.filter(
+  const queues = useSelector((state) => Object.values(state.queue));
+  const meetingQueue = queues.filter(
     (patron) => patron.meeting_id === meeting?.id
   );
 
   const inQueue =
-    queue.filter((patron) => patron.user_id === user_id).length > 0;
+    queues.filter(
+      (patron) => patron.user_id === user_id && patron.meeting_id === meeting.id
+    ).length > 0;
 
   const nextGuestText = meetingQueue.length ? "Next Guest" : "No Guests";
   const nextGuestColor = meetingQueue.length ? "black" : "slategrey";
 
   const handleJoinQueue = () => {
-    if (user) {
-      if (queue?.length < meeting?.queue_limit)
+    if (current_user_id) {
+      if (meetingQueue?.length < meeting?.queue_limit)
         // dispatch(joinQueue(user_id, meeting.id));
         socket.emit("join_request", user_id, meeting?.id);
     } else {
@@ -64,6 +62,10 @@ export default function Queue({ user_id, meeting }) {
       if (meeting_id === meeting?.id) {
         dispatch(getMeetingQueue(meeting?.id));
       }
+    });
+    socket.on("trim_queue", (queue) => {
+      let queue_json = JSON.parse(queue)
+      dispatch(trimQueue(queue_json));
     });
     socket.on("already_queued", (joining_user_id, meeting_id, message) => {
       if (joining_user_id === current_user_id && meeting_id === meeting?.id) {

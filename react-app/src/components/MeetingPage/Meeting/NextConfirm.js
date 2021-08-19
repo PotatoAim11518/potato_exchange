@@ -13,7 +13,7 @@ export default function NextConfirm({nextGuest, meeting, setShowNextGuestModal }
 
   const handleNextGuest = () => {
     // dispatch(kickFromQueue(meeting?.id, patron.user_id));
-    socket.emit('next_user', meeting?.id, nextGuest?.user_id)
+    socket.emit('next_user', nextGuest?.user_id, meeting?.id)
     setShowNextGuestModal(false)
   }
 

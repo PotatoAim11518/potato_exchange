@@ -5,7 +5,7 @@ import { getMeetingQueue } from '../../store/queue';
 import socket from '../MeetingPage/socket';
 import styles from './Card.module.css';
 
-export default function Card({ meeting }) {
+export default function Card({ meeting, queues }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -14,7 +14,7 @@ export default function Card({ meeting }) {
   const createdDate = new Date(meeting.created_at).toLocaleDateString('en-US', dateOptions);
   const createdTime = new Date(meeting.created_at).toLocaleTimeString('en-US', timeOptions);
 
-  const queues = useSelector((state) => Object.values(state.queue));
+  // const queues = useSelector((state) => Object.values(state.queue));
 
   const goToMeeting = () => {
     history.push(`/meetings/${meeting?.id}`)

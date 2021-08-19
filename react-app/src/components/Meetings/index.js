@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import socket from '../MeetingPage/socket';
 import { getMeetings } from '../../store/meeting';
-import { allMeetingQueues } from '../../store/queue';
+import { allMeetingQueues, trimQueue } from '../../store/queue';
 import Card from './Card';
 import HostingCard from './HostingCard';
 import BackButton from '../backbutton';
@@ -13,10 +13,15 @@ export default function Meetings() {
   const dispatch = useDispatch()
 
   const meetings = useSelector((state) => Object.values(state.meetings))
+  const queues = useSelector((state) => Object.values(state.queue));
 
   useEffect(() => {
     dispatch(getMeetings())
-    // dispatch(allMeetingQueues())
+    dispatch(allMeetingQueues())
+    socket.on("trim_queue", (queue) => {
+      let queue_json = JSON.parse(queue)
+      dispatch(trimQueue(queue_json));
+    });
   },[dispatch])
 
   return (
@@ -24,7 +29,7 @@ export default function Meetings() {
       <BackButton/>
       <div className={styles.meetingContainer}>
         {meetings?.map((meeting) =>
-          <Card key={meeting?.id} meeting={meeting}/>
+          <Card key={meeting?.id} meeting={meeting} queues={queues}/>
           )}
         <HostingCard/>
       </div>
