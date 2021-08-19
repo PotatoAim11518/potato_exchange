@@ -7,21 +7,6 @@
 Potato Exchange is a platform loosely based off of [Turnip Exchange], an app for [Animal Crossing: New Horizons] players to post their island codes to allow other people to enter their islands via a queueing system. In ACNH, the goal is to exchange a fungible good (Turnips) for in-game currency (Bells) at the highest possible price. Potato Exchange's goal is to allow users to have small, personal virtual meet-and-greets with lobby hosts using a similar queueing system, but also adds a chatroom feature to be able to socialize with other fans in queue.
 
 ---
-
-## Wiki Pages
-### [Feature List]
-### [Database Schema]
-### [Frontend Routes]
-### [User Stories]
-<!-- ### [API Routes] -->
----
-### Redux Tree
-  - Session: the session user
-  - Meetings: list of hosted meetings
-  - Messages: stored chat messages
-  - Queue: joins of users and the meetings to which they are queued
-
----
 ## Technologies
 ### Libraries used:
 - [Flask](https://flask.palletsprojects.com/)
@@ -35,6 +20,20 @@ Potato Exchange is a platform loosely based off of [Turnip Exchange], an app for
 - [Gunicorn](https://gunicorn.org/)
 - [eventlet](https://eventlet.net/)
 - [lorem-text](https://pypi.org/project/lorem-text/)
+
+---
+## Wiki Pages
+### [Feature List]
+### [Database Schema]
+### [Frontend Routes]
+### [User Stories]
+<!-- ### [API Routes] -->
+---
+### Redux Tree
+  - Session: the session user
+  - Meetings: list of hosted meetings
+  - Messages: stored chat messages
+  - Queue: joins of users and the meetings to which they are queued
 
 ### Deployment:
 - [Heroku](https://www.heroku.com/)
