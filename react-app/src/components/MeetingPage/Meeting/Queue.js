@@ -15,6 +15,7 @@ import { Modal } from "../../../context/Modal";
 import NextConfirm from "./NextConfirm";
 import LoginForm from "../../auth/LoginForm";
 import LeaveConfirm from "./LeaveConfirm";
+import AlreadyQueued from "./AlreadyQueued";
 
 import styles from "./Queue.module.css";
 
@@ -23,7 +24,9 @@ export default function Queue({ user_id, meeting }) {
   const [showModal, setShowModal] = useState(false);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [showNextGuestModal, setShowNextGuestModal] = useState(false);
+  const [showQueuedModal, setShowQueuedModal] = useState(false);
   const user = useSelector((state) => state.session.user);
+  const current_user_id = user?.id;
   const queue = useSelector((state) => Object.values(state.queue));
   const meetingQueue = queue.filter(
     (patron) => patron.meeting_id === meeting?.id
@@ -62,8 +65,13 @@ export default function Queue({ user_id, meeting }) {
         dispatch(getMeetingQueue(meeting?.id));
       }
     });
+    socket.on("already_queued", (joining_user_id, meeting_id, message) => {
+      if (joining_user_id === current_user_id && meeting_id === meeting?.id) {
+        setShowQueuedModal(true);
+      }
+    });
     dispatch(getMeetingQueue(meeting?.id));
-  }, [dispatch, meeting?.id]);
+  }, [dispatch, meeting?.id, current_user_id]);
 
   return (
     <div className={styles.queueWrapper}>
@@ -74,6 +82,11 @@ export default function Queue({ user_id, meeting }) {
             meeting={meeting}
             setShowNextGuestModal={setShowNextGuestModal}
           />
+        </Modal>
+      )}
+      {showQueuedModal && (
+        <Modal onClose={() => setShowQueuedModal(false)}>
+          <AlreadyQueued setShowQueuedModal={setShowQueuedModal} />
         </Modal>
       )}
       {showLeaveModal && (
@@ -92,7 +105,7 @@ export default function Queue({ user_id, meeting }) {
       <div className={styles.waitingText}>
         {meeting?.queue_limit > 0 ? (
           <em>
-            <FaLockOpen /> Queue {queue?.length}/{meeting?.queue_limit}
+            <FaLockOpen /> Queue {meetingQueue?.length}/{meeting?.queue_limit}
           </em>
         ) : (
           <em>

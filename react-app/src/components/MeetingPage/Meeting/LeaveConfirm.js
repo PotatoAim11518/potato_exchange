@@ -35,20 +35,20 @@ export default function LeaveConfirm({ meeting, setShowLeaveModal }) {
         <Button
           action={() => setShowLeaveModal(false)}
           borderRadius={8}
-          btnColor={"teal"}
-          text={"No"}
+          btnColor={"salmon"}
+          text={"Stay"}
           fontColor={"white"}
           fontSize={16}
-          width={80}
+          width={120}
         />
         <Button
           action={handleLeaveQueue}
           borderRadius={8}
-          btnColor={"darkred"}
-          text={"Yes"}
+          btnColor={"teal"}
+          text={"Leave Queue"}
           fontColor={"white"}
           fontSize={16}
-          width={80}
+          width={120}
         />
       </div>
     </div>
