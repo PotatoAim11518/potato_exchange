@@ -11,7 +11,7 @@ export default function Button({
   btnColor,
   text,
   fontColor,
-  fontSize
+  fontSize,
 }) {
 
   let paddingStr = String(paddingY) + "px " + String(paddingX) + "px"
