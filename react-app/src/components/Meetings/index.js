@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import socket from '../MeetingPage/socket';
-import { getMeetings } from '../../store/meeting';
+import { getMeetings, getMeeting } from '../../store/meeting';
 import { allMeetingQueues, trimQueue } from '../../store/queue';
 import Card from './Card';
 import HostingCard from './HostingCard';
@@ -22,6 +22,9 @@ export default function Meetings() {
       let queue_json = JSON.parse(queue)
       dispatch(trimQueue(queue_json));
     });
+    socket.on('update_meeting', (meeting_id) => {
+        dispatch(getMeeting(meeting_id));
+    })
   },[dispatch])
 
   return (
