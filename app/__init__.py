@@ -7,13 +7,13 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, login_required, current_user
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 
 from .models import db, User, Message, Queue, Meeting
 from .forms import MessageForm
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
-from .api.meeting_routes import meeting_routes
+from .api.meeting_routes import meeting, meeting_routes
 from .api.message_routes import message_routes
 from .api.queue_routes import queue_routes
 
@@ -194,6 +194,21 @@ def end_meeting(meeting_id, user_id):
         db.session.delete(meeting)
         db.session.commit()
         emit('clear_meeting', broadcast=True)
+
+
+# Video Sockets
+@socket_io.on('join_meeting')
+def join_meeting(peer_id, meeting_id):
+    room = meeting_id
+    join_room(room)
+    emit('new_guest', peer_id, to=room)
+
+
+@socket_io.on('disconnect')
+def leave_meeting(peer_id, meeting_id):
+    room = meeting_id
+    join_room(room)
+    emit('guest_left', peer_id, to=room)
 
 
 if __name__ == '__main__':
