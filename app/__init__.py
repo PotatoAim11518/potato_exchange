@@ -115,8 +115,12 @@ def receive_message(user_id, id, message):
 # Queue sockets
 @socket_io.on('join_request')
 def add_to_queue(user_id, meeting_id):
-    queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
-    if not queue:
+    queue = Queue.query.filter(Queue.user_id == user_id).first()
+    # Queue.meeting_id == meeting_id,
+    if queue:
+        message = "Already queued to a meeting."
+        return emit('already_queued', (user_id, meeting_id, message))
+    else:
         add_to_queue = Queue(
             user_id=user_id,
             meeting_id=meeting_id
@@ -132,25 +136,28 @@ def remove_from_queue(user_id, meeting_id):
     if queue:
         db.session.delete(queue)
         db.session.commit()
-        emit('update_queue', meeting_id, broadcast=True)
+        queue_dict = json.dumps(queue.to_dict(), default=str)
+        emit('trim_queue', (queue_dict), broadcast=True)
 
 
 @socket_io.on('kick_user')
-def kick_from_queue(meeting_id, user_id):
+def kick_from_queue(user_id, meeting_id):
     queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
     if queue:
         db.session.delete(queue)
         db.session.commit()
-        emit('update_queue', meeting_id, broadcast=True)
+        queue_dict = json.dumps(queue.to_dict(), default=str)
+        emit('trim_queue', (queue_dict), broadcast=True)
 
 
 @socket_io.on('next_user')
-def kick_from_queue(meeting_id, user_id):
+def kick_from_queue(user_id, meeting_id):
     queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
     if queue:
         db.session.delete(queue)
         db.session.commit()
-        emit('update_queue', meeting_id, broadcast=True)
+        queue_dict = json.dumps(queue.to_dict(), default=str)
+        emit('trim_queue', (queue_dict), broadcast=True)
 
 
 @socket_io.on('lock_queue')

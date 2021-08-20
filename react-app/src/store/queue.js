@@ -1,10 +1,16 @@
 const LOAD_QUEUES = 'queues/LOAD_QUEUES'
+const ADD_QUEUES = 'queues/ADD_QUEUES'
 const UPDATE_QUEUE = 'queues/UPDATE_QUEUE'
 const REMOVE_QUEUE = 'queues/REMOVE_QUEUE'
 
 // Action Creators
 const load_queues = (queues) => ({
   type: LOAD_QUEUES,
+  queues
+})
+
+const add_queues = (queues) => ({
+  type: ADD_QUEUES,
   queues
 })
 
@@ -39,7 +45,7 @@ export const getMeetingQueue = (meeting_id) => async (dispatch) => {
   const response = await fetch(`/api/meetings/${meeting_id}/queue`);
   if (response.ok) {
     const queues = await response.json();
-    dispatch(load_queues(queues));
+    dispatch(add_queues(queues));
   } else if (response.status < 500) {
     const queues = await response.json()
     if (queues.errors) {
@@ -106,6 +112,9 @@ export const kickFromQueue = (meeting_id, user_id) => async (dispatch) => {
   }
 }
 
+export const trimQueue = (queue) => async (dispatch) => {
+  dispatch(remove(queue))
+}
 
 // Reducer
 const initialState = {}
@@ -113,11 +122,17 @@ const initialState = {}
 const queueReducer = (state=initialState, action) => {
   switch(action.type) {
     case LOAD_QUEUES:
-      const newState = {}
-      action.queues['queues'].forEach((queue) =>
-        newState[queue['id']] = queue
-      )
-      return newState
+      const allQueues = {}
+      action.queues['queues'].forEach((queue) => {
+        allQueues[queue['id']] = queue
+      })
+      return { ...state, ...allQueues }
+    case ADD_QUEUES:
+      const addQueues = { ...state }
+      action.queues.queues.forEach((queue) => {
+        addQueues[queue.id] = queue
+      })
+      return { ...state, ...addQueues}
     case UPDATE_QUEUE:
       return {...state, [action.queue['id']]: action.queue}
     case REMOVE_QUEUE:
