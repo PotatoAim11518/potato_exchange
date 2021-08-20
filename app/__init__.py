@@ -133,7 +133,6 @@ def add_to_queue(user_id, meeting_id):
 @socket_io.on('leave_request')
 def remove_from_queue(user_id, meeting_id):
     queue = Queue.query.filter(Queue.meeting_id == meeting_id, Queue.user_id == user_id).first()
-    queue_dict = queue.to_dict()
     if queue:
         db.session.delete(queue)
         db.session.commit()
