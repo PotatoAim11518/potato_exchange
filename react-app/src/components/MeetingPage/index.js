@@ -32,49 +32,46 @@ export default function MeetingPage() {
 
   const peer = new Peer();
 
-
   // Joining Video Button Action
   const joinVideo = () => {
-    setHideSelf(false)
+    setHideSelf(false);
     peer.on("open", (peer_id) => {
       socket.emit("join_meeting", peer_id, id); // 'id' is the meeting room ID
     });
 
     navigator.mediaDevices
-    .getUserMedia({ video: true, audio: true })
-    .then((stream) => {
-      selfVideo.current.srcObject = stream;
+      .getUserMedia({ video: true, audio: true })
+      .then((stream) => {
+        selfVideo.current.srcObject = stream;
 
-      socket.on("new_guest", (other_id) => {
-        connectToOther(other_id, stream);
-      });
-
-      peer.on("call", (call) => {
-          call.answer(stream);
-          call.on("stream", (otherStream) => {
-            otherVideo.current.srcObject = otherStream;
-          });
+        socket.on("new_guest", (other_id) => {
+          connectToOther(other_id, stream);
         });
+
+        // peer.on("call", (call) => {
+        //   call.answer(stream);
+        //   call.on("stream", (otherStream) => {
+        //     otherVideo.current.srcObject = otherStream;
+        //   });
+        // });
       });
-    }
+  };
 
+  // Leave Video Button Action
+  const leaveVideo = () => {
+    setHideSelf(true);
+    stopStreamedVideo(selfVideo);
+  };
 
-    // Leave Video Button Action
-    const leaveVideo = () => {
-      setHideSelf(true)
-      stopStreamedVideo(selfVideo)
-    }
+  const stopStreamedVideo = (videoElem) => {
+    const stream = videoElem.current.srcObject;
+    const tracks = stream.getTracks();
 
-
-    const stopStreamedVideo = (videoElem) => {
-      const stream = videoElem.current.srcObject;
-      const tracks = stream.getTracks();
-
-      tracks.forEach(function(track) {
-        track.stop();
-      });
-      videoElem.current.srcObject = null;
-    }
+    tracks.forEach(function (track) {
+      track.stop();
+    });
+    videoElem.current.srcObject = null;
+  };
 
   const connectToOther = (other_id, stream) => {
     const call = peer.call(other_id, stream);
@@ -90,7 +87,17 @@ export default function MeetingPage() {
         setShowEndMeetingModal(true);
       }
     });
-  }, [dispatch, id, showEndMeetingModal, user_id, meeting?.host_id]);
+    peer.on("call", (call) => {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          call.answer(stream);
+          call.on("stream", (otherStream) => {
+            otherVideo.current.srcObject = otherStream;
+          });
+        });
+    });
+  }, [dispatch, id, showEndMeetingModal, user_id, meeting?.host_id, peer]);
 
   return (
     <div className={styles.pageContainer}>
