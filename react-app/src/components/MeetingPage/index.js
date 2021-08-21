@@ -19,19 +19,62 @@ import styles from "./MeetingPage.module.css";
 export default function MeetingPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const selfVideo = useRef();
+  const otherVideo = useRef();
+  const [showEndMeetingModal, setShowEndMeetingModal] = useState(false);
 
   const user = useSelector((state) => state.session.user);
-  const meetings = useSelector((state) => state.meetings);
   const user_id = user?.id;
+  const meetings = useSelector((state) => state.meetings);
   const meeting = meetings[id];
 
   const [hideSelf, setHideSelf] = useState(true);
 
   const peer = new Peer();
-  const selfVideo = useRef();
-  const otherVideo = useRef();
 
-  const [showEndMeetingModal, setShowEndMeetingModal] = useState(false);
+
+  // Joining Video Button Action
+  const joinVideo = () => {
+    setHideSelf(false)
+    peer.on("open", (peer_id) => {
+      socket.emit("join_meeting", peer_id, id); // 'id' is the meeting room ID
+    });
+
+    navigator.mediaDevices
+    .getUserMedia({ video: true, audio: true })
+    .then((stream) => {
+      selfVideo.current.srcObject = stream;
+
+      socket.on("new_guest", (other_id) => {
+        connectToOther(other_id, stream);
+      });
+
+      peer.on("call", (call) => {
+          call.answer(stream);
+          call.on("stream", (otherStream) => {
+            otherVideo.current.srcObject = otherStream;
+          });
+        });
+      });
+    }
+
+
+    // Leave Video Button Action
+    const leaveVideo = () => {
+      setHideSelf(true)
+      stopStreamedVideo(selfVideo)
+    }
+
+
+    const stopStreamedVideo = (videoElem) => {
+      const stream = videoElem.current.srcObject;
+      const tracks = stream.getTracks();
+
+      tracks.forEach(function(track) {
+        track.stop();
+      });
+      videoElem.current.srcObject = null;
+    }
 
   const connectToOther = (other_id, stream) => {
     const call = peer.call(other_id, stream);
@@ -42,28 +85,6 @@ export default function MeetingPage() {
 
   useEffect(() => {
     dispatch(getMeeting(id));
-
-    peer.on("open", (peer_id) => {
-      socket.emit("join_meeting", peer_id, id); // 'id' is the meeting room ID
-    });
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        selfVideo.current.srcObject = stream;
-
-        socket.on("new_guest", (other_id) => {
-          connectToOther(other_id, stream);
-        });
-
-        peer.on("call", (call) => {
-          call.answer(stream);
-          call.on("stream", (otherStream) => {
-            otherVideo.current.srcObject = otherStream;
-          });
-        });
-      });
-
     socket.on("clear_meeting", () => {
       if (user_id !== meeting?.host_id) {
         setShowEndMeetingModal(true);
@@ -93,7 +114,7 @@ export default function MeetingPage() {
           ></video>
           {!hideSelf && (
             <Button
-              action={() => setHideSelf(true)}
+              action={leaveVideo}
               paddingY={""}
               paddingX={""}
               width={120}
@@ -107,7 +128,7 @@ export default function MeetingPage() {
           )}
           {hideSelf && (
             <Button
-              action={() => setHideSelf(false)}
+              action={joinVideo}
               paddingY={""}
               paddingX={""}
               width={120}
