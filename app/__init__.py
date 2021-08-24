@@ -199,16 +199,17 @@ def end_meeting(meeting_id, user_id):
 # Video Sockets
 @socket_io.on('join_meeting')
 def join_meeting(peer_id, meeting_id):
-    room = meeting_id
-    join_room(room)
-    emit('new_guest', peer_id, to=room)
+    # room = meeting_id
+    # join_room(room)
+    emit('new_guest', peer_id) #, to=room)
+    print(">>>>>>>> Joined room ", " with peer ID ", peer_id,  " <<<<<<<")
 
 
-@socket_io.on('disconnect')
-def leave_meeting(peer_id, meeting_id):
-    room = meeting_id
-    join_room(room)
-    emit('guest_left', peer_id, to=room)
+# @socket_io.on('disconnect')
+# def leave_meeting(peer_id, meeting_id):
+#     room = meeting_id
+#     join_room(room)
+#     emit('guest_left', peer_id, to=room)
 
 
 if __name__ == '__main__':

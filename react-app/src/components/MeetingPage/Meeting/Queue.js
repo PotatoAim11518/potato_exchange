@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaLock, FaLockOpen } from "react-icons/fa";
 
 import socket from "../socket";
-import peer from "../peer";
 
 import { getMeetingQueue, trimQueue } from "../../../store/queue";
 import Button from "../../button";
@@ -58,6 +57,12 @@ export default function Queue({ user_id, meeting }) {
     }
   };
 
+  // if (current_user_id === meetingQueue[0]?.user_id) {
+  //   peer.on("open", (peer_id) => {
+  //     socket.emit("join_meeting", peer_id, meeting?.id);
+  //   });
+  // }
+
   useEffect(() => {
     socket.on("update_queue", (meeting_id) => {
       if (meeting_id === meeting?.id) {
@@ -73,10 +78,6 @@ export default function Queue({ user_id, meeting }) {
         setShowQueuedModal(true);
       }
     });
-    if (current_user_id === meetingQueue[0]?.user_id) {
-      // socket.emit('new_guest',)
-    }
-
 
     dispatch(getMeetingQueue(meeting?.id));
   }, [dispatch, meeting?.id, current_user_id]);
