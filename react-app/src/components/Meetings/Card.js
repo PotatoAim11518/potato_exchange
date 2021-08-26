@@ -32,6 +32,8 @@ export default function Card({ meeting, queues }) {
     history.push(`/meetings/${meeting?.id}`);
   };
 
+  const inQueue = queues.filter((queue) => queue?.meeting_id === meeting?.id && queue?.user_id === user_id).length > 0
+
   const calcQueue = (meeting_id) => {
     let count = 0;
     queues.forEach((patron) => {
@@ -53,6 +55,9 @@ export default function Card({ meeting, queues }) {
     <div className={styles.card} onClick={goToMeeting}>
       {meeting?.host_id === user_id && (
         <div className={styles.hostingTag}>Hosting</div>
+      )}
+      {inQueue && (
+        <div className={styles.queuedTag}>Queued</div>
       )}
       <h1 className={styles.titleText}>{meeting.name}</h1>
       <h2 className={styles.createdDate}>{createdDate + " " + createdTime}</h2>
